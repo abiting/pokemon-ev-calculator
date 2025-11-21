@@ -23,7 +23,7 @@ export default function PokemonSearch({ onSearch, isLoading }: PokemonSearchProp
       <div className="flex gap-2">
         <Input
           type="text"
-          placeholder="輸入寶可夢名稱或編號（例如：皮卡丘、pikachu 或 25）"
+          placeholder="輸入寶可夢名稱或編號（例如：皮卡丘 或 25）"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="flex-1 bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300"

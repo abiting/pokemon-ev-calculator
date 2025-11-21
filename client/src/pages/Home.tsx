@@ -38,10 +38,10 @@ export default function Home() {
             className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => window.location.reload()}
           >
-            {APP_TITLE}
+            歡迎使用阿比丁的寶可夢能力值計算器！
           </h1>
           <p className="text-white/90 text-lg drop-shadow">
-            查詢寶可夢努力值資料，規劃最佳能力配置
+            輸入寶可夢的名稱或圖鑑編號，即可查看該寶可夢的種族值，並透過個體值（IV）、努力值（EV）計算能力值。
           </p>
         </div>
 
