@@ -87,10 +87,7 @@ export default function Home() {
         {!isLoading && !pokemon && (
           <div className="text-center py-12">
             <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border-2 border-dashed border-cyan-300">
-              <h2 className="text-2xl font-bold mb-4">歡迎使用努力值計算器！</h2>
-              <p className="text-gray-700 mb-4">
-                在上方搜尋框輸入寶可夢的名稱或圖鑑編號，即可查看該寶可夢的努力值資料。
-              </p>
+              <h2 className="text-2xl font-bold mb-4">歡迎使用阿比丁的寶可夢能力值計算器！</h2>
               <div className="text-left bg-blue-50 rounded-lg p-4 text-sm">
                 <p className="font-semibold mb-2">使用範例：</p>
                 <ul className="space-y-1 text-gray-700">
