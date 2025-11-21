@@ -1,4 +1,5 @@
 import type { Pokemon } from '@/types/pokemon';
+import pokemonZhMapping from '@/data/pokemon-zh-mapping.json';
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
 const CACHE_KEY_PREFIX = 'pokemon_cache_';
@@ -10,7 +11,16 @@ interface CacheData {
 }
 
 export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> {
-  const cacheKey = `${CACHE_KEY_PREFIX}${nameOrId}`;
+  // 如果是繁體中文名稱，轉換為 ID
+  let searchTerm = nameOrId;
+  if (typeof nameOrId === 'string') {
+    const pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
+    if (pokemonId) {
+      searchTerm = pokemonId;
+    }
+  }
+  
+  const cacheKey = `${CACHE_KEY_PREFIX}${searchTerm}`;
   
   // 檢查快取
   try {
@@ -26,7 +36,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   }
 
   // 從 API 獲取資料
-  const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${nameOrId.toString().toLowerCase()}`);
+  const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${searchTerm.toString().toLowerCase()}`);
   
   if (!response.ok) {
     throw new Error('找不到該寶可夢，請檢查名稱或編號是否正確');
