@@ -39,7 +39,7 @@ export default function PokemonSearch({ onSearch, isLoading }: PokemonSearchProp
         </Button>
       </div>
       <p className="text-sm text-white/80 mt-2 text-center">
-        支援中文名稱、英文名稱或圖鑑編號
+        歡迎使用阿比丁的寶可夢能力值計算器！
       </p>
     </form>
   );
