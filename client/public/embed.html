@@ -501,7 +501,7 @@
       display: none;
     }
   </style>
-  <script src="/zh-mapping-lite.js"></script>
+  <script src="/zh-mapping-full.js"></script>
 </head>
 <body>
   <div class="container">
@@ -669,8 +669,8 @@
       if (!query) return;
 
       // 如果是繁體中文名稱，轉換為 ID
-      if (typeof zhMappingLite !== 'undefined' && zhMappingLite[query]) {
-        query = zhMappingLite[query].toString();
+      if (typeof zhMappingFull !== 'undefined' && zhMappingFull[query]) {
+        query = zhMappingFull[query].toString();
       }
 
       showLoading();

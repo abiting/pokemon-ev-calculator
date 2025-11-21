@@ -1,5 +1,5 @@
 import type { Pokemon } from '@/types/pokemon';
-import pokemonZhMapping from '@/data/pokemon-zh-mapping.json';
+import pokemonZhMapping from '@/data/zh-tw-mapping-full.json';
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
 const CACHE_KEY_PREFIX = 'pokemon_cache_';
