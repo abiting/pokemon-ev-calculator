@@ -48,19 +48,7 @@ export default function Home() {
         {/* 搜尋區 */}
         <div className="mb-8">
           <PokemonSearch onSearch={handleSearch} isLoading={isLoading} />
-          
-          {/* Manus CTA */}
-          <div className="flex justify-center mt-4">
-            <a
-              href="https://manus.im/invitation/TWNEAQT6C9EW6"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white/95 hover:bg-white text-gray-800 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-dashed border-cyan-300"
-            >
-              <span>🚀</span>
-              <span>用 Manus 免費打造你的網站</span>
-            </a>
-          </div>
+
         </div>
 
         {/* 載入中 */}
