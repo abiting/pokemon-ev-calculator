@@ -80,7 +80,6 @@ export default function Home() {
                 <ul className="space-y-1 text-gray-700">
                   <li>• 輸入「皮卡丘」或「pikachu」</li>
                   <li>• 輸入圖鑑編號「25」</li>
-                  <li>• 輸入「妙蛙種子」或「bulbasaur」</li>
                 </ul>
               </div>
             </div>
@@ -90,7 +89,7 @@ export default function Home() {
         {/* 頁尾 */}
         <footer className="mt-12 text-center text-white/80 text-sm">
           <p>資料來源：<a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">PokéAPI</a></p>
-          <p className="mt-2">配合 <a href="https://abitingpokedex.manus.space/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">阿比丁的寶可夢圖鑑</a> 使用效果更佳</p>
+          <p className="mt-2">Copyright © <a href="https://abiting.cc" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">阿比丁的第二個家</a></p>
         </footer>
       </div>
     </div>

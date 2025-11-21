@@ -449,7 +449,6 @@
         <ul>
           <li>• 輸入「皮卡丘」或「pikachu」</li>
           <li>• 輸入圖鑑編號「25」</li>
-          <li>• 輸入「妙蛙種子」或「bulbasaur」</li>
         </ul>
       </div>
     </div>
@@ -567,6 +566,21 @@
         if (!response.ok) throw new Error('找不到該寶可夢');
         
         currentPokemon = await response.json();
+        
+        // 獲取繁體中文名稱
+        try {
+          const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${currentPokemon.id}`);
+          if (speciesResponse.ok) {
+            const speciesData = await speciesResponse.json();
+            const zhHantName = speciesData.names.find(n => n.language.name === 'zh-Hant');
+            if (zhHantName) {
+              currentPokemon.name = zhHantName.name;
+            }
+          }
+        } catch (error) {
+          console.warn('無法獲取繁體中文名稱:', error);
+        }
+        
         displayPokemon();
         showContent();
       } catch (error) {

@@ -10,13 +10,7 @@ import { useState } from 'react';
 const MAX_TOTAL_EV = 510;
 const MAX_SINGLE_EV = 252;
 
-const COMMON_SPREADS = [
-  { name: '物攻速攻', evs: { hp: 4, attack: 252, defense: 0, 'special-attack': 0, 'special-defense': 0, speed: 252 } },
-  { name: '特攻速攻', evs: { hp: 4, attack: 0, defense: 0, 'special-attack': 252, 'special-defense': 0, speed: 252 } },
-  { name: '物耐特耐', evs: { hp: 252, attack: 0, defense: 128, 'special-attack': 0, 'special-defense': 128, speed: 0 } },
-  { name: '高血物攻', evs: { hp: 252, attack: 252, defense: 0, 'special-attack': 0, 'special-defense': 4, speed: 0 } },
-  { name: '高血特攻', evs: { hp: 252, attack: 0, defense: 0, 'special-attack': 252, 'special-defense': 0, speed: 4 } },
-];
+
 
 export default function EVCalculator() {
   const [evs, setEvs] = useState<EVDistribution>({
@@ -52,9 +46,7 @@ export default function EVCalculator() {
     });
   };
 
-  const applySpread = (spread: EVDistribution) => {
-    setEvs(spread);
-  };
+
 
   return (
     <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg">
@@ -122,22 +114,7 @@ export default function EVCalculator() {
             重置
           </Button>
 
-          {/* 常見配置 */}
-          <div className="border-t pt-4">
-            <h3 className="font-semibold mb-3 text-center">常見努力值配置</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {COMMON_SPREADS.map((spread) => (
-                <Button
-                  key={spread.name}
-                  onClick={() => applySpread(spread.evs)}
-                  variant="outline"
-                  className="text-sm"
-                >
-                  {spread.name}
-                </Button>
-              ))}
-            </div>
-          </div>
+
 
           {/* 說明 */}
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm">
