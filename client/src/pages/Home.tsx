@@ -78,7 +78,7 @@ export default function Home() {
               <PokemonCard pokemon={pokemon} />
             </div>
             <div>
-              <EVCalculator />
+              <EVCalculator pokemon={pokemon} />
             </div>
           </div>
         )}
