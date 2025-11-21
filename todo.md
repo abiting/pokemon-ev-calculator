@@ -45,3 +45,8 @@
 - [x] 修改頁尾版權資訊為「Copyright © 阿比丁的第二個家」並超連結至 abiting.cc
 - [x] 移除常見努力值配置區塊
 - [x] 簡化使用範例說明（刪除妙蛙種子範例）
+
+## 新增的修改要求
+- [x] 將字體改為源泉圓體（Gensen Font）
+- [x] 新增回到首頁功能（點擊標題）
+- [x] 新增「🚀 用 Manus 免費打造你的網站」CTA 按鈕並連結至 https://manus.im/invitation/TWNEAQT6C9EW6

@@ -34,7 +34,10 @@ export default function Home() {
       <div className="container max-w-6xl">
         {/* 標題區 */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
+          <h1 
+            className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => window.location.reload()}
+          >
             {APP_TITLE}
           </h1>
           <p className="text-white/90 text-lg drop-shadow">
@@ -45,6 +48,19 @@ export default function Home() {
         {/* 搜尋區 */}
         <div className="mb-8">
           <PokemonSearch onSearch={handleSearch} isLoading={isLoading} />
+          
+          {/* Manus CTA */}
+          <div className="flex justify-end mt-4">
+            <a
+              href="https://manus.im/invitation/TWNEAQT6C9EW6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white/95 hover:bg-white text-gray-800 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-dashed border-cyan-300"
+            >
+              <span>🚀</span>
+              <span>用 Manus 免費打造你的網站</span>
+            </a>
+          </div>
         </div>
 
         {/* 載入中 */}
