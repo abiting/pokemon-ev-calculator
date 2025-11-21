@@ -122,7 +122,7 @@
 
     .manus-cta {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       margin-top: 15px;
     }
 
@@ -144,6 +144,36 @@
     .manus-cta a:hover {
       background: white;
       box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .level-toggle {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .level-toggle button {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .level-toggle button.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .level-toggle button:not(.active) {
+      background: white;
+      color: #666;
+    }
+
+    .level-toggle button:not(.active):hover {
+      background: #f3f4f6;
     }
 
     .content-grid {
@@ -539,6 +569,13 @@
         <div class="ev-total">
           <div class="ev-total-header">
             <span class="ev-total-label">總努力值</span>
+            <div class="level-toggle">
+              <button id="level50Btn" class="active" onclick="switchLevel(50)">Lv.50</button>
+              <button id="level100Btn" onclick="switchLevel(100)">Lv.100</button>
+            </div>
+          </div>
+          <div class="ev-total-header" style="margin-top: 8px;">
+            <span style="font-size: 0.85rem; color: #666;">當前總值</span>
             <span class="ev-total-value" id="totalEV">0 / 510</span>
           </div>
           <div class="ev-progress-bar">
@@ -607,10 +644,18 @@
     ];
 
     let currentPokemon = null;
+    let currentLevel = 50;
     let evValues = {
       'hp': 0, 'attack': 0, 'defense': 0,
       'special-attack': 0, 'special-defense': 0, 'speed': 0
     };
+
+    function switchLevel(level) {
+      currentLevel = level;
+      document.getElementById('level50Btn').classList.toggle('active', level === 50);
+      document.getElementById('level100Btn').classList.toggle('active', level === 100);
+      updateEVDisplay();
+    }
 
     // 初始化
     document.getElementById('searchForm').addEventListener('submit', handleSearch);
@@ -708,7 +753,7 @@
         `<div class="ev-input-group">
           <div class="ev-input-label">
             <span>${STAT_NAMES[stat]}</span>
-            <span style="color: #999; font-size: 0.85rem;">Lv.100 增加：+<span id="increase-${stat}">0</span></span>
+            <span style="color: #999; font-size: 0.85rem;">Lv.<span id="level-display-${stat}">50</span> 增加：+<span id="increase-${stat}">0</span></span>
           </div>
           <div class="ev-input-row">
             <input 
@@ -730,8 +775,20 @@
       const numValue = Math.max(0, Math.min(252, parseInt(value) || 0));
       evValues[stat] = numValue;
       document.getElementById(`ev-${stat}`).value = numValue;
-      document.getElementById(`increase-${stat}`).textContent = Math.floor(numValue / 4);
+      updateEVDisplay();
       updateTotal();
+    }
+
+    function updateEVDisplay() {
+      const stats = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'];
+      stats.forEach(stat => {
+        const increase = Math.floor(evValues[stat] / 4);
+        const displayIncrease = currentLevel === 50 ? Math.floor(increase / 2) : increase;
+        const increaseSpan = document.getElementById(`increase-${stat}`);
+        const levelSpan = document.getElementById(`level-display-${stat}`);
+        if (increaseSpan) increaseSpan.textContent = displayIncrease;
+        if (levelSpan) levelSpan.textContent = currentLevel;
+      });
     }
 
     function updateTotal() {

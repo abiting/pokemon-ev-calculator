@@ -13,6 +13,7 @@ const MAX_SINGLE_EV = 252;
 
 
 export default function EVCalculator() {
+  const [level, setLevel] = useState<50 | 100>(50);
   const [evs, setEvs] = useState<EVDistribution>({
     hp: 0,
     attack: 0,
@@ -57,8 +58,33 @@ export default function EVCalculator() {
         <div className="space-y-6">
           {/* 總計資訊 */}
           <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-lg border-2 border-blue-200">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-3">
               <span className="font-semibold text-lg">總努力值</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setLevel(50)}
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                    level === 50
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Lv.50
+                </button>
+                <button
+                  onClick={() => setLevel(100)}
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                    level === 100
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  Lv.100
+                </button>
+              </div>
+            </div>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm text-gray-600">當前總值</span>
               <span className={`text-2xl font-bold ${totalEV > MAX_TOTAL_EV ? 'text-red-600' : 'text-blue-600'}`}>
                 {totalEV} / {MAX_TOTAL_EV}
               </span>
@@ -88,7 +114,7 @@ export default function EVCalculator() {
               <div key={stat} className="space-y-1">
                 <div className="flex justify-between items-center">
                   <label className="font-medium text-sm">{STAT_NAMES[stat]}</label>
-                  <span className="text-xs text-gray-500">Lv.100 增加：+{calculateStatIncrease(evs[stat])}</span>
+                  <span className="text-xs text-gray-500">Lv.{level} 增加：+{level === 50 ? Math.floor(calculateStatIncrease(evs[stat]) / 2) : calculateStatIncrease(evs[stat])}</span>
                 </div>
                 <div className="flex gap-2 items-center">
                   <Input

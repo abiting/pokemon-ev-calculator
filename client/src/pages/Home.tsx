@@ -50,7 +50,7 @@ export default function Home() {
           <PokemonSearch onSearch={handleSearch} isLoading={isLoading} />
           
           {/* Manus CTA */}
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-center mt-4">
             <a
               href="https://manus.im/invitation/TWNEAQT6C9EW6"
               target="_blank"
