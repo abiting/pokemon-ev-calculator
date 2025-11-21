@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>寶可夢努力值計算器</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #e74c3c 0%, #3498db 100%);
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.1rem;
+    }
+
+    .search-box {
+      background: white;
+      border: 2px dashed #5dd3d3;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .search-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .search-button {
+      padding: 12px 24px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .search-button:hover {
+      background: #c0392b;
+    }
+
+    .search-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .search-hint {
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border: 2px dashed #5dd3d3;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .pokemon-image {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .type-badges {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .type-badge {
+      padding: 6px 16px;
+      border-radius: 20px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .stat-section {
+      margin-top: 20px;
+    }
+
+    .stat-section h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .stat-item.ev-item {
+      background: #e3f2fd;
+    }
+
+    .stat-name {
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-weight: bold;
+      color: #3498db;
+    }
+
+    .stat-bar-container {
+      flex: 1;
+      margin: 0 15px;
+    }
+
+    .stat-bar {
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3498db, #2980b9);
+      transition: width 0.3s;
+    }
+
+    .ev-input-group {
+      margin-bottom: 15px;
+    }
+
+    .ev-input-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    .ev-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ev-input {
+      flex: 1;
+      padding: 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .ev-input-max {
+      color: #999;
+      font-size: 0.9rem;
+      width: 60px;
+      text-align: right;
+    }
+
+    .ev-total {
+      background: linear-gradient(135deg, #e3f2fd, #b3e5fc);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 2px solid #3498db;
+    }
+
+    .ev-total-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .ev-total-label {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .ev-total-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #3498db;
+    }
+
+    .ev-total-value.over-limit {
+      color: #e74c3c;
+    }
+
+    .ev-progress-bar {
+      height: 12px;
+      background: #e0e0e0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .ev-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3498db, #5dd3d3);
+      transition: width 0.3s;
+    }
+
+    .ev-progress-fill.over-limit {
+      background: #e74c3c;
+    }
+
+    .error-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e74c3c;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .preset-button {
+      padding: 10px;
+      background: white;
+      border: 2px solid #3498db;
+      border-radius: 6px;
+      color: #3498db;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .preset-button:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .reset-button {
+      padding: 12px;
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      color: #666;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      margin-bottom: 15px;
+    }
+
+    .reset-button:hover {
+      border-color: #999;
+      color: #333;
+    }
+
+    .info-box {
+      background: #fff9e6;
+      border: 1px solid #ffe082;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: 15px;
+    }
+
+    .info-box p {
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .info-box li {
+      margin-bottom: 5px;
+      color: #666;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: white;
+    }
+
+    .spinner {
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .welcome-card {
+      background: white;
+      border: 2px dashed #5dd3d3;
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .welcome-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    .welcome-card p {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .example-box {
+      background: #e3f2fd;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .example-box p {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .example-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .example-box li {
+      margin-bottom: 8px;
+      color: #666;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>寶可夢努力值計算器</h1>
+      <p>查詢寶可夢努力值資料，規劃最佳能力配置</p>
+    </div>
+
+    <div class="search-box">
+      <form class="search-form" id="searchForm">
+        <input 
+          type="text" 
+          class="search-input" 
+          id="searchInput"
+          placeholder="輸入寶可夢名稱或編號（例如：皮卡丘、pikachu 或 25）"
+        >
+        <button type="submit" class="search-button" id="searchButton">搜尋</button>
+      </form>
+      <p class="search-hint">支援中文名稱、英文名稱或圖鑑編號</p>
+    </div>
+
+    <div id="loadingDiv" class="loading hidden">
+      <div class="spinner"></div>
+      <p>載入中...</p>
+    </div>
+
+    <div id="welcomeDiv" class="welcome-card">
+      <h2>歡迎使用努力值計算器！</h2>
+      <p>在上方搜尋框輸入寶可夢的名稱或圖鑑編號，即可查看該寶可夢的努力值資料。</p>
+      <div class="example-box">
+        <p>使用範例：</p>
+        <ul>
+          <li>• 輸入「皮卡丘」或「pikachu」</li>
+          <li>• 輸入圖鑑編號「25」</li>
+          <li>• 輸入「妙蛙種子」或「bulbasaur」</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="contentDiv" class="content-grid hidden">
+      <div class="card" id="pokemonCard">
+        <h2 class="card-title" id="pokemonTitle"></h2>
+        <img id="pokemonImage" class="pokemon-image" src="" alt="">
+        <div class="type-badges" id="typeBadges"></div>
+        
+        <div class="stat-section">
+          <h3>擊敗可獲得的努力值</h3>
+          <div id="effortValues"></div>
+        </div>
+
+        <div class="stat-section">
+          <h3>種族值</h3>
+          <div id="baseStats"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">努力值分配計算器</h2>
+        
+        <div class="ev-total">
+          <div class="ev-total-header">
+            <span class="ev-total-label">總努力值</span>
+            <span class="ev-total-value" id="totalEV">0 / 510</span>
+          </div>
+          <div class="ev-progress-bar">
+            <div class="ev-progress-fill" id="evProgressFill"></div>
+          </div>
+          <div id="evError" class="error-message hidden">
+            ⚠️ 超過努力值上限！請調整分配
+          </div>
+        </div>
+
+        <div id="evInputs"></div>
+
+        <button class="reset-button" id="resetButton">🔄 重置</button>
+
+        <div style="border-top: 1px solid #e0e0e0; padding-top: 15px;">
+          <h3 style="text-align: center; margin-bottom: 15px; font-size: 1rem;">常見努力值配置</h3>
+          <div class="button-group" id="presetButtons"></div>
+        </div>
+
+        <div class="info-box">
+          <p>💡 努力值說明</p>
+          <ul>
+            <li>• 每隻寶可夢最多可獲得 510 點努力值</li>
+            <li>• 單項能力最多可分配 252 點</li>
+            <li>• 每 4 點努力值 = Lv.100 時增加 1 點能力值</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STAT_NAMES = {
+      'hp': 'HP',
+      'attack': '攻擊',
+      'defense': '防禦',
+      'special-attack': '特攻',
+      'special-defense': '特防',
+      'speed': '速度'
+    };
+
+    const TYPE_COLORS = {
+      'normal': '#A8A878', 'fire': '#F08030', 'water': '#6890F0',
+      'electric': '#F8D030', 'grass': '#78C850', 'ice': '#98D8D8',
+      'fighting': '#C03028', 'poison': '#A040A0', 'ground': '#E0C068',
+      'flying': '#A890F0', 'psychic': '#F85888', 'bug': '#A8B820',
+      'rock': '#B8A038', 'ghost': '#705898', 'dragon': '#7038F8',
+      'dark': '#705848', 'steel': '#B8B8D0', 'fairy': '#EE99AC'
+    };
+
+    const TYPE_NAMES = {
+      'normal': '一般', 'fire': '火', 'water': '水',
+      'electric': '電', 'grass': '草', 'ice': '冰',
+      'fighting': '格鬥', 'poison': '毒', 'ground': '地面',
+      'flying': '飛行', 'psychic': '超能力', 'bug': '蟲',
+      'rock': '岩石', 'ghost': '幽靈', 'dragon': '龍',
+      'dark': '惡', 'steel': '鋼', 'fairy': '妖精'
+    };
+
+    const COMMON_SPREADS = [
+      { name: '物攻速攻', evs: { hp: 4, attack: 252, defense: 0, 'special-attack': 0, 'special-defense': 0, speed: 252 } },
+      { name: '特攻速攻', evs: { hp: 4, attack: 0, defense: 0, 'special-attack': 252, 'special-defense': 0, speed: 252 } },
+      { name: '物耐特耐', evs: { hp: 252, attack: 0, defense: 128, 'special-attack': 0, 'special-defense': 128, speed: 0 } },
+      { name: '高血物攻', evs: { hp: 252, attack: 252, defense: 0, 'special-attack': 0, 'special-defense': 4, speed: 0 } },
+      { name: '高血特攻', evs: { hp: 252, attack: 0, defense: 0, 'special-attack': 252, 'special-defense': 0, speed: 4 } }
+    ];
+
+    let currentPokemon = null;
+    let evValues = {
+      'hp': 0, 'attack': 0, 'defense': 0,
+      'special-attack': 0, 'special-defense': 0, 'speed': 0
+    };
+
+    // 初始化
+    document.getElementById('searchForm').addEventListener('submit', handleSearch);
+    document.getElementById('resetButton').addEventListener('click', resetEVs);
+    initPresetButtons();
+    initEVInputs();
+
+    async function handleSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+
+      showLoading();
+      try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${query.toLowerCase()}`);
+        if (!response.ok) throw new Error('找不到該寶可夢');
+        
+        currentPokemon = await response.json();
+        displayPokemon();
+        showContent();
+      } catch (error) {
+        alert(error.message || '搜尋失敗，請檢查名稱或編號是否正確');
+        showWelcome();
+      }
+    }
+
+    function displayPokemon() {
+      const title = `#${String(currentPokemon.id).padStart(3, '0')} ${currentPokemon.name.charAt(0).toUpperCase() + currentPokemon.name.slice(1)}`;
+      document.getElementById('pokemonTitle').textContent = title;
+      
+      const sprite = currentPokemon.sprites.other?.['official-artwork']?.front_default || currentPokemon.sprites.front_default;
+      document.getElementById('pokemonImage').src = sprite;
+      document.getElementById('pokemonImage').alt = currentPokemon.name;
+
+      // 屬性
+      const typeBadges = document.getElementById('typeBadges');
+      typeBadges.innerHTML = currentPokemon.types.map(t => 
+        `<span class="type-badge" style="background: ${TYPE_COLORS[t.type.name] || '#777'}">${TYPE_NAMES[t.type.name] || t.type.name}</span>`
+      ).join('');
+
+      // 努力值
+      const effortDiv = document.getElementById('effortValues');
+      const efforts = currentPokemon.stats.filter(s => s.effort > 0);
+      if (efforts.length === 0) {
+        effortDiv.innerHTML = '<p style="text-align: center; color: #999;">此寶可夢不提供努力值</p>';
+      } else {
+        effortDiv.innerHTML = efforts.map(s => 
+          `<div class="stat-item ev-item">
+            <span class="stat-name">${STAT_NAMES[s.stat.name]}</span>
+            <span class="stat-value">+${s.effort}</span>
+          </div>`
+        ).join('');
+      }
+
+      // 種族值
+      const baseStatsDiv = document.getElementById('baseStats');
+      baseStatsDiv.innerHTML = currentPokemon.stats.map(s => 
+        `<div class="stat-item">
+          <span class="stat-name">${STAT_NAMES[s.stat.name]}</span>
+          <div class="stat-bar-container">
+            <div class="stat-bar">
+              <div class="stat-bar-fill" style="width: ${(s.base_stat / 255) * 100}%"></div>
+            </div>
+          </div>
+          <span class="stat-value">${s.base_stat}</span>
+        </div>`
+      ).join('');
+    }
+
+    function initEVInputs() {
+      const container = document.getElementById('evInputs');
+      const stats = ['hp', 'attack', 'defense', 'special-attack', 'special-defense', 'speed'];
+      
+      container.innerHTML = stats.map(stat => 
+        `<div class="ev-input-group">
+          <div class="ev-input-label">
+            <span>${STAT_NAMES[stat]}</span>
+            <span style="color: #999; font-size: 0.85rem;">Lv.100 增加：+<span id="increase-${stat}">0</span></span>
+          </div>
+          <div class="ev-input-row">
+            <input 
+              type="number" 
+              class="ev-input" 
+              id="ev-${stat}"
+              min="0" 
+              max="252" 
+              value="0"
+              onchange="updateEV('${stat}', this.value)"
+            >
+            <span class="ev-input-max">/ 252</span>
+          </div>
+        </div>`
+      ).join('');
+    }
+
+    function updateEV(stat, value) {
+      const numValue = Math.max(0, Math.min(252, parseInt(value) || 0));
+      evValues[stat] = numValue;
+      document.getElementById(`ev-${stat}`).value = numValue;
+      document.getElementById(`increase-${stat}`).textContent = Math.floor(numValue / 4);
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const total = Object.values(evValues).reduce((sum, val) => sum + val, 0);
+      const totalSpan = document.getElementById('totalEV');
+      const progressFill = document.getElementById('evProgressFill');
+      const errorDiv = document.getElementById('evError');
+
+      totalSpan.textContent = `${total} / 510`;
+      progressFill.style.width = `${Math.min((total / 510) * 100, 100)}%`;
+
+      if (total > 510) {
+        totalSpan.classList.add('over-limit');
+        progressFill.classList.add('over-limit');
+        errorDiv.classList.remove('hidden');
+      } else {
+        totalSpan.classList.remove('over-limit');
+        progressFill.classList.remove('over-limit');
+        errorDiv.classList.add('hidden');
+      }
+    }
+
+    function resetEVs() {
+      Object.keys(evValues).forEach(stat => {
+        evValues[stat] = 0;
+        document.getElementById(`ev-${stat}`).value = 0;
+        document.getElementById(`increase-${stat}`).textContent = 0;
+      });
+      updateTotal();
+    }
+
+    function applyPreset(preset) {
+      Object.keys(preset).forEach(stat => {
+        evValues[stat] = preset[stat];
+        document.getElementById(`ev-${stat}`).value = preset[stat];
+        document.getElementById(`increase-${stat}`).textContent = Math.floor(preset[stat] / 4);
+      });
+      updateTotal();
+    }
+
+    function initPresetButtons() {
+      const container = document.getElementById('presetButtons');
+      container.innerHTML = COMMON_SPREADS.map((spread, idx) => 
+        `<button class="preset-button" onclick="applyPreset(${JSON.stringify(spread.evs).replace(/"/g, '&quot;')})">${spread.name}</button>`
+      ).join('');
+    }
+
+    function showLoading() {
+      document.getElementById('welcomeDiv').classList.add('hidden');
+      document.getElementById('contentDiv').classList.add('hidden');
+      document.getElementById('loadingDiv').classList.remove('hidden');
+    }
+
+    function showWelcome() {
+      document.getElementById('loadingDiv').classList.add('hidden');
+      document.getElementById('contentDiv').classList.add('hidden');
+      document.getElementById('welcomeDiv').classList.remove('hidden');
+    }
+
+    function showContent() {
+      document.getElementById('loadingDiv').classList.add('hidden');
+      document.getElementById('welcomeDiv').classList.add('hidden');
+      document.getElementById('contentDiv').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
