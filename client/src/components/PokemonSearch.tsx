@@ -38,9 +38,7 @@ export default function PokemonSearch({ onSearch, isLoading }: PokemonSearchProp
           搜尋
         </Button>
       </div>
-      <p className="text-sm text-white/80 mt-2 text-center">
-        歡迎使用阿比丁的寶可夢能力值計算器！
-      </p>
+
     </form>
   );
 }
