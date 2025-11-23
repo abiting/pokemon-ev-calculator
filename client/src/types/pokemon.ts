@@ -24,12 +24,33 @@ export interface PokemonSprites {
   };
 }
 
+export interface PokemonAbility {
+  ability: {
+    name: string;
+    url: string;
+  };
+  is_hidden: boolean;
+  slot: number;
+}
+
+export interface AbilityDetail {
+  name: string;
+  names: Array<{
+    language: {
+      name: string;
+    };
+    name: string;
+  }>;
+}
+
 export interface Pokemon {
   id: number;
   name: string;
   stats: PokemonStat[];
   types: PokemonType[];
   sprites: PokemonSprites;
+  abilities: PokemonAbility[];
+  abilityDetails?: AbilityDetail[];
 }
 
 export interface EVDistribution {

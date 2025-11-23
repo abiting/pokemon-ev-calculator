@@ -85,3 +85,23 @@ export function getTotalEV(evs: Record<string, number>): number {
 export function getHighQualitySprite(pokemon: Pokemon): string {
   return pokemon.sprites.other?.['official-artwork']?.front_default || pokemon.sprites.front_default;
 }
+
+export async function fetchAbilityDetails(abilityUrl: string): Promise<{ name: string; zhName: string }> {
+  try {
+    const response = await fetch(abilityUrl);
+    if (!response.ok) {
+      throw new Error('無法獲取特性資料');
+    }
+    const data = await response.json();
+    const zhHantName = data.names.find(
+      (n: any) => n.language.name === 'zh-Hant'
+    );
+    return {
+      name: data.name,
+      zhName: zhHantName?.name || data.name
+    };
+  } catch (error) {
+    console.warn('無法獲取特性繁中名稱:', error);
+    return { name: '', zhName: '未知特性' };
+  }
+}
