@@ -42,15 +42,15 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
       <CardContent>
         <div className="flex flex-col items-center gap-4">
           {/* 桌面版：圖片和特性並排 */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 w-full justify-center">
             <img
               src={spriteUrl}
               alt={pokemon.name}
-              className="w-48 h-48 object-contain mx-auto md:mx-0"
+              className="w-48 h-48 object-contain flex-shrink-0"
             />
             
             {/* 桌面版特性顯示 */}
-            <div className="hidden md:block flex-1">
+            <div className="hidden md:block w-auto max-w-xs">
               <h3 className="text-lg font-semibold mb-2">特性</h3>
               {isLoadingAbilities ? (
                 <p className="text-sm text-gray-500">載入中...</p>
