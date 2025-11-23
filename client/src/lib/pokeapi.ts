@@ -1,4 +1,5 @@
 import type { Pokemon } from '@/types/pokemon';
+import { ABILITY_TRANSLATIONS } from './ability-translations';
 import pokemonZhMapping from '@/data/zh-tw-mapping-full.json';
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
@@ -96,9 +97,13 @@ export async function fetchAbilityDetails(abilityUrl: string): Promise<{ name: s
     const zhHantName = data.names.find(
       (n: any) => n.language.name === 'zh-Hant'
     );
+    
+    // 如果 PokeAPI 沒有提供繁中翻譯，使用 fallback 翻譯對應表
+    const fallbackName = ABILITY_TRANSLATIONS[data.name];
+    
     return {
       name: data.name,
-      zhName: zhHantName?.name || data.name
+      zhName: zhHantName?.name || fallbackName || data.name
     };
   } catch (error) {
     console.warn('無法獲取特性繁中名稱:', error);
