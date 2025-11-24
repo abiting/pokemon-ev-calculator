@@ -36,7 +36,7 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
     <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center">
-          #{pokemon.id.toString().padStart(3, '0')} {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+          #{pokemon.id.toString().padStart(4, '0')} {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
         </CardTitle>
       </CardHeader>
       <CardContent>

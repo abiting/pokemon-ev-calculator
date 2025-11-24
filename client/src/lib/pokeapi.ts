@@ -2,6 +2,14 @@ import type { Pokemon } from '@/types/pokemon';
 import { ABILITY_TRANSLATIONS } from './ability-translations';
 import pokemonZhMapping from '@/data/zh-tw-mapping-full.json';
 
+// 建立反向查找對應表（ID → 繁體中文名稱）
+const idToZhMapping: Record<number, string> = {};
+Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) => {
+  if (!idToZhMapping[id]) {
+    idToZhMapping[id] = name;
+  }
+});
+
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
 const CACHE_KEY_PREFIX = 'pokemon_cache_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
@@ -46,19 +54,25 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   const data: Pokemon = await response.json();
   
   // 獲取繁體中文名稱
-  try {
-    const speciesResponse = await fetch(`${POKEAPI_BASE_URL}/pokemon-species/${data.id}`);
-    if (speciesResponse.ok) {
-      const speciesData = await speciesResponse.json();
-      const zhHantName = speciesData.names.find(
-        (n: any) => n.language.name === 'zh-Hant'
-      );
-      if (zhHantName) {
-        data.name = zhHantName.name;
+  // 優先使用本地翻譯對應表，避免 PokeAPI 的簡體字問題
+  if (idToZhMapping[data.id]) {
+    data.name = idToZhMapping[data.id];
+  } else {
+    // 如果本地沒有翻譯，才從 API 獲取
+    try {
+      const speciesResponse = await fetch(`${POKEAPI_BASE_URL}/pokemon-species/${data.id}`);
+      if (speciesResponse.ok) {
+        const speciesData = await speciesResponse.json();
+        const zhHantName = speciesData.names.find(
+          (n: any) => n.language.name === 'zh-Hant'
+        );
+        if (zhHantName) {
+          data.name = zhHantName.name;
+        }
       }
+    } catch (error) {
+      console.warn('無法獲取繁體中文名稱:', error);
     }
-  } catch (error) {
-    console.warn('無法獲取繁體中文名稱:', error);
   }
 
   // 儲存到快取
