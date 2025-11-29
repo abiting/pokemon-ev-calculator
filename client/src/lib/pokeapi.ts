@@ -23,7 +23,23 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 如果是繁體中文名稱，轉換為 ID
   let searchTerm = nameOrId;
   if (typeof nameOrId === 'string') {
-    const pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
+    // 先嘗試完全匹配
+    let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
+    
+    // 如果沒有完全匹配，嘗試模糊搜尋
+    if (!pokemonId) {
+      const matchingNames = Object.keys(pokemonZhMapping as Record<string, number>)
+        .filter(name => name.includes(nameOrId));
+      
+      if (matchingNames.length === 1) {
+        // 只有一個匹配結果，直接使用
+        pokemonId = (pokemonZhMapping as Record<string, number>)[matchingNames[0]];
+      } else if (matchingNames.length > 1) {
+        // 多個匹配結果，拋出錯誤並提示
+        throw new Error(`找到多個匹配結果：${matchingNames.slice(0, 5).join('、')}${matchingNames.length > 5 ? '...' : ''}。請輸入更完整的名稱。`);
+      }
+    }
+    
     if (pokemonId) {
       searchTerm = pokemonId;
     }

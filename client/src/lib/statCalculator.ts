@@ -8,6 +8,7 @@ export interface StatCalculationParams {
   nature?: Nature;
   statName: string;
   isHP?: boolean;
+  pokemonId?: number;
 }
 
 /**
@@ -15,9 +16,14 @@ export interface StatCalculationParams {
  * 公式來源：https://bulbapedia.bulbagarden.net/wiki/Stat#Determination_of_stats
  */
 export function calculateStat(params: StatCalculationParams): number {
-  const { baseStat, iv, ev, level, nature, statName, isHP = false } = params;
+  const { baseStat, iv, ev, level, nature, statName, isHP = false, pokemonId } = params;
   
   if (isHP) {
+    // 脱殼忍者 (#292) 的 HP 永遠為 1
+    if (pokemonId === 292) {
+      return 1;
+    }
+    
     // HP 計算公式：floor(((2 * Base + IV + floor(EV / 4)) * Level) / 100) + Level + 10
     return Math.floor(((2 * baseStat + iv + Math.floor(ev / 4)) * level) / 100) + level + 10;
   } else {

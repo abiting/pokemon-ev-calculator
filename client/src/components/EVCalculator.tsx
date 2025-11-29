@@ -110,6 +110,7 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
       nature: selectedNature,
       statName: stat as string,
       isHP: stat === 'hp',
+      pokemonId: pokemon.id,
     }) as number;
   };
 
