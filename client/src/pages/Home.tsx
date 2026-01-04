@@ -38,7 +38,7 @@ export default function Home() {
             className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => window.location.reload()}
           >
-            阿比丁的寶可夢能力值計算器
+            寶可夢能力值計算器
           </h1>
           <p className="text-white/90 text-lg drop-shadow">
             本工具共收入 1025 隻寶可夢，橫跨第一世代至第九世代。只要輸入名稱或圖鑑編號，就能查看特性（Ability）和種族值（Base Stats），並透過個體值（IV）、努力值（EV）與性格（Nature）自動計算能力值。
@@ -75,7 +75,7 @@ export default function Home() {
         {!isLoading && !pokemon && (
           <div className="text-center py-12">
             <div className="bg-white/90 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border-2 border-dashed border-cyan-300">
-              <h2 className="text-2xl font-bold mb-4">歡迎使用阿比丁的寶可夢能力值計算器！</h2>
+              <h2 className="text-2xl font-bold mb-4">歡迎使用寶可夢能力值計算器！</h2>
               <div className="text-left bg-blue-50 rounded-lg p-4 text-sm">
                 <p className="font-semibold mb-2">使用範例：</p>
                 <ul className="space-y-1 text-gray-700">
