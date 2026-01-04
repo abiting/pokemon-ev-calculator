@@ -41,7 +41,7 @@ export default function Home() {
             寶可夢能力值計算器
           </h1>
           <p className="text-white/90 text-lg drop-shadow">
-            本工具共收入 1025 隻寶可夢，橫跨第一世代至第九世代。只要輸入名稱或圖鑑編號，就能查看特性（Ability）和種族值（Base Stats），並透過個體值（IV）、努力值（EV）與性格（Nature）自動計算能力值。
+            Scrabby 共收入 1025 隻寶可夢，橫跨第一世代至第九世代。只要輸入名稱或圖鑑編號，就能查看特性（Ability）和種族值（Base Stats），並透過個體值（IV）、努力值（EV）與性格（Nature）自動計算能力值。
           </p>
         </div>
 

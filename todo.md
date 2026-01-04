@@ -182,3 +182,6 @@
 - [x] 修改 Home.tsx 中的 H1 標題，移除「阿比丁」
 - [x] 修改 Home.tsx 中的歡迎區塊 H2 標題，移除「阿比丁」
 - [x] 修改瀏覽器分頁標題 (document.title)
+
+## 修改網頁敘述
+- [x] 將 Home.tsx 中的「本工具」修改為「Scrabby」
