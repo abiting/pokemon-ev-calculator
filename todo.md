@@ -188,3 +188,7 @@
 
 ## 修改網頁敘述
 - [x] 將 Home.tsx 中的「Scrabby」修改為「《Scrabby》」
+
+## 修改標題
+- [x] 將 Home.tsx 中的 H1 標題修改為「能力值計算器」
+- [x] 將 const.ts 中的 APP_TITLE 修改為「能力值計算器」
