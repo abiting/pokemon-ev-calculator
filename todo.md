@@ -185,3 +185,6 @@
 
 ## 修改網頁敘述
 - [x] 將 Home.tsx 中的「本工具」修改為「Scrabby」
+
+## 修改網頁敘述
+- [x] 將 Home.tsx 中的「Scrabby」修改為「《Scrabby》」
