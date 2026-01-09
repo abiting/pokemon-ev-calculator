@@ -192,3 +192,6 @@
 ## 修改標題
 - [x] 將 Home.tsx 中的 H1 標題修改為「能力值計算器」
 - [x] 將 const.ts 中的 APP_TITLE 修改為「能力值計算器」
+
+## 優化 iframe 嵌入代碼
+- [x] 更新 embed.html 中的 iframe 代碼，加入 title="Scrabby 能力值計算器" 和 name="scrabby-calculator"
