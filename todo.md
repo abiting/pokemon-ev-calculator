@@ -195,3 +195,6 @@
 
 ## 優化 iframe 嵌入代碼
 - [x] 更新 embed.html 中的 iframe 代碼，加入 title="Scrabby 能力值計算器" 和 name="scrabby-calculator"
+
+## 優化 iframe 嵌入代碼
+- [x] 更新 embed.html 中的 iframe 代碼，加入 loading="lazy"
