@@ -7,7 +7,7 @@ import { NATURES, type Nature } from '@/data/natures';
 import { fetchPokemon } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
 import { STAT_NAMES } from '@/types/pokemon';
-import { AlertCircle, RotateCcw, Search } from 'lucide-react';
+import { AlertCircle, Minus, Plus, RotateCcw, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import PokemonCard from '@/components/PokemonCard';
@@ -227,17 +227,35 @@ export default function Champions() {
                       {(Object.keys(sps) as Array<keyof SPDistribution>).map((stat) => (
                         <div key={stat} className="space-y-2">
                           <div className="flex justify-between items-center">
-                            <label className="font-medium text-sm w-24">{STAT_NAMES[stat]}</label>
-                            <div className="flex-1 mx-4">
+                            <label className="font-medium text-sm w-16 md:w-24">{STAT_NAMES[stat]}</label>
+                            <div className="flex-1 mx-2 md:mx-4 flex items-center gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-8 w-8 shrink-0"
+                                onClick={() => handleSPChange(stat, Math.max(0, sps[stat] - 1))}
+                                disabled={sps[stat] <= 0}
+                              >
+                                <Minus className="h-4 w-4" />
+                              </Button>
                               <Slider
                                 value={[sps[stat]]}
                                 max={MAX_SINGLE_SP}
                                 step={1}
                                 onValueChange={(vals) => handleSPChange(stat, vals[0])}
-                                className="py-2"
+                                className="py-2 flex-1"
                               />
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-8 w-8 shrink-0"
+                                onClick={() => handleSPChange(stat, Math.min(MAX_SINGLE_SP, sps[stat] + 1))}
+                                disabled={sps[stat] >= MAX_SINGLE_SP || (remainingSP <= 0 && sps[stat] < MAX_SINGLE_SP)}
+                              >
+                                <Plus className="h-4 w-4" />
+                              </Button>
                             </div>
-                            <div className="w-12 text-right font-mono text-sm">
+                            <div className="w-8 md:w-12 text-right font-mono text-sm">
                               {sps[stat]}
                             </div>
                           </div>
