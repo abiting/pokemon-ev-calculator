@@ -134,7 +134,7 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-[300px]">
                 {NATURES.map((nature) => (
                   <SelectItem key={nature.name} value={nature.name}>
                     {nature.name}

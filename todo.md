@@ -234,3 +234,7 @@
 ## 首頁標題調整
 - [ ] 修改 `Home.tsx`，將標題「能力值計算器」改為「寶可夢能力值計算器」
 - [ ] 調整標題字體大小，使其稍微變小（例如從 `text-4xl md:text-5xl` 改為 `text-3xl md:text-4xl`）
+
+## 性格選單修復
+- [ ] 修改 `EVCalculator.tsx`，為性格下拉選單的 `SelectContent` 新增 `max-h-[300px]` 或類似的高度限制，確保可以捲動
+- [ ] 檢查 `Champions.tsx` 中的性格選單，確保也套用相同的修正
