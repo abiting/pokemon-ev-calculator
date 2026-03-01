@@ -220,3 +220,8 @@
 - [ ] 將標題「Pokemon Champions 計算器」修改為「Champions 能力點數計算器」
 - [ ] 將「能力值計算說明」修改為「能力點數計算說明」
 - [ ] 將頁面中所有的半形括號 `()` 替換為全形括號 `（）`
+
+## 頁尾版權資訊更新
+- [ ] 修改 `Home.tsx` 的頁尾，將版權資訊更新為 `Copyright © Scrabby` 並連結至 `https://scrabby.abiting.cc`
+- [ ] 修改 `Champions.tsx` 的頁尾，將版權資訊更新為 `Copyright © Scrabby` 並連結至 `https://scrabby.abiting.cc`
+- [ ] 確保資料來源 `PokéAPI` 保持不變

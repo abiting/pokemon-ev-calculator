@@ -90,7 +90,7 @@ export default function Home() {
         {/* 頁尾 */}
         <footer className="mt-12 text-center text-white/80 text-sm">
           <p>資料來源：<a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">PokéAPI</a></p>
-          <p className="mt-2">Copyright © <a href="https://abiting.cc" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">阿比丁的第二個家</a></p>
+          <p className="mt-2">Copyright © <a href="https://scrabby.abiting.cc" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">Scrabby</a></p>
         </footer>
       </div>
     </div>
