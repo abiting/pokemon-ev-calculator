@@ -46,7 +46,7 @@ export default function Champions() {
   const [selectedNature, setSelectedNature] = useState<Nature>(NATURES[0]);
 
   useEffect(() => {
-    document.title = 'Pokemon Champions 能力值計算器';
+    document.title = 'Champions 能力點數計算器';
   }, []);
 
   const totalSP = Object.values(sps).reduce((a, b) => a + b, 0);
@@ -137,7 +137,7 @@ export default function Champions() {
         {/* 標題區 */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
-            Pokemon Champions 計算器
+            Champions 能力點數計算器
           </h1>
           <p className="text-slate-600">
             專為《Pokemon Champions》設計的 66 點能力點數分配工具
@@ -168,13 +168,13 @@ export default function Champions() {
             <div>
               <Card className="bg-white shadow-lg border-slate-200">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-center">能力點數 (SP) 分配</CardTitle>
+                  <CardTitle className="text-xl font-bold text-center">能力點數（SP）分配</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
                     {/* 性格選擇 */}
                     <div className="space-y-2">
-                      <label className="font-semibold text-sm text-slate-700">性格 (Nature)</label>
+                      <label className="font-semibold text-sm text-slate-700">性格（Nature）</label>
                       <Select
                         value={selectedNature.name}
                         onValueChange={(value) => {
@@ -191,7 +191,7 @@ export default function Champions() {
                               {nature.name}
                               {nature.increased && nature.decreased && (
                                 <span className="text-xs text-gray-500 ml-2">
-                                  (↑{STAT_NAMES[nature.increased]} ↓{STAT_NAMES[nature.decreased]})
+                                  （↑{STAT_NAMES[nature.increased]} ↓{STAT_NAMES[nature.decreased]}）
                                 </span>
                               )}
                             </SelectItem>
@@ -263,11 +263,11 @@ export default function Champions() {
 
                     {/* 說明 */}
                     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mt-4">
-                      <p className="font-semibold mb-1 text-yellow-800">💡 能力值計算說明</p>
+                      <p className="font-semibold mb-1 text-yellow-800">💡 能力點數計算說明</p>
                       <ul className="space-y-1 text-yellow-800/80">
-                        <li>• 總共 66 點能力點數 (SP) 可供分配</li>
+                        <li>• 總共 66 點能力點數（SP）可供分配</li>
                         <li>• 每項能力最多分配 32 點 SP</li>
-                        <li>• 預設個體值 (IV) 為 31</li>
+                        <li>• 預設個體值（IV）為 31</li>
                         <li>• 等級固定為 Lv.50</li>
                         <li>• 1 點 SP = 1 點實際能力值</li>
                       </ul>
@@ -283,7 +283,7 @@ export default function Champions() {
         {!isLoading && !pokemon && (
           <div className="text-center py-12">
             <div className="bg-white rounded-xl p-8 max-w-2xl mx-auto border border-slate-200 shadow-sm">
-              <h2 className="text-xl font-bold mb-4 text-slate-800">歡迎使用 Champions 計算器！</h2>
+              <h2 className="text-xl font-bold mb-4 text-slate-800">歡迎使用 Champions 能力點數計算器！</h2>
               <div className="text-left bg-slate-50 rounded-lg p-4 text-sm">
                 <p className="font-semibold mb-2 text-slate-700">使用範例：</p>
                 <ul className="space-y-1 text-slate-600">
