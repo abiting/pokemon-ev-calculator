@@ -198,3 +198,15 @@
 
 ## 優化 iframe 嵌入代碼
 - [x] 更新 embed.html 中的 iframe 代碼，加入 loading="lazy"
+
+## 研究 Pokemon Champions 能力值機制
+- [ ] 搜尋 Pokemon Champions 遊戲機制與能力值計算公式
+- [ ] 分析截圖中的帝王拿波數據，嘗試推導公式
+- [ ] 確認 66 點能力點數的分配規則與限制
+
+## 建立 Pokemon Champions 計算器頁面
+- [ ] 建立 `client/src/pages/Champions.tsx` 頁面
+- [ ] 在 `client/src/App.tsx` 中新增 `/champions` 路由
+- [ ] 實作新的能力值計算邏輯 (66 SP 系統)
+- [ ] 設計專屬介面 (移除 EV 滑桿，改為 SP 滑桿)
+- [ ] 驗證計算結果是否符合截圖數據
