@@ -7,9 +7,10 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
+  showEVYield?: boolean;
 }
 
-export default function PokemonCard({ pokemon }: PokemonCardProps) {
+export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCardProps) {
   const spriteUrl = getHighQualitySprite(pokemon);
   const [abilities, setAbilities] = useState<Array<{ name: string; zhName: string; isHidden: boolean }>>([]);
   const [isAbilitiesOpen, setIsAbilitiesOpen] = useState(false);
@@ -113,26 +114,28 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
             )}
           </div>
 
-          <div className="w-full mt-4">
-            <h3 className="text-lg font-semibold mb-3 text-center">擊敗可獲得的努力值</h3>
-            <div className="space-y-2">
-              {pokemon.stats.map((stat) => {
-                if (stat.effort === 0) return null;
-                return (
-                  <div
-                    key={stat.stat.name}
-                    className="flex justify-between items-center bg-blue-50 px-4 py-2 rounded-lg"
-                  >
-                    <span className="font-medium">{STAT_NAMES[stat.stat.name]}</span>
-                    <span className="text-blue-600 font-bold">+{stat.effort}</span>
-                  </div>
-                );
-              })}
-              {pokemon.stats.every((stat) => stat.effort === 0) && (
-                <p className="text-center text-gray-500">此寶可夢不提供努力值</p>
-              )}
+          {showEVYield && (
+            <div className="w-full mt-4">
+              <h3 className="text-lg font-semibold mb-3 text-center">擊敗可獲得的努力值</h3>
+              <div className="space-y-2">
+                {pokemon.stats.map((stat) => {
+                  if (stat.effort === 0) return null;
+                  return (
+                    <div
+                      key={stat.stat.name}
+                      className="flex justify-between items-center bg-blue-50 px-4 py-2 rounded-lg"
+                    >
+                      <span className="font-medium">{STAT_NAMES[stat.stat.name]}</span>
+                      <span className="text-blue-600 font-bold">+{stat.effort}</span>
+                    </div>
+                  );
+                })}
+                {pokemon.stats.every((stat) => stat.effort === 0) && (
+                  <p className="text-center text-gray-500">此寶可夢不提供努力值</p>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="w-full mt-4">
             <h3 className="text-lg font-semibold mb-3 text-center">種族值</h3>

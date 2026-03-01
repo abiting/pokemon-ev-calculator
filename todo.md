@@ -225,3 +225,8 @@
 - [ ] 修改 `Home.tsx` 的頁尾，將版權資訊更新為 `Copyright © Scrabby` 並連結至 `https://scrabby.abiting.cc`
 - [ ] 修改 `Champions.tsx` 的頁尾，將版權資訊更新為 `Copyright © Scrabby` 並連結至 `https://scrabby.abiting.cc`
 - [ ] 確保資料來源 `PokéAPI` 保持不變
+
+## 內容與顯示調整
+- [ ] 修改 `PokemonCard.tsx`，新增 `showEVYield` prop (預設為 true)，控制是否顯示「擊敗可獲得的努力值」區塊
+- [ ] 修改 `Champions.tsx`，在使用 `PokemonCard` 時傳入 `showEVYield={false}`
+- [ ] 修改 `Home.tsx`，將標題下方的描述更新為「專為舊時代「寶可夢對戰」設計的 IV、EV 計算工具」

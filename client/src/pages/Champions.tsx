@@ -161,7 +161,7 @@ export default function Champions() {
         {!isLoading && pokemon && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
-              <PokemonCard pokemon={pokemon} />
+              <PokemonCard pokemon={pokemon} showEVYield={false} />
             </div>
             
             {/* 計算器區塊 */}
