@@ -124,16 +124,24 @@ export async function fetchAbilityDetails(abilityUrl: string): Promise<{ name: s
       throw new Error('無法獲取特性資料');
     }
     const data = await response.json();
+    // 優先使用本地翻譯對應表，確保穩定性
+    const localTranslation = ABILITY_TRANSLATIONS[data.name];
+    
+    if (localTranslation) {
+      return {
+        name: data.name,
+        zhName: localTranslation
+      };
+    }
+
+    // 如果本地沒有翻譯，嘗試從 API 獲取
     const zhHantName = data.names.find(
       (n: any) => n.language.name === 'zh-Hant'
     );
     
-    // 如果 PokeAPI 沒有提供繁中翻譯，使用 fallback 翻譯對應表
-    const fallbackName = ABILITY_TRANSLATIONS[data.name];
-    
     return {
       name: data.name,
-      zhName: zhHantName?.name || fallbackName || data.name
+      zhName: zhHantName?.name || data.name
     };
   } catch (error) {
     console.warn('無法獲取特性繁中名稱:', error);
