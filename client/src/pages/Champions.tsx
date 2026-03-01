@@ -260,6 +260,18 @@ export default function Champions() {
                       <RotateCcw className="w-4 h-4 mr-2" />
                       重置分配
                     </Button>
+
+                    {/* 說明 */}
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mt-4">
+                      <p className="font-semibold mb-1 text-yellow-800">💡 能力值計算說明</p>
+                      <ul className="space-y-1 text-yellow-800/80">
+                        <li>• 總共 66 點能力點數 (SP) 可供分配</li>
+                        <li>• 每項能力最多分配 32 點 SP</li>
+                        <li>• 預設個體值 (IV) 為 31</li>
+                        <li>• 等級固定為 Lv.50</li>
+                        <li>• 1 點 SP = 1 點實際能力值</li>
+                      </ul>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -271,17 +283,14 @@ export default function Champions() {
         {!isLoading && !pokemon && (
           <div className="text-center py-12">
             <div className="bg-white rounded-xl p-8 max-w-2xl mx-auto border border-slate-200 shadow-sm">
-              <h2 className="text-xl font-bold mb-4 text-slate-800">歡迎使用 Champions 計算器</h2>
-              <p className="text-slate-600 mb-4">
-                請輸入寶可夢名稱或編號開始計算。此計算器使用《Pokemon Champions》的特殊規則：
-              </p>
-              <ul className="text-left text-sm text-slate-600 space-y-2 bg-slate-50 p-4 rounded-lg">
-                <li>• 總共 66 點能力點數 (SP) 可供分配</li>
-                <li>• 每項能力最多分配 32 點 SP</li>
-                <li>• 預設個體值 (IV) 為 31</li>
-                <li>• 等級固定為 Lv.50</li>
-                <li>• 1 點 SP = 1 點實際能力值</li>
-              </ul>
+              <h2 className="text-xl font-bold mb-4 text-slate-800">歡迎使用 Champions 計算器！</h2>
+              <div className="text-left bg-slate-50 rounded-lg p-4 text-sm">
+                <p className="font-semibold mb-2 text-slate-700">使用範例：</p>
+                <ul className="space-y-1 text-slate-600">
+                  <li>• 輸入「皮卡丘」或「pikachu」</li>
+                  <li>• 輸入圖鑑編號「25」</li>
+                </ul>
+              </div>
             </div>
           </div>
         )}
