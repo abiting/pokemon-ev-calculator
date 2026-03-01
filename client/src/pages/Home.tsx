@@ -35,10 +35,10 @@ export default function Home() {
         {/* 標題區 */}
         <div className="text-center mb-8">
           <h1 
-            className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg cursor-pointer hover:opacity-80 transition-opacity"
+            className="text-3xl md:text-4xl font-bold text-white mb-3 drop-shadow-lg cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => window.location.reload()}
           >
-            能力值計算器
+            寶可夢能力值計算器
           </h1>
           <p className="text-white/90 text-lg drop-shadow">
             專為舊時代「寶可夢對戰」設計的 IV、EV 計算工具

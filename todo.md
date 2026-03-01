@@ -230,3 +230,7 @@
 - [ ] 修改 `PokemonCard.tsx`，新增 `showEVYield` prop (預設為 true)，控制是否顯示「擊敗可獲得的努力值」區塊
 - [ ] 修改 `Champions.tsx`，在使用 `PokemonCard` 時傳入 `showEVYield={false}`
 - [ ] 修改 `Home.tsx`，將標題下方的描述更新為「專為舊時代「寶可夢對戰」設計的 IV、EV 計算工具」
+
+## 首頁標題調整
+- [ ] 修改 `Home.tsx`，將標題「能力值計算器」改為「寶可夢能力值計算器」
+- [ ] 調整標題字體大小，使其稍微變小（例如從 `text-4xl md:text-5xl` 改為 `text-3xl md:text-4xl`）
