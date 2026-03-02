@@ -18,7 +18,7 @@ const MAX_SINGLE_SP = 32;
 const DEFAULT_IV = 31;
 const LEVEL = 50;
 
-// Pokemon Champions 能力值計算公式
+// Pokémon Champions 能力值計算公式
 // 基礎值 = floor(((2 * Base + IV) * Level) / 100) + Level + 10 (HP)
 // 基礎值 = floor(((2 * Base + IV) * Level) / 100) + 5 (其他)
 // 最終值 = (基礎值 + SP) * 性格修正
@@ -140,7 +140,7 @@ export default function Champions() {
             Champions 能力點數計算器
           </h1>
           <p className="text-slate-600">
-            專為《Pokemon Champions》設計的 66 點能力點數分配工具
+            專為《Pokémon Champions》設計的 66 點能力點數分配工具
           </p>
         </div>
 

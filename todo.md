@@ -248,3 +248,7 @@
 - [ ] 修改 `Champions.tsx`，在每個能力值滑桿兩側新增「-」與「+」按鈕
 - [ ] 修改 `EVCalculator.tsx`，同樣在滑桿兩側新增按鈕
 - [ ] 確保按鈕大小適中，方便手指點擊，且不會影響版面整潔
+
+## 拼寫修正
+- [ ] 搜尋全站檔案，將所有 `Pokemon Champions` 替換為 `Pokémon Champions`
+- [ ] 檢查 `Champions.tsx`、`Home.tsx` 和其他相關組件
