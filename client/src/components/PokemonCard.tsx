@@ -8,9 +8,40 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 interface PokemonCardProps {
   pokemon: Pokemon;
   showEVYield?: boolean;
+  language?: 'zh' | 'en';
 }
 
-export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCardProps) {
+const STAT_NAMES_EN: Record<string, string> = {
+  hp: 'HP',
+  attack: 'Attack',
+  defense: 'Defense',
+  'special-attack': 'Sp. Atk',
+  'special-defense': 'Sp. Def',
+  speed: 'Speed',
+};
+
+const TYPE_NAMES_EN: Record<string, string> = {
+  normal: 'Normal',
+  fire: 'Fire',
+  water: 'Water',
+  grass: 'Grass',
+  electric: 'Electric',
+  ice: 'Ice',
+  fighting: 'Fighting',
+  poison: 'Poison',
+  ground: 'Ground',
+  flying: 'Flying',
+  psychic: 'Psychic',
+  bug: 'Bug',
+  rock: 'Rock',
+  ghost: 'Ghost',
+  dragon: 'Dragon',
+  steel: 'Steel',
+  dark: 'Dark',
+  fairy: 'Fairy',
+};
+
+export default function PokemonCard({ pokemon, showEVYield = true, language = 'zh' }: PokemonCardProps) {
   const spriteUrl = getHighQualitySprite(pokemon);
   const [abilities, setAbilities] = useState<Array<{ name: string; zhName: string; isHidden: boolean }>>([]);
   const [isAbilitiesOpen, setIsAbilitiesOpen] = useState(false);
@@ -52,7 +83,7 @@ export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCard
             
             {/* 桌面版特性顯示 */}
             <div className="hidden md:block w-auto max-w-xs">
-              <h3 className="text-lg font-semibold mb-2">特性</h3>
+              <h3 className="text-lg font-semibold mb-2">{language === 'zh' ? '特性' : 'Abilities'}</h3>
               {isLoadingAbilities ? (
                 <p className="text-sm text-gray-500">載入中...</p>
               ) : (
@@ -62,9 +93,9 @@ export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCard
                       key={index}
                       className="bg-purple-50 px-3 py-2 rounded-lg"
                     >
-                      <span className="font-medium text-purple-900">{ability.zhName}</span>
+                      <span className="font-medium text-purple-900">{language === 'zh' ? ability.zhName : ability.name}</span>
                       {ability.isHidden && (
-                        <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">隱藏特性</span>
+                        <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">{language === 'zh' ? '隱藏特性' : 'Hidden Ability'}</span>
                       )}
                     </div>
                   ))}
@@ -79,7 +110,7 @@ export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCard
                 key={type.slot}
                 className={`px-4 py-1 rounded-full text-white font-medium ${TYPE_COLORS[type.type.name] || 'bg-gray-400'}`}
               >
-                {TYPE_NAMES[type.type.name] || type.type.name}
+                {language === 'zh' ? (TYPE_NAMES[type.type.name] || type.type.name) : (TYPE_NAMES_EN[type.type.name] || type.type.name)}
               </span>
             ))}
           </div>
@@ -90,7 +121,7 @@ export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCard
               onClick={() => setIsAbilitiesOpen(!isAbilitiesOpen)}
               className="w-full bg-purple-100 hover:bg-purple-200 transition-colors px-4 py-3 rounded-lg flex items-center justify-between"
             >
-              <span className="font-semibold text-purple-900">特性</span>
+              <span className="font-semibold text-purple-900">{language === 'zh' ? '特性' : 'Abilities'}</span>
               {isAbilitiesOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
             </button>
             {isAbilitiesOpen && (
@@ -103,9 +134,9 @@ export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCard
                       key={index}
                       className="bg-purple-50 px-3 py-2 rounded-lg"
                     >
-                      <span className="font-medium text-purple-900">{ability.zhName}</span>
+                      <span className="font-medium text-purple-900">{language === 'zh' ? ability.zhName : ability.name}</span>
                       {ability.isHidden && (
-                        <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">隱藏特性</span>
+                        <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">{language === 'zh' ? '隱藏特性' : 'Hidden Ability'}</span>
                       )}
                     </div>
                   ))
@@ -116,7 +147,7 @@ export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCard
 
           {showEVYield && (
             <div className="w-full mt-4">
-              <h3 className="text-lg font-semibold mb-3 text-center">擊敗可獲得的努力值</h3>
+              <h3 className="text-lg font-semibold mb-3 text-center">{language === 'zh' ? '擊敗可獲得的努力值' : 'EV Yield'}</h3>
               <div className="space-y-2">
                 {pokemon.stats.map((stat) => {
                   if (stat.effort === 0) return null;
@@ -125,27 +156,27 @@ export default function PokemonCard({ pokemon, showEVYield = true }: PokemonCard
                       key={stat.stat.name}
                       className="flex justify-between items-center bg-blue-50 px-4 py-2 rounded-lg"
                     >
-                      <span className="font-medium">{STAT_NAMES[stat.stat.name]}</span>
+                      <span className="font-medium">{language === 'zh' ? STAT_NAMES[stat.stat.name] : STAT_NAMES_EN[stat.stat.name]}</span>
                       <span className="text-blue-600 font-bold">+{stat.effort}</span>
                     </div>
                   );
                 })}
                 {pokemon.stats.every((stat) => stat.effort === 0) && (
-                  <p className="text-center text-gray-500">此寶可夢不提供努力值</p>
+                  <p className="text-center text-gray-500">{language === 'zh' ? '此寶可夢不提供努力值' : 'No EV yield'}</p>
                 )}
               </div>
             </div>
           )}
 
           <div className="w-full mt-4">
-            <h3 className="text-lg font-semibold mb-3 text-center">種族值</h3>
+            <h3 className="text-lg font-semibold mb-3 text-center">{language === 'zh' ? '種族值' : 'Base Stats'}</h3>
             <div className="space-y-2">
               {pokemon.stats.map((stat) => (
                 <div
                   key={stat.stat.name}
                   className="flex justify-between items-center"
                 >
-                  <span className="font-medium">{STAT_NAMES[stat.stat.name]}</span>
+                  <span className="font-medium">{language === 'zh' ? STAT_NAMES[stat.stat.name] : STAT_NAMES_EN[stat.stat.name]}</span>
                   <div className="flex items-center gap-2 flex-1 ml-4">
                     <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div

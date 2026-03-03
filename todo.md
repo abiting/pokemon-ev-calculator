@@ -258,3 +258,12 @@
 - [ ] 將 `ChampionsEn.tsx` 中的所有中文文字翻譯成英文
 - [ ] 修改 `App.tsx`，新增 `/champions-en` 路由
 - [ ] 確保英文版的功能與中文版完全一致
+
+## PokemonCard 組件國際化
+- [ ] 修改 `PokemonCard.tsx`，新增 `language` prop (預設 'zh')
+- [ ] 根據 `language` prop 切換顯示語言：
+    - 寶可夢名稱 (zhName / name)
+    - 屬性名稱 (zhType / type)
+    - 特性名稱 (zhName / name)
+    - 標籤文字 (特性/Abilities, 種族值/Base Stats, 隱藏特性/Hidden Ability)
+- [ ] 更新 `ChampionsEn.tsx`，傳遞 `language="en"` 給 `PokemonCard`
