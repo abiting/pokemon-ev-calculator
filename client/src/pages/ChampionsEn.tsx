@@ -147,7 +147,7 @@ export default function ChampionsEn() {
             Stat Points Calculator
           </h1>
           <p className="text-slate-600">
-            66 SP Allocation Tool Designed for Pokémon Champions
+            Free 66-Point SP Allocation Tool
           </p>
         </div>
 
