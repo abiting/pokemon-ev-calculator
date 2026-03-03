@@ -6,9 +6,16 @@ import { useState } from 'react';
 interface PokemonSearchProps {
   onSearch: (query: string) => void;
   isLoading?: boolean;
+  placeholder?: string;
+  buttonText?: string;
 }
 
-export default function PokemonSearch({ onSearch, isLoading }: PokemonSearchProps) {
+export default function PokemonSearch({ 
+  onSearch, 
+  isLoading, 
+  placeholder = "輸入寶可夢名稱或編號（例如：皮卡丘 或 25）",
+  buttonText = "搜尋"
+}: PokemonSearchProps) {
   const [query, setQuery] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -23,7 +30,7 @@ export default function PokemonSearch({ onSearch, isLoading }: PokemonSearchProp
       <div className="flex gap-2">
         <Input
           type="text"
-          placeholder="輸入寶可夢名稱或編號（例如：皮卡丘 或 25）"
+          placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="flex-1 bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300"
@@ -35,7 +42,7 @@ export default function PokemonSearch({ onSearch, isLoading }: PokemonSearchProp
           className="px-6"
         >
           <Search className="w-4 h-4 mr-2" />
-          搜尋
+          {buttonText}
         </Button>
       </div>
 

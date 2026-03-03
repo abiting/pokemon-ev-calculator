@@ -252,3 +252,9 @@
 ## 拼寫修正
 - [ ] 搜尋全站檔案，將所有 `Pokemon Champions` 替換為 `Pokémon Champions`
 - [ ] 檢查 `Champions.tsx`、`Home.tsx` 和其他相關組件
+
+## 英文版 Champions 計算器
+- [ ] 建立 `client/src/pages/ChampionsEn.tsx`，複製 `Champions.tsx` 的內容
+- [ ] 將 `ChampionsEn.tsx` 中的所有中文文字翻譯成英文
+- [ ] 修改 `App.tsx`，新增 `/champions-en` 路由
+- [ ] 確保英文版的功能與中文版完全一致
