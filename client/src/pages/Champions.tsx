@@ -140,7 +140,7 @@ export default function Champions() {
             Champions 能力點數計算器
           </h1>
           <p className="text-slate-600">
-            專為《Pokémon Champions》設計的 66 點能力點數分配工具
+            專為《Pokémon Champions》設計的 66 點 SP 分配工具
           </p>
         </div>
 
