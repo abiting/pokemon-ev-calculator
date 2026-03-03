@@ -252,7 +252,7 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
               <li>• IV（個體值）：0-31，代表寶可夢的天賦</li>
               <li>• EV（努力值）：透過戰鬥獲得，最多 510 點</li>
               <li>• 性格會影響特定能力值（×1.1 或 ×0.9）</li>
-              <li>• 最終能力值 = 種族值 + IV + EV + 性格修正</li>
+              <li>• 能力值：種族值 + 個體值 + 努力值 + 性格修正</li>
             </ul>
           </div>
         </div>
