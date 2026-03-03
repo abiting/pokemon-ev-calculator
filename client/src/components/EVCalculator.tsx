@@ -249,10 +249,10 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm">
             <p className="font-semibold mb-1">💡 能力值計算說明</p>
             <ul className="space-y-1 text-gray-700">
-              <li>• IV（個體值）：0-31，代表寶可夢的天賦</li>
-              <li>• EV（努力值）：透過戰鬥獲得，最多 510 點</li>
-              <li>• 性格會影響特定能力值（×1.1 或 ×0.9）</li>
-              <li>• 能力值：種族值 + 個體值 + 努力值 + 性格修正</li>
+              <li>• IV（個體值）最高 31</li>
+              <li>• EV（努力值）最多 510</li>
+              <li>• 性格會影響特定能力值（1.1 或 0.9 倍）</li>
+              <li>• 能力值 = 種族值 + 個體值 + 努力值 + 性格修正</li>
             </ul>
           </div>
         </div>
