@@ -230,7 +230,7 @@ export default function ChampionsEn() {
                       </div>
                       <div className="flex justify-between mt-2 text-sm">
                         <span className="text-slate-500">Remaining: {Math.max(0, remainingSP)}</span>
-                        <span className="text-slate-500">Max per stat: {MAX_SINGLE_SP}</span>
+                        <span className="text-slate-500">Max per Stat: {MAX_SINGLE_SP}</span>
                       </div>
                     </div>
 
@@ -296,7 +296,7 @@ export default function ChampionsEn() {
                       <p className="font-semibold mb-1 text-yellow-800">💡 SP Calculation Guide</p>
                       <ul className="space-y-1 text-yellow-800/80">
                         <li>• Total 66 Stat Points (SP) available for allocation</li>
-                        <li>• Max 32 SP per stat</li>
+                        <li>• Max 32 SP per Stat</li>
                         <li>• Default IV is 31</li>
                         <li>• Level fixed at Lv.50</li>
                         <li>• 1 SP = +1 Actual Stat</li>
