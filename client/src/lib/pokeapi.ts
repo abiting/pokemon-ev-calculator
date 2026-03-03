@@ -67,12 +67,15 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     throw new Error('找不到該寶可夢，請檢查名稱或編號是否正確');
   }
 
-  const data: Pokemon = await response.json();
+  const data: any = await response.json();
+  const englishName = data.name; // Store original English name
+  data.enName = englishName;
   
   // 獲取繁體中文名稱
   // 優先使用本地翻譯對應表，避免 PokeAPI 的簡體字問題
   if (idToZhMapping[data.id]) {
-    data.name = idToZhMapping[data.id];
+    data.zhName = idToZhMapping[data.id];
+    data.name = idToZhMapping[data.id]; // Keep backward compatibility for existing code using .name
   } else {
     // 如果本地沒有翻譯，才從 API 獲取
     try {
@@ -83,11 +86,18 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           (n: any) => n.language.name === 'zh-Hant'
         );
         if (zhHantName) {
+          data.zhName = zhHantName.name;
           data.name = zhHantName.name;
+        } else {
+          // 如果沒有繁中名稱，使用英文名稱作為預設
+          data.zhName = englishName;
+          data.name = englishName;
         }
       }
     } catch (error) {
       console.warn('無法獲取繁體中文名稱:', error);
+      data.zhName = englishName;
+      data.name = englishName;
     }
   }
 

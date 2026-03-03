@@ -46,6 +46,8 @@ export interface AbilityDetail {
 export interface Pokemon {
   id: number;
   name: string;
+  enName?: string;
+  zhName?: string;
   stats: PokemonStat[];
   types: PokemonType[];
   sprites: PokemonSprites;

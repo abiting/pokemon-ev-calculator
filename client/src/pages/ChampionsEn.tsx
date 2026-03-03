@@ -200,7 +200,7 @@ export default function ChampionsEn() {
                         <SelectContent className="max-h-[300px]">
                           {NATURES.map((nature) => (
                             <SelectItem key={nature.name} value={nature.name}>
-                              {nature.name}
+                              {nature.enName}
                               {nature.increased && nature.decreased && (
                                 <span className="text-xs text-gray-500 ml-2">
                                   (↑{STAT_NAMES_EN[nature.increased]} ↓{STAT_NAMES_EN[nature.decreased]})

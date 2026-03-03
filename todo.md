@@ -270,3 +270,9 @@
 
 ## 英文版 SP 說明修正
 - [ ] 修改 `ChampionsEn.tsx`，將 "1 SP = 1 Actual Stat Point" 修改為 "1 SP = +1 Actual Stat"
+
+## 英文版內容修正
+- [ ] 修改 `client/src/lib/pokeapi.ts`，讓 `fetchPokemon` 回傳英文名稱
+- [ ] 修改 `client/src/components/PokemonCard.tsx`，加入特性名稱格式化邏輯（將 `lightning-rod` 轉為 `Lightning Rod`）
+- [ ] 修改 `client/src/data/natures.ts`，擴充資料結構以包含英文性格名稱
+- [ ] 修改 `client/src/pages/ChampionsEn.tsx`，確保使用英文性格名稱

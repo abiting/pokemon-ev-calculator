@@ -1,35 +1,36 @@
 export interface Nature {
   name: string;
+  enName: string;
   increased?: string;
   decreased?: string;
 }
 
 export const NATURES: Nature[] = [
-  { name: "勤奮", increased: undefined, decreased: undefined },
-  { name: "怕寂寞", increased: "attack", decreased: "defense" },
-  { name: "固執", increased: "attack", decreased: "special-attack" },
-  { name: "調皮", increased: "attack", decreased: "special-defense" },
-  { name: "勇敢", increased: "attack", decreased: "speed" },
-  { name: "大膽", increased: "defense", decreased: "attack" },
-  { name: "坦率", increased: undefined, decreased: undefined },
-  { name: "悠閒", increased: "defense", decreased: "speed" },
-  { name: "淘氣", increased: "defense", decreased: "special-attack" },
-  { name: "樂天", increased: "defense", decreased: "special-defense" },
-  { name: "內斂", increased: "special-attack", decreased: "attack" },
-  { name: "穩重", increased: "special-attack", decreased: "defense" },
-  { name: "馬虎", increased: "special-attack", decreased: "special-defense" },
-  { name: "冷靜", increased: "special-attack", decreased: "speed" },
-  { name: "溫和", increased: "special-defense", decreased: "attack" },
-  { name: "溫順", increased: "special-defense", decreased: "defense" },
-  { name: "慎重", increased: "special-defense", decreased: "special-attack" },
-  { name: "自大", increased: "special-defense", decreased: "speed" },
-  { name: "膽小", increased: "speed", decreased: "attack" },
-  { name: "急躁", increased: "speed", decreased: "defense" },
-  { name: "爽朗", increased: "speed", decreased: "special-attack" },
-  { name: "天真", increased: "speed", decreased: "special-defense" },
-  { name: "浮躁", increased: undefined, decreased: undefined },
-  { name: "慢吞吞", increased: undefined, decreased: undefined },
-  { name: "認真", increased: undefined, decreased: undefined },
+  { name: "勤奮", enName: "Hardy", increased: undefined, decreased: undefined },
+  { name: "怕寂寞", enName: "Lonely", increased: "attack", decreased: "defense" },
+  { name: "固執", enName: "Adamant", increased: "attack", decreased: "special-attack" },
+  { name: "調皮", enName: "Naughty", increased: "attack", decreased: "special-defense" },
+  { name: "勇敢", enName: "Brave", increased: "attack", decreased: "speed" },
+  { name: "大膽", enName: "Bold", increased: "defense", decreased: "attack" },
+  { name: "坦率", enName: "Docile", increased: undefined, decreased: undefined },
+  { name: "悠閒", enName: "Relaxed", increased: "defense", decreased: "speed" },
+  { name: "淘氣", enName: "Impish", increased: "defense", decreased: "special-attack" },
+  { name: "樂天", enName: "Lax", increased: "defense", decreased: "special-defense" },
+  { name: "內斂", enName: "Modest", increased: "special-attack", decreased: "attack" },
+  { name: "穩重", enName: "Mild", increased: "special-attack", decreased: "defense" },
+  { name: "馬虎", enName: "Rash", increased: "special-attack", decreased: "special-defense" },
+  { name: "冷靜", enName: "Quiet", increased: "special-attack", decreased: "speed" },
+  { name: "溫和", enName: "Calm", increased: "special-defense", decreased: "attack" },
+  { name: "溫順", enName: "Gentle", increased: "special-defense", decreased: "defense" },
+  { name: "慎重", enName: "Careful", increased: "special-defense", decreased: "special-attack" },
+  { name: "自大", enName: "Sassy", increased: "special-defense", decreased: "speed" },
+  { name: "膽小", enName: "Timid", increased: "speed", decreased: "attack" },
+  { name: "急躁", enName: "Hasty", increased: "speed", decreased: "defense" },
+  { name: "爽朗", enName: "Jolly", increased: "speed", decreased: "special-attack" },
+  { name: "天真", enName: "Naive", increased: "speed", decreased: "special-defense" },
+  { name: "浮躁", enName: "Quirky", increased: undefined, decreased: undefined },
+  { name: "害羞", enName: "Bashful", increased: undefined, decreased: undefined },
+  { name: "認真", enName: "Serious", increased: undefined, decreased: undefined },
 ];
 
 export const STAT_NAMES: Record<string, string> = {

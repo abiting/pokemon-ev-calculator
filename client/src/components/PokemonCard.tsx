@@ -68,7 +68,7 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
     <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center">
-          #{pokemon.id.toString().padStart(4, '0')} {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+          #{pokemon.id.toString().padStart(4, '0')} {language === 'zh' ? (pokemon.zhName || pokemon.name) : (pokemon.enName || pokemon.name).charAt(0).toUpperCase() + (pokemon.enName || pokemon.name).slice(1)}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -93,7 +93,15 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
                       key={index}
                       className="bg-purple-50 px-3 py-2 rounded-lg"
                     >
-                      <span className="font-medium text-purple-900">{language === 'zh' ? ability.zhName : ability.name}</span>
+                      <span className="font-medium text-purple-900">
+                        {language === 'zh' 
+                          ? ability.zhName 
+                          : ability.name
+                              .split('-')
+                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                              .join(' ')
+                        }
+                      </span>
                       {ability.isHidden && (
                         <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">{language === 'zh' ? '隱藏特性' : 'Hidden Ability'}</span>
                       )}
@@ -134,7 +142,15 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
                       key={index}
                       className="bg-purple-50 px-3 py-2 rounded-lg"
                     >
-                      <span className="font-medium text-purple-900">{language === 'zh' ? ability.zhName : ability.name}</span>
+                      <span className="font-medium text-purple-900">
+                        {language === 'zh' 
+                          ? ability.zhName 
+                          : ability.name
+                              .split('-')
+                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                              .join(' ')
+                        }
+                      </span>
                       {ability.isHidden && (
                         <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">{language === 'zh' ? '隱藏特性' : 'Hidden Ability'}</span>
                       )}
