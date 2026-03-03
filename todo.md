@@ -267,3 +267,6 @@
     - 特性名稱 (zhName / name)
     - 標籤文字 (特性/Abilities, 種族值/Base Stats, 隱藏特性/Hidden Ability)
 - [ ] 更新 `ChampionsEn.tsx`，傳遞 `language="en"` 給 `PokemonCard`
+
+## 英文版 SP 說明修正
+- [ ] 修改 `ChampionsEn.tsx`，將 "1 SP = 1 Actual Stat Point" 修改為 "1 SP = +1 Actual Stat"
