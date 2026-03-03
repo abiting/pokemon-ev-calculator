@@ -252,7 +252,6 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
               <li>• IV（個體值）最高 31</li>
               <li>• EV（努力值）最多 510</li>
               <li>• 性格會影響特定能力值（1.1 或 0.9 倍）</li>
-              <li>• 能力值 = 種族值 + 個體值 + 努力值 + 性格修正</li>
             </ul>
           </div>
         </div>
