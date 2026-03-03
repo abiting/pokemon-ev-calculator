@@ -53,7 +53,7 @@ export default function ChampionsEn() {
   const [selectedNature, setSelectedNature] = useState<Nature>(NATURES[0]);
 
   useEffect(() => {
-    document.title = 'Champions Stat Calculator';
+    document.title = 'Champions Stat Points Calculator';
   }, []);
 
   const totalSP = Object.values(sps).reduce((a, b) => a + b, 0);
@@ -144,7 +144,7 @@ export default function ChampionsEn() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
-            Champions Stat Calculator
+            Champions Stat Points Calculator
           </h1>
           <p className="text-slate-600">
             66 SP Allocation Tool designed for Pokémon Champions
@@ -313,7 +313,7 @@ export default function ChampionsEn() {
         {!isLoading && !pokemon && (
           <div className="text-center py-12">
             <div className="bg-white rounded-xl p-8 max-w-2xl mx-auto border border-slate-200 shadow-sm">
-              <h2 className="text-xl font-bold mb-4 text-slate-800">Welcome to Champions Stat Calculator!</h2>
+              <h2 className="text-xl font-bold mb-4 text-slate-800">Welcome to Champions Stat Points Calculator!</h2>
               <div className="text-left bg-slate-50 rounded-lg p-4 text-sm">
                 <p className="font-semibold mb-2 text-slate-700">Examples:</p>
                 <ul className="space-y-1 text-slate-600">
