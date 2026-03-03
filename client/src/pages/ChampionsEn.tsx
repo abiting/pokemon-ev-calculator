@@ -228,7 +228,7 @@ export default function ChampionsEn() {
                           style={{ width: `${Math.min((totalSP / MAX_TOTAL_SP) * 100, 100)}%` }}
                         />
                       </div>
-                      <div className="flex justify-between mt-2 text-sm">
+                      <div className="flex flex-col sm:flex-row justify-between mt-2 text-sm gap-1 sm:gap-0">
                         <span className="text-slate-500">Remaining: {Math.max(0, remainingSP)}</span>
                         <span className="text-slate-500">Max per Stat: {MAX_SINGLE_SP}</span>
                       </div>
