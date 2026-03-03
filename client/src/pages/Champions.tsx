@@ -283,10 +283,10 @@ export default function Champions() {
                       <p className="font-semibold mb-1 text-yellow-800">💡 能力點數計算說明</p>
                       <ul className="space-y-1 text-yellow-800/80">
                         <li>• 1 點 SP = 1 點實際能力值</li>
-                        <li>• 總共 66 點能力點數（SP）可供分配</li>
+                        <li>• 總共 66 點 SP 可供分配</li>
                         <li>• 每項能力最多分配 32 點 SP</li>
-                        <li>• 預設個體值（IV）為 31</li>
                         <li>• 等級固定為 Lv.50</li>
+                        <li>• 預設 IV 為 31</li>
                       </ul>
                     </div>
                   </div>

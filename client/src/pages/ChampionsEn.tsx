@@ -16,10 +16,16 @@ const MAX_SINGLE_SP = 32;
 const DEFAULT_IV = 31;
 const LEVEL = 50;
 
-// Pokémon Champions Stat Calculation Formula
-// Base = floor(((2 * Base + IV) * Level) / 100) + Level + 10 (HP)
-// Base = floor(((2 * Base + IV) * Level) / 100) + 5 (Others)
-// Final = (Base + SP) * Nature Modifier
+type StatName = "hp" | "attack" | "defense" | "special-attack" | "special-defense" | "speed";
+
+const STAT_LABELS: Record<StatName, string> = {
+  hp: "HP",
+  attack: "Attack",
+  defense: "Defense",
+  "special-attack": "Sp. Atk",
+  "special-defense": "Sp. Def",
+  speed: "Speed",
+};
 
 interface SPDistribution {
   hp: number;
@@ -29,15 +35,6 @@ interface SPDistribution {
   'special-defense': number;
   speed: number;
 }
-
-const STAT_NAMES_EN: Record<string, string> = {
-  hp: 'HP',
-  attack: 'Attack',
-  defense: 'Defense',
-  'special-attack': 'Sp. Atk',
-  'special-defense': 'Sp. Def',
-  speed: 'Speed',
-};
 
 export default function ChampionsEn() {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -53,7 +50,7 @@ export default function ChampionsEn() {
   const [selectedNature, setSelectedNature] = useState<Nature>(NATURES[0]);
 
   useEffect(() => {
-    document.title = 'Stat Points Calculator';
+    document.title = 'Stat Points Calculator - Pokémon Champions';
   }, []);
 
   const totalSP = Object.values(sps).reduce((a, b) => a + b, 0);
@@ -64,10 +61,10 @@ export default function ChampionsEn() {
     try {
       const data = await fetchPokemon(query);
       setPokemon(data);
-      toast.success(`Loaded ${data.name} successfully!`);
+      toast.success(`Loaded ${data.enName || data.name} successfully!`);
       handleReset();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Search failed, please try again later');
+      toast.error('Pokemon not found. Please try again.');
       setPokemon(null);
     } finally {
       setIsLoading(false);
@@ -75,10 +72,10 @@ export default function ChampionsEn() {
   };
 
   const handleSPChange = (stat: keyof SPDistribution, value: number) => {
-    // Check if exceeds single stat limit
+    // Check single stat limit
     if (value > MAX_SINGLE_SP) return;
     
-    // Check if exceeds total limit (if increasing)
+    // Check total limit (if increasing)
     const diff = value - sps[stat];
     if (diff > 0 && totalSP + diff > MAX_TOTAL_SP) return;
 
@@ -115,7 +112,7 @@ export default function ChampionsEn() {
     // Shedinja special case
     if (pokemon.id === 292 && statName === 'hp') return 1;
 
-    // 1. Calculate Base Value (Lv.50, IV=31, EV=0)
+    // 1. Calculate base value (Lv.50, IV=31, EV=0)
     let val = 0;
     if (statName === 'hp') {
       val = Math.floor(((2 * base + DEFAULT_IV) * LEVEL) / 100) + LEVEL + 10;
@@ -126,7 +123,7 @@ export default function ChampionsEn() {
     // 2. Add SP
     val += sp;
 
-    // 3. Nature Modifier (does not affect HP)
+    // 3. Nature modifier (not affecting HP)
     if (statName !== 'hp') {
       if (selectedNature.increased === statName) {
         val = Math.floor(val * 1.1);
@@ -147,18 +144,13 @@ export default function ChampionsEn() {
             Stat Points Calculator
           </h1>
           <p className="text-slate-600">
-            Free 66-Point SP Allocation Tool
+            Free 66-Point SP Allocation Tool Designed for Pokémon Champions
           </p>
         </div>
 
-        {/* Search */}
+        {/* Search Section */}
         <div className="mb-8">
-          <PokemonSearch 
-            onSearch={handleSearch} 
-            isLoading={isLoading} 
-            placeholder="Enter Pokémon name or ID (e.g., Pikachu or 25)" 
-            buttonText="Search" 
-          />
+          <PokemonSearch onSearch={handleSearch} isLoading={isLoading} placeholder="Enter Pokemon name or ID (e.g., Pikachu or 25)" buttonText="Search" />
         </div>
 
         {/* Loading */}
@@ -176,7 +168,7 @@ export default function ChampionsEn() {
               <PokemonCard pokemon={pokemon} showEVYield={false} language="en" />
             </div>
             
-            {/* Calculator */}
+            {/* Calculator Section */}
             <div>
               <Card className="bg-white shadow-lg border-slate-200">
                 <CardHeader>
@@ -195,7 +187,9 @@ export default function ChampionsEn() {
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue />
+                          <SelectValue>
+                            {selectedNature.enName}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent className="max-h-[300px]">
                           {NATURES.map((nature) => (
@@ -203,7 +197,7 @@ export default function ChampionsEn() {
                               {nature.enName}
                               {nature.increased && nature.decreased && (
                                 <span className="text-xs text-gray-500 ml-2">
-                                  (↑{STAT_NAMES_EN[nature.increased]} ↓{STAT_NAMES_EN[nature.decreased]})
+                                  (+{STAT_LABELS[nature.increased as StatName]} -{STAT_LABELS[nature.decreased as StatName]})
                                 </span>
                               )}
                             </SelectItem>
@@ -212,7 +206,7 @@ export default function ChampionsEn() {
                       </Select>
                     </div>
 
-                    {/* Total SP */}
+                    {/* Total Info */}
                     <div className="bg-slate-100 p-4 rounded-lg border border-slate-200">
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-semibold text-slate-700">Total SP</span>
@@ -228,18 +222,21 @@ export default function ChampionsEn() {
                           style={{ width: `${Math.min((totalSP / MAX_TOTAL_SP) * 100, 100)}%` }}
                         />
                       </div>
-                      <div className="flex flex-col sm:flex-row justify-between mt-2 text-sm gap-1 sm:gap-0">
-                        <span className="text-slate-500">Remaining: {Math.max(0, remainingSP)}</span>
-                        <span className="text-slate-500">Max per Stat: {MAX_SINGLE_SP}</span>
+                      <div className="flex justify-between mt-2 text-sm">
+                        <div className="flex flex-col md:block">
+                          <span className="text-slate-500">Remaining: {Math.max(0, remainingSP)}</span>
+                          <span className="text-slate-500 md:hidden mt-1">Max per Stat: {MAX_SINGLE_SP}</span>
+                        </div>
+                        <span className="text-slate-500 hidden md:inline">Max per Stat: {MAX_SINGLE_SP}</span>
                       </div>
                     </div>
 
-                    {/* Sliders */}
+                    {/* Stat Sliders */}
                     <div className="space-y-6">
                       {(Object.keys(sps) as Array<keyof SPDistribution>).map((stat) => (
                         <div key={stat} className="space-y-2">
                           <div className="flex justify-between items-center">
-                            <label className="font-medium text-sm w-16 md:w-24">{STAT_NAMES_EN[stat]}</label>
+                            <label className="font-medium text-sm w-16 md:w-24">{STAT_LABELS[stat as StatName]}</label>
                             <div className="flex-1 mx-2 md:mx-4 flex items-center gap-2">
                               <Button
                                 variant="outline"
@@ -295,10 +292,10 @@ export default function ChampionsEn() {
                       <p className="font-semibold mb-1 text-yellow-800">💡 SP Calculation Guide</p>
                       <ul className="space-y-1 text-yellow-800/80">
                         <li>• 1 SP = 1 actual Stat</li>
-                        <li>• Total 66 Stat Points (SP) available for allocation</li>
+                        <li>• Total 66 SP available for allocation</li>
                         <li>• Max 32 SP per Stat</li>
-                        <li>• Default IV is 31</li>
                         <li>• Level fixed at Lv.50</li>
+                        <li>• Default IV is 31</li>
                       </ul>
                     </div>
                   </div>
@@ -316,8 +313,8 @@ export default function ChampionsEn() {
               <div className="text-left bg-slate-50 rounded-lg p-4 text-sm">
                 <p className="font-semibold mb-2 text-slate-700">Examples:</p>
                 <ul className="space-y-1 text-slate-600">
-                  <li>• Enter "Pikachu"</li>
-                  <li>• Enter ID "25"</li>
+                  <li>• Enter "Pikachu" or "25"</li>
+                  <li>• Enter "Charizard" or "6"</li>
                 </ul>
               </div>
             </div>
@@ -326,7 +323,7 @@ export default function ChampionsEn() {
 
         {/* Footer */}
         <footer className="mt-12 text-center text-slate-500 text-sm">
-          <p>Source: <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">PokéAPI</a></p>
+          <p>Data Source: <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">PokéAPI</a></p>
           <p className="mt-2">Copyright © <a href="https://scrabby.abiting.cc" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">Scrabby</a></p>
         </footer>
       </div>
