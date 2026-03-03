@@ -260,8 +260,7 @@ export default function Champions() {
                             </div>
                           </div>
                           
-                          <div className="flex justify-between items-center bg-slate-50 px-3 py-1.5 rounded text-sm">
-                            <span className="text-slate-500 text-xs">種族值: {getBaseStat(stat)}</span>
+                          <div className="flex justify-end items-center bg-slate-50 px-3 py-1.5 rounded text-sm">
                             <div className="flex items-center gap-2">
                               <span className="text-slate-500 text-xs">能力值:</span>
                               <span className="font-bold text-slate-800 text-base">
