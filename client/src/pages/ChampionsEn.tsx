@@ -299,7 +299,7 @@ export default function ChampionsEn() {
                         <li>• Max 32 SP per Stat</li>
                         <li>• Default IV is 31</li>
                         <li>• Level fixed at Lv.50</li>
-                        <li>• 1 SP = +1 Actual Stat</li>
+                        <li>• 1 SP = 1 actual Stat</li>
                       </ul>
                     </div>
                   </div>
