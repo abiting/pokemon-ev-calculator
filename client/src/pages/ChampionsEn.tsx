@@ -294,11 +294,11 @@ export default function ChampionsEn() {
                     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mt-4">
                       <p className="font-semibold mb-1 text-yellow-800">💡 SP Calculation Guide</p>
                       <ul className="space-y-1 text-yellow-800/80">
+                        <li>• 1 SP = 1 actual Stat</li>
                         <li>• Total 66 Stat Points (SP) available for allocation</li>
                         <li>• Max 32 SP per Stat</li>
                         <li>• Default IV is 31</li>
                         <li>• Level fixed at Lv.50</li>
-                        <li>• 1 SP = 1 actual Stat</li>
                       </ul>
                     </div>
                   </div>
