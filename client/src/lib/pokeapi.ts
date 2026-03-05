@@ -96,41 +96,43 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 }
 
 export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string } {
-  // 格式化英文名稱 (e.g., "venusaur-mega" -> "Mega Venusaur", "pom-pom" -> "Pom Pom")
-  // 將連接號替換為空格，並將每個單字首字母大寫
+  // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+  
+  // Ensure base names are clean
+  const cleanBaseZhName = baseZhName.replace(/（.*?）/g, '').replace(/\(.*?\)/g, '');
   const baseEnName = capitalize(speciesName);
   
   let zhName = '';
   let enName = '';
 
-  // 根據英文名稱後綴添加中文前綴/後綴
+  // Handle Special Forms (Mega, Gmax, Regional)
   if (englishName.includes('-mega-x')) {
-    zhName = `超級${baseZhName} X`;
+    zhName = `超級${cleanBaseZhName} X`;
     enName = `Mega ${baseEnName} X`;
   } else if (englishName.includes('-mega-y')) {
-    zhName = `超級${baseZhName} Y`;
+    zhName = `超級${cleanBaseZhName} Y`;
     enName = `Mega ${baseEnName} Y`;
   } else if (englishName.includes('-mega')) {
-    zhName = `超級${baseZhName}`;
+    zhName = `超級${cleanBaseZhName}`;
     enName = `Mega ${baseEnName}`;
   } else if (englishName.includes('-gmax')) {
-    zhName = `超極巨${baseZhName}`;
-    enName = `Gigantamax ${baseEnName}`;
+    zhName = `超極巨${cleanBaseZhName}`;
+    enName = `Gmax ${baseEnName}`;
   } else if (englishName.includes('-eternamax')) {
-    zhName = `無極巨${baseZhName}`;
+    zhName = `無極巨${cleanBaseZhName}`;
     enName = `Eternamax ${baseEnName}`;
   } else if (englishName.includes('-alola')) {
-    zhName = `阿羅拉${baseZhName}`;
+    zhName = `阿羅拉${cleanBaseZhName}`;
     enName = `Alolan ${baseEnName}`;
   } else if (englishName.includes('-galar')) {
-    zhName = `伽勒爾${baseZhName}`;
+    zhName = `伽勒爾${cleanBaseZhName}`;
     enName = `Galarian ${baseEnName}`;
   } else if (englishName.includes('-hisui')) {
-    zhName = `洗翠${baseZhName}`;
+    zhName = `洗翠${cleanBaseZhName}`;
     enName = `Hisuian ${baseEnName}`;
   } else if (englishName.includes('-paldea')) {
-    zhName = `帕底亞${baseZhName}`;
+    zhName = `帕底亞${cleanBaseZhName}`;
     enName = `Paldean ${baseEnName}`;
   } else if (englishName.includes('oricorio-pom-pom')) {
     zhName = `${baseZhName}（啪滋啪滋風格）`;
