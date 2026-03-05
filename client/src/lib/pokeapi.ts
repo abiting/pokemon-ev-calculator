@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v19_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v20_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -496,6 +496,11 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 特別處理 Tatsugiri Curly
   if (englishName === 'tatsugiri-curly' || englishName === 'tatsugiri') {
      data.enName = 'Tatsugiri';
+  }
+  
+  // 特別處理 Toxtricity Amped
+  if (englishName === 'toxtricity-amped' || englishName === 'toxtricity') {
+     data.enName = 'Toxtricity (Amped)';
   }
   
   // 獲取繁體中文名稱
