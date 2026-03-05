@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v21_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v22_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -41,11 +41,22 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
     .filter(name => name.includes(query));
 
   if (matchingNames.length === 0) {
+    // 特殊處理英文搜尋映射
+    const searchMap: Record<string, string> = {
+      'morpeko': 'morpeko-full-belly',
+      'oricorio': 'oricorio-baile',
+      'tatsugiri': 'tatsugiri-curly',
+      'toxtricity': 'toxtricity-amped',
+      'darmanitan': 'darmanitan-standard'
+    };
+
+    const mappedQuery = searchMap[query.toLowerCase()] || query;
+
     // 如果中文搜尋沒有結果，允許使用者直接搜尋英文
     // 回傳一個特殊的結果，讓 UI 知道這是一個直接搜尋的建議
     return [{
       id: 0, // 0 表示這是一個搜尋建議，不是具體的 ID
-      name: query,
+      name: mappedQuery,
       zhName: `搜尋 "${query}"`,
       isDefault: true
     }];
@@ -504,20 +515,29 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   if (englishName === 'toxtricity-amped' || englishName === 'toxtricity') {
      data.enName = 'Toxtricity (Amped)';
   }
+
+  // 特別處理 Darmanitan Standard
+  if (englishName === 'darmanitan-standard' || englishName === 'darmanitan') {
+     data.enName = 'Darmanitan (Standard)';
+  }
   
   // 特別處理 Darmanitan
-  if (englishName.startsWith('darmanitan-')) {
-     const form = englishName.replace('darmanitan-', '');
-     if (form === 'standard') {
+  if (englishName.startsWith('darmanitan-') || englishName === 'darmanitan') {
+     // 處理 base form (standard)
+     if (englishName === 'darmanitan-standard' || englishName === 'darmanitan') {
         data.enName = 'Darmanitan (Standard)';
         if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（普通模式）`;
-     } else if (form === 'zen') {
+     }
+     
+     const form = englishName.replace('darmanitan-', '');
+     
+     if (form === 'zen' || form === 'zen-mode') {
         data.enName = 'Darmanitan (Zen)';
         if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（達摩模式）`;
-     } else if (form === 'galar-standard') {
+     } else if (form === 'galar-standard' || form === 'galarian-standard') {
         data.enName = 'Darmanitan (Galarian)';
         if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（伽勒爾的樣子）`;
-     } else if (form === 'galar-zen') {
+     } else if (form === 'galar-zen' || form === 'galarian-zen') {
         data.enName = 'Darmanitan (Galarian Zen)';
         if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（伽勒爾達摩模式）`;
      }
