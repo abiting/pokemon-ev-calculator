@@ -3,13 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { NATURES, type Nature } from '@/data/natures';
-import { fetchPokemon } from '@/lib/pokeapi';
+import { fetchPokemon, formatPokemonName } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
 import { Minus, Plus, RotateCcw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import PokemonCard from '@/components/PokemonCard';
 import PokemonSearch from '@/components/PokemonSearch';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const MAX_TOTAL_SP = 66;
 const MAX_SINGLE_SP = 32;
@@ -36,6 +37,11 @@ interface SPDistribution {
   speed: number;
 }
 
+interface SearchCandidate {
+  name: string;
+  id: number;
+}
+
 export default function ChampionsEn() {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +54,10 @@ export default function ChampionsEn() {
     speed: 0,
   });
   const [selectedNature, setSelectedNature] = useState<Nature>(NATURES[0]);
+  const [candidates, setCandidates] = useState<SearchCandidate[]>([]);
+  const [showCandidates, setShowCandidates] = useState(false);
+  const [varieties, setVarieties] = useState<any[]>([]);
+  const [showVarieties, setShowVarieties] = useState(false);
 
   useEffect(() => {
     document.title = 'Stat Points Calculator - Pokémon Champions';
@@ -58,17 +68,48 @@ export default function ChampionsEn() {
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
+    setCandidates([]);
+    setShowCandidates(false);
+    setVarieties([]);
+    setShowVarieties(false);
+
     try {
       const data = await fetchPokemon(query);
+      
+      // Check for varieties if it's a base form
+      if (data.varieties && data.varieties.length > 1) {
+         setVarieties(data.varieties);
+         setShowVarieties(true);
+      }
+
       setPokemon(data);
       toast.success(`Loaded ${data.enName || data.name} successfully!`);
       handleReset();
-    } catch (error) {
-      toast.error('Pokemon not found. Please try again.');
-      setPokemon(null);
+    } catch (error: any) {
+      if (error.isAmbiguous) {
+        setCandidates(error.candidates);
+        setShowCandidates(true);
+        toast.info('Multiple results found, please select one');
+      } else {
+        toast.error('Pokemon not found. Please try again.');
+        setPokemon(null);
+      }
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const selectCandidate = (candidateName: string) => {
+    setShowCandidates(false);
+    handleSearch(candidateName);
+  };
+
+  const selectVariety = async (url: string) => {
+     const id = url.split('/').filter(Boolean).pop();
+     if (id) {
+        setShowVarieties(false);
+        await handleSearch(id);
+     }
   };
 
   const handleSPChange = (stat: keyof SPDistribution, value: number) => {
@@ -152,6 +193,60 @@ export default function ChampionsEn() {
         <div className="mb-8">
           <PokemonSearch onSearch={handleSearch} isLoading={isLoading} placeholder="Enter Pokemon name or ID (e.g., Pikachu or 25)" buttonText="Search" />
         </div>
+
+        {/* Multiple Results Dialog */}
+        <Dialog open={showCandidates} onOpenChange={setShowCandidates}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Select Pokemon</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-2 py-4">
+              {candidates.map((candidate) => (
+                <Button 
+                  key={candidate.name} 
+                  variant="outline" 
+                  className="justify-start text-left h-auto py-3"
+                  onClick={() => selectCandidate(candidate.name)}
+                >
+                  <span className="font-bold mr-2">#{candidate.id}</span>
+                  {candidate.name}
+                </Button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Variety Selection Dialog */}
+        <Dialog open={showVarieties} onOpenChange={setShowVarieties}>
+           <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                 <DialogTitle>Varieties Found</DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-2 py-4 max-h-[60vh] overflow-y-auto">
+                 <p className="text-sm text-muted-foreground mb-2">This Pokemon has multiple forms, please select:</p>
+                 {varieties.map((v) => {
+                    let displayName = v.pokemon.name;
+                    if (!v.is_default && pokemon) {
+                       const formatted = formatPokemonName(v.pokemon.name, pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '', pokemon.species.name);
+                       displayName = formatted.enName;
+                    } else if (v.is_default) {
+                       displayName = "Normal Form";
+                    }
+                    
+                    return (
+                    <Button
+                       key={v.pokemon.name}
+                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
+                       className="justify-start text-left h-auto py-3"
+                       onClick={() => selectVariety(v.pokemon.url)}
+                    >
+                       {displayName}
+                    </Button>
+                 );
+                 })}
+              </div>
+           </DialogContent>
+        </Dialog>
 
         {/* Loading */}
         {isLoading && (

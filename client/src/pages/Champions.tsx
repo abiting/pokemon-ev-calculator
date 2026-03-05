@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { NATURES, type Nature } from '@/data/natures';
-import { fetchPokemon } from '@/lib/pokeapi';
+import { fetchPokemon, formatPokemonName } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
 import { STAT_NAMES } from '@/types/pokemon';
 import { AlertCircle, Minus, Plus, RotateCcw, Search } from 'lucide-react';
@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import PokemonCard from '@/components/PokemonCard';
 import PokemonSearch from '@/components/PokemonSearch';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const MAX_TOTAL_SP = 66;
 const MAX_SINGLE_SP = 32;
@@ -32,6 +33,11 @@ interface SPDistribution {
   speed: number;
 }
 
+interface SearchCandidate {
+  name: string;
+  id: number;
+}
+
 export default function Champions() {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +50,10 @@ export default function Champions() {
     speed: 0,
   });
   const [selectedNature, setSelectedNature] = useState<Nature>(NATURES[0]);
+  const [candidates, setCandidates] = useState<SearchCandidate[]>([]);
+  const [showCandidates, setShowCandidates] = useState(false);
+  const [varieties, setVarieties] = useState<any[]>([]);
+  const [showVarieties, setShowVarieties] = useState(false);
 
   useEffect(() => {
     document.title = 'Champions 能力點數計算器';
@@ -54,17 +64,48 @@ export default function Champions() {
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
+    setCandidates([]);
+    setShowCandidates(false);
+    setVarieties([]);
+    setShowVarieties(false);
+
     try {
       const data = await fetchPokemon(query);
+      
+      // Check for varieties if it's a base form
+      if (data.varieties && data.varieties.length > 1) {
+         setVarieties(data.varieties);
+         setShowVarieties(true);
+      }
+
       setPokemon(data);
       toast.success(`成功載入 ${data.name}！`);
       handleReset();
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : '搜尋失敗，請稍後再試');
-      setPokemon(null);
+    } catch (error: any) {
+      if (error.isAmbiguous) {
+        setCandidates(error.candidates);
+        setShowCandidates(true);
+        toast.info('找到多個結果，請選擇一個');
+      } else {
+        toast.error(error instanceof Error ? error.message : '搜尋失敗，請稍後再試');
+        setPokemon(null);
+      }
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const selectCandidate = (candidateName: string) => {
+    setShowCandidates(false);
+    handleSearch(candidateName);
+  };
+
+  const selectVariety = async (url: string) => {
+     const id = url.split('/').filter(Boolean).pop();
+     if (id) {
+        setShowVarieties(false);
+        await handleSearch(id);
+     }
   };
 
   const handleSPChange = (stat: keyof SPDistribution, value: number) => {
@@ -148,6 +189,60 @@ export default function Champions() {
         <div className="mb-8">
           <PokemonSearch onSearch={handleSearch} isLoading={isLoading} />
         </div>
+
+        {/* 多重結果選擇對話框 */}
+        <Dialog open={showCandidates} onOpenChange={setShowCandidates}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>請選擇寶可夢</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-2 py-4">
+              {candidates.map((candidate) => (
+                <Button 
+                  key={candidate.name} 
+                  variant="outline" 
+                  className="justify-start text-left h-auto py-3"
+                  onClick={() => selectCandidate(candidate.name)}
+                >
+                  <span className="font-bold mr-2">#{candidate.id}</span>
+                  {candidate.name}
+                </Button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* 變體選擇對話框 */}
+        <Dialog open={showVarieties} onOpenChange={setShowVarieties}>
+           <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                 <DialogTitle>發現多種型態</DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-2 py-4 max-h-[60vh] overflow-y-auto">
+                 <p className="text-sm text-muted-foreground mb-2">此寶可夢有多種型態，請選擇：</p>
+                 {varieties.map((v) => {
+                    let displayName = v.pokemon.name;
+                    if (!v.is_default && pokemon) {
+                       const formatted = formatPokemonName(v.pokemon.name, pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '', pokemon.species.name);
+                       displayName = formatted.zhName || formatted.enName;
+                    } else if (v.is_default) {
+                       displayName = "一般型態";
+                    }
+                    
+                    return (
+                    <Button
+                       key={v.pokemon.name}
+                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
+                       className="justify-start text-left h-auto py-3"
+                       onClick={() => selectVariety(v.pokemon.url)}
+                    >
+                       {displayName}
+                    </Button>
+                 );
+                 })}
+              </div>
+           </DialogContent>
+        </Dialog>
 
         {/* 載入中 */}
         {isLoading && (
