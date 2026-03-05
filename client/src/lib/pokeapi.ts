@@ -145,6 +145,17 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     // 預設型態 (Baile Style)
     zhName = `${baseZhName}（熱辣熱辣風格）`;
     enName = `Oricorio Baile`;
+  } else if (englishName.startsWith('oricorio-')) {
+    // 其他 Oricorio 風格的通用處理，防止漏網之魚
+    const style = englishName.replace('oricorio-', '');
+    const styleCapitalized = style.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Oricorio ${styleCapitalized}`;
+    
+    // 嘗試對應中文風格
+    if (style === 'pom-pom') zhName = `${baseZhName}（啪滋啪滋風格）`;
+    else if (style === 'pau') zhName = `${baseZhName}（呼拉呼拉風格）`;
+    else if (style === 'sensu') zhName = `${baseZhName}（輕盈輕盈風格）`;
+    else zhName = `${baseZhName}（${styleCapitalized}風格）`;
   } else {
     // 其他特殊形態，保留英文後綴但使用中文基礎名稱
     const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
@@ -213,28 +224,36 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 
   const data: any = await response.json();
   
-  // 獲取變體資訊 (對所有寶可夢都嘗試獲取，以支援像 Oricorio 這種預設型態也是變體的情況)
-  try {
-    const speciesResponse = await fetch(data.species.url);
-    if (speciesResponse.ok) {
-       const speciesData = await speciesResponse.json();
-       data.varieties = speciesData.varieties.map((v: any) => {
-          const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
-          return {
-             is_default: v.is_default,
-             pokemon: {
-                name: v.pokemon.name,
-                url: v.pokemon.url,
-                id: id // Add ID for easier access
-             }
-          };
-       });
-    }
-  } catch (e) {
-    console.warn('Failed to fetch varieties', e);
-  }
-  const englishName = data.name; // Store original English name
-  data.enName = englishName;
+	  // 獲取變體資訊 (對所有寶可夢都嘗試獲取，以支援像 Oricorio 這種預設型態也是變體的情況)
+	  try {
+	    const speciesResponse = await fetch(data.species.url);
+	    if (speciesResponse.ok) {
+	       const speciesData = await speciesResponse.json();
+	       data.varieties = speciesData.varieties.map((v: any) => {
+	          const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
+	          return {
+	             is_default: v.is_default,
+	             pokemon: {
+	                name: v.pokemon.name,
+	                url: v.pokemon.url,
+	                id: id // Add ID for easier access
+	             }
+	          };
+	       });
+	    }
+	  } catch (e) {
+	    console.warn('Failed to fetch varieties', e);
+	  }
+	  const englishName = data.name; // Store original English name
+	  
+	  // 強制格式化英文名稱，確保去連接號且首字母大寫
+	  const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+	  data.enName = capitalize(englishName);
+	  
+	  // 特別處理 Oricorio Baile
+	  if (englishName === 'oricorio-baile' || englishName === 'oricorio') {
+	     data.enName = 'Oricorio Baile';
+	  }
   
   // 獲取繁體中文名稱
   // 優先使用本地翻譯對應表，避免 PokeAPI 的簡體字問題
