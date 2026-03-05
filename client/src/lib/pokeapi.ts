@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v2_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -295,6 +295,10 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           if (v.is_default) return true;
           
           // 簡化過濾邏輯：只保留會影響能力值的形態
+          
+          // 0. 排除所有霸主型態 (Totem)，因為它們通常與普通地區形態重複
+          if (name.includes('-totem')) return false;
+
           // 1. Mega 進化
           if (name.includes('-mega')) return true;
           // 2. 極巨化 (Gmax)
