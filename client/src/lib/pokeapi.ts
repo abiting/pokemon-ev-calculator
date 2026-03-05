@@ -258,11 +258,13 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           data.id = speciesId;
         }
         
-        let baseName = zhHantName ? zhHantName.name : data.species.name;
-        
-        // 如果本地對應表有該物種的翻譯，優先使用
+        // 優先使用本地對應表獲取基礎中文名稱，避免 API 缺漏或簡體字
+        let baseName = '';
         if (speciesId && idToZhMapping[speciesId]) {
           baseName = idToZhMapping[speciesId];
+        } else {
+          // 如果本地沒有，才使用 API 返回的名稱
+          baseName = zhHantName ? zhHantName.name : data.species.name;
         }
 
         const formatted = formatPokemonName(englishName, baseName, data.species.name);
@@ -270,8 +272,26 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         data.enName = formatted.enName;
         data.name = data.zhName;
       } else {
-        data.zhName = englishName;
-        data.name = englishName;
+        // 如果 species fetch 失敗，嘗試從 URL 解析 ID 並查表
+        const speciesIdMatch = data.species.url.match(/\/pokemon-species\/(\d+)\//);
+        const speciesId = speciesIdMatch ? parseInt(speciesIdMatch[1]) : 0;
+        
+        if (speciesId > 0) {
+           data.id = speciesId;
+           if (idToZhMapping[speciesId]) {
+              const baseName = idToZhMapping[speciesId];
+              const formatted = formatPokemonName(englishName, baseName, data.species.name);
+              data.zhName = formatted.zhName;
+              data.enName = formatted.enName;
+              data.name = data.zhName;
+           } else {
+              data.zhName = englishName;
+              data.name = englishName;
+           }
+        } else {
+           data.zhName = englishName;
+           data.name = englishName;
+        }
       }
     } catch (error) {
       console.warn('無法獲取特殊形態中文名稱:', error);
