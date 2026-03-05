@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v27_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v28_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -43,13 +43,40 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
   if (matchingNames.length === 0) {
     // 特殊處理英文搜尋映射
     const searchMap: Record<string, string> = {
+      // Gen 7
       'morpeko': 'morpeko-full-belly',
       'oricorio': 'oricorio-baile',
       'tatsugiri': 'tatsugiri-curly',
       'toxtricity': 'toxtricity-amped',
       'darmanitan': 'darmanitan-standard',
       'necrozma': 'necrozma',
-      'lycanroc': 'lycanroc-midday'
+      'lycanroc': 'lycanroc-midday',
+      'minior': 'minior-red-meteor',
+      'mimikyu': 'mimikyu-disguised',
+      'wishiwashi': 'wishiwashi-solo',
+      
+      // Gen 4
+      'wormadam': 'wormadam-plant',
+      'giratina': 'giratina-altered',
+      'shaymin': 'shaymin-land',
+      
+      // Gen 5
+      'basculin': 'basculin-red-striped',
+      'tornadus': 'tornadus-incarnate',
+      'thundurus': 'thundurus-incarnate',
+      'landorus': 'landorus-incarnate',
+      'keldeo': 'keldeo-ordinary',
+      'meloetta': 'meloetta-aria',
+      
+      // Gen 6
+      'meowstic': 'meowstic-male',
+      'aegislash': 'aegislash-shield',
+      'pumpkaboo': 'pumpkaboo-average',
+      'gourgeist': 'gourgeist-average',
+      'zygarde': 'zygarde-50',
+      
+      // Gen 3
+      'deoxys': 'deoxys-normal',
     };
 
     const mappedQuery = searchMap[query.toLowerCase()] || query;
@@ -141,6 +168,20 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
             formatted.zhName = '謎擬 Ｑ';
          } else {
             // 謎擬 Ｑ 的其他形態（現形、霸主等）種族值相同，直接過濾掉
+            return null;
+         }
+      }
+
+      // 特別處理 Minior 的變體名稱
+      if (v.pokemon.name.includes('minior')) {
+         if (v.pokemon.name === 'minior-red-meteor') {
+            formatted.enName = 'Minior (Meteor)';
+            formatted.zhName = '小隕星（流星）';
+         } else if (v.pokemon.name === 'minior-red') {
+            formatted.enName = 'Minior (Core)';
+            formatted.zhName = '小隕星（核心）';
+         } else {
+            // 過濾掉其他顏色的重複形態
             return null;
          }
       }
