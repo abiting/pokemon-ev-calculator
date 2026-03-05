@@ -71,7 +71,7 @@ export default function Champions() {
        setShowVarieties(false);
     }
 
-    try {
+      try {
       const data = await fetchPokemon(query);
       
       // Check for varieties if it's a base form and not already selecting a variety
@@ -81,7 +81,7 @@ export default function Champions() {
       }
 
       setPokemon(data);
-      toast.success(`成功載入 ${data.name}！`);
+      toast.success(`成功載入 ${data.zhName || data.name}！`);
       handleReset();
     } catch (error: any) {
       if (error.isAmbiguous) {
@@ -206,8 +206,8 @@ export default function Champions() {
                   className="justify-start text-left h-auto py-3"
                   onClick={() => selectCandidate(candidate.name)}
                 >
-                  <span className="font-bold mr-2">#{candidate.id}</span>
-                  {candidate.name}
+                  {candidate.id > 0 && <span className="font-bold mr-2">#{candidate.id}</span>}
+                  {candidate.id === 0 ? `直接搜尋 "${candidate.name}"` : candidate.name}
                 </Button>
               ))}
             </div>

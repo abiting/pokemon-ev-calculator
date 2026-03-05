@@ -75,7 +75,7 @@ export default function ChampionsEn() {
        setShowVarieties(false);
     }
 
-    try {
+      try {
       const data = await fetchPokemon(query);
       
       // Check for varieties if it's a base form and not already selecting a variety
@@ -210,8 +210,8 @@ export default function ChampionsEn() {
                   className="justify-start text-left h-auto py-3"
                   onClick={() => selectCandidate(candidate.name)}
                 >
-                  <span className="font-bold mr-2">#{candidate.id}</span>
-                  {candidate.name}
+                  {candidate.id > 0 && <span className="font-bold mr-2">#{candidate.id}</span>}
+                  {candidate.id === 0 ? `Search directly for "${candidate.name}"` : candidate.name}
                 </Button>
               ))}
             </div>

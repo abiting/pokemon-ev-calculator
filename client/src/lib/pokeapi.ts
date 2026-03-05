@@ -41,8 +41,14 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
     .filter(name => name.includes(query));
 
   if (matchingNames.length === 0) {
-    // 嘗試英文搜尋（這裡暫時略過，因為主要針對中文使用者）
-    return [];
+    // 如果中文搜尋沒有結果，允許使用者直接搜尋英文
+    // 回傳一個特殊的結果，讓 UI 知道這是一個直接搜尋的建議
+    return [{
+      id: 0, // 0 表示這是一個搜尋建議，不是具體的 ID
+      name: query,
+      zhName: `搜尋 "${query}"`,
+      isDefault: true
+    }];
   }
 
   // 3. 構建結果列表
@@ -135,7 +141,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('oricorio-sensu')) {
     zhName = `${baseZhName}（輕盈輕盈風格）`;
     enName = `Oricorio Sensu`;
-  } else if (englishName === 'oricorio') {
+  } else if (englishName === 'oricorio' || englishName === 'oricorio-baile') {
     // 預設型態 (Baile Style)
     zhName = `${baseZhName}（熱辣熱辣風格）`;
     enName = `Oricorio Baile`;
@@ -146,7 +152,6 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
     enName = capitalize(englishName);
   }
-  
   return { zhName, enName };
 }
 
@@ -208,27 +213,25 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 
   const data: any = await response.json();
   
-  // 獲取變體資訊 (如果這是預設型態)
-  if (data.id <= 10000) { // 假設 ID <= 10000 是普通寶可夢
-     try {
-        const speciesResponse = await fetch(data.species.url);
-        if (speciesResponse.ok) {
-           const speciesData = await speciesResponse.json();
-           data.varieties = speciesData.varieties.map((v: any) => {
-              const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
-              return {
-                 is_default: v.is_default,
-                 pokemon: {
-                    name: v.pokemon.name,
-                    url: v.pokemon.url,
-                    id: id // Add ID for easier access
-                 }
-              };
-           });
-        }
-     } catch (e) {
-        console.warn('Failed to fetch varieties', e);
-     }
+  // 獲取變體資訊 (對所有寶可夢都嘗試獲取，以支援像 Oricorio 這種預設型態也是變體的情況)
+  try {
+    const speciesResponse = await fetch(data.species.url);
+    if (speciesResponse.ok) {
+       const speciesData = await speciesResponse.json();
+       data.varieties = speciesData.varieties.map((v: any) => {
+          const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
+          return {
+             is_default: v.is_default,
+             pokemon: {
+                name: v.pokemon.name,
+                url: v.pokemon.url,
+                id: id // Add ID for easier access
+             }
+          };
+       });
+    }
+  } catch (e) {
+    console.warn('Failed to fetch varieties', e);
   }
   const englishName = data.name; // Store original English name
   data.enName = englishName;
@@ -278,19 +281,20 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         
         if (speciesId > 0) {
            data.id = speciesId;
+           let baseName = data.species.name;
            if (idToZhMapping[speciesId]) {
-              const baseName = idToZhMapping[speciesId];
-              const formatted = formatPokemonName(englishName, baseName, data.species.name);
-              data.zhName = formatted.zhName;
-              data.enName = formatted.enName;
-              data.name = data.zhName;
-           } else {
-              data.zhName = englishName;
-              data.name = englishName;
+              baseName = idToZhMapping[speciesId];
            }
+           const formatted = formatPokemonName(englishName, baseName, data.species.name);
+           data.zhName = formatted.zhName;
+           data.enName = formatted.enName;
+           data.name = data.zhName;
         } else {
-           data.zhName = englishName;
-           data.name = englishName;
+           // 即使沒有 ID，也嘗試格式化英文名稱
+           const formatted = formatPokemonName(englishName, englishName, data.species.name);
+           data.zhName = formatted.zhName;
+           data.enName = formatted.enName;
+           data.name = data.zhName;
         }
       }
     } catch (error) {

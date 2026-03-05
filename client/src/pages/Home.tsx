@@ -35,7 +35,11 @@ export default function Home() {
        setShowVarieties(false);
     }
 
-    try {
+      try {
+      // 檢查是否為直接搜尋建議 (id === 0)
+      // 這裡我們不需要特別檢查，因為 PokemonSearch 組件會傳遞 query 字串
+      // 但如果我們是從 candidates 列表點擊過來的，query 可能是英文名稱
+      
       const data = await fetchPokemon(query);
       
       // Check for varieties if it's a base form and not already selecting a variety
@@ -45,13 +49,16 @@ export default function Home() {
       }
 
       setPokemon(data);
-      toast.success(`成功載入 ${data.name}！`);
+      toast.success(`成功載入 ${data.zhName || data.name}！`);
     } catch (error: any) {
       if (error.isAmbiguous) {
         setCandidates(error.candidates);
         setShowCandidates(true);
         toast.info('找到多個結果，請選擇一個');
       } else {
+        // 如果是直接搜尋建議 (id === 0)，我們應該嘗試直接 fetchPokemon
+        // 但 fetchPokemon 已經在 try block 裡呼叫了
+        // 所以這裡的 error 真的是 fetch 失敗
         toast.error(error instanceof Error ? error.message : '搜尋失敗，請稍後再試');
         setPokemon(null);
       }
@@ -108,8 +115,8 @@ export default function Home() {
                   className="justify-start text-left h-auto py-3"
                   onClick={() => selectCandidate(candidate.name)}
                 >
-                  <span className="font-bold mr-2">#{candidate.id}</span>
-                  {candidate.name}
+                  {candidate.id > 0 && <span className="font-bold mr-2">#{candidate.id}</span>}
+                  {candidate.id === 0 ? `直接搜尋 "${candidate.name}"` : candidate.name}
                 </Button>
               ))}
             </div>
