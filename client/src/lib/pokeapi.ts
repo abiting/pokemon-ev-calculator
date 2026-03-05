@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v22_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v23_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -47,7 +47,8 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
       'oricorio': 'oricorio-baile',
       'tatsugiri': 'tatsugiri-curly',
       'toxtricity': 'toxtricity-amped',
-      'darmanitan': 'darmanitan-standard'
+      'darmanitan': 'darmanitan-standard',
+      'necrozma': 'necrozma'
     };
 
     const mappedQuery = searchMap[query.toLowerCase()] || query;
@@ -92,11 +93,49 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
       // 更好的方式是：這裡只返回基本資訊，UI 顯示時再 fetch 詳細資料（如果需要）
       // 或者我們這裡直接調用 fetchPokemon 的邏輯片段（需要重構）
       
-      // 暫時返回基本結構，讓 UI 決定如何顯示
+      // 使用 formatPokemonName 確保名稱一致性
+      const formatted = formatPokemonName(v.pokemon.name, baseZhName, data.name);
+      
+      // 特別處理 Darmanitan 的變體名稱
+      if (v.pokemon.name.startsWith('darmanitan-') || v.pokemon.name === 'darmanitan') {
+         const form = v.pokemon.name.replace('darmanitan-', '');
+         if (form === 'standard' || v.pokemon.name === 'darmanitan') {
+            formatted.enName = 'Darmanitan (Standard)';
+            formatted.zhName = `${baseZhName}（普通模式）`;
+         } else if (form === 'zen' || form === 'zen-mode') {
+            formatted.enName = 'Darmanitan (Zen)';
+            formatted.zhName = `${baseZhName}（達摩模式）`;
+         } else if (form === 'galar-standard' || form === 'galarian-standard') {
+            formatted.enName = 'Darmanitan (Galarian)';
+            formatted.zhName = `${baseZhName}（伽勒爾的樣子）`;
+         } else if (form === 'galar-zen' || form === 'galarian-zen') {
+            formatted.enName = 'Darmanitan (Galarian Zen)';
+            formatted.zhName = `${baseZhName}（伽勒爾達摩模式）`;
+         }
+      }
+
+      // 特別處理 Necrozma 的變體名稱
+      if (v.pokemon.name.startsWith('necrozma-') || v.pokemon.name === 'necrozma') {
+         const form = v.pokemon.name.replace('necrozma-', '');
+         if (v.pokemon.name === 'necrozma') {
+            formatted.enName = 'Necrozma';
+            formatted.zhName = baseZhName;
+         } else if (form === 'dusk' || form === 'dusk-mane') {
+            formatted.enName = 'Necrozma (Dusk Mane)';
+            formatted.zhName = `${baseZhName}（黃昏之鬃）`;
+         } else if (form === 'dawn' || form === 'dawn-wings') {
+            formatted.enName = 'Necrozma (Dawn Wings)';
+            formatted.zhName = `${baseZhName}（拂曉之翼）`;
+         } else if (form === 'ultra') {
+            formatted.enName = 'Ultra Necrozma';
+            formatted.zhName = `究極${baseZhName}`;
+         }
+      }
+
       return {
         id,
-        name: v.pokemon.name,
-        zhName: v.is_default ? baseZhName : `${baseZhName} (${v.pokemon.name})`, // 暫時名稱，fetchPokemon 會修正
+        name: formatted.enName, // 使用格式化後的英文名稱
+        zhName: formatted.zhName,
         isDefault: v.is_default
       };
     }));
@@ -521,6 +560,24 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      data.enName = 'Darmanitan (Standard)';
   }
   
+  // 特別處理 Necrozma
+  if (englishName.startsWith('necrozma-') || englishName === 'necrozma') {
+     const form = englishName.replace('necrozma-', '');
+     if (englishName === 'necrozma') {
+        data.enName = 'Necrozma';
+        if (idToZhMapping[data.id]) data.zhName = idToZhMapping[data.id];
+     } else if (form === 'dusk' || form === 'dusk-mane') {
+        data.enName = 'Necrozma (Dusk Mane)';
+        if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（黃昏之鬃）`;
+     } else if (form === 'dawn' || form === 'dawn-wings') {
+        data.enName = 'Necrozma (Dawn Wings)';
+        if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（拂曉之翼）`;
+     } else if (form === 'ultra') {
+        data.enName = 'Ultra Necrozma';
+        if (idToZhMapping[data.id]) data.zhName = `究極${idToZhMapping[data.id]}`;
+     }
+  }
+
   // 特別處理 Darmanitan
   if (englishName.startsWith('darmanitan-') || englishName === 'darmanitan') {
      // 處理 base form (standard)
