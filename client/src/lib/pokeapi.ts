@@ -90,8 +90,9 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 }
 
 export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string } {
-  // 格式化英文名稱 (e.g., "venusaur-mega" -> "Mega Venusaur", "pom-pom" -> "Pom-Pom")
-  const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('-');
+  // 格式化英文名稱 (e.g., "venusaur-mega" -> "Mega Venusaur", "pom-pom" -> "Pom Pom")
+  // 將連接號替換為空格，並將每個單字首字母大寫
+  const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
   const baseEnName = capitalize(speciesName);
   
   let zhName = '';
@@ -125,6 +126,19 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('-paldea')) {
     zhName = `帕底亞${baseZhName}`;
     enName = `Paldean ${baseEnName}`;
+  } else if (englishName.includes('oricorio-pom-pom')) {
+    zhName = `${baseZhName}（啪滋啪滋風格）`;
+    enName = `Oricorio Pom-Pom`;
+  } else if (englishName.includes('oricorio-pau')) {
+    zhName = `${baseZhName}（呼拉呼拉風格）`;
+    enName = `Oricorio Pa'u`;
+  } else if (englishName.includes('oricorio-sensu')) {
+    zhName = `${baseZhName}（輕盈輕盈風格）`;
+    enName = `Oricorio Sensu`;
+  } else if (englishName === 'oricorio') {
+    // 預設型態 (Baile Style)
+    zhName = `${baseZhName}（熱辣熱辣風格）`;
+    enName = `Oricorio Baile`;
   } else {
     // 其他特殊形態，保留英文後綴但使用中文基礎名稱
     const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
@@ -238,6 +252,11 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         // 嘗試從 species URL 獲取 ID，並使用本地對應表
         const speciesIdMatch = data.species.url.match(/\/pokemon-species\/(\d+)\//);
         const speciesId = speciesIdMatch ? parseInt(speciesIdMatch[1]) : 0;
+        
+        // 統一使用 Species ID 作為顯示 ID
+        if (speciesId > 0) {
+          data.id = speciesId;
+        }
         
         let baseName = zhHantName ? zhHantName.name : data.species.name;
         
