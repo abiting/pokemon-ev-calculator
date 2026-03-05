@@ -101,27 +101,40 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           baseName = idToZhMapping[speciesId];
         }
 
-        // 根據英文名稱後綴添加中文前綴/後綴
+        // 格式化英文名稱 (e.g., "venusaur-mega" -> "Mega Venusaur")
+        const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+        const baseEnName = capitalize(data.species.name);
+        
         if (englishName.includes('-mega-x')) {
           data.zhName = `超級${baseName} X`;
+          data.enName = `Mega ${baseEnName} X`;
         } else if (englishName.includes('-mega-y')) {
           data.zhName = `超級${baseName} Y`;
+          data.enName = `Mega ${baseEnName} Y`;
         } else if (englishName.includes('-mega')) {
           data.zhName = `超級${baseName}`;
+          data.enName = `Mega ${baseEnName}`;
         } else if (englishName.includes('-gmax')) {
           data.zhName = `超極巨化${baseName}`;
+          data.enName = `Gigantamax ${baseEnName}`;
         } else if (englishName.includes('-alola')) {
           data.zhName = `阿羅拉${baseName}`;
+          data.enName = `Alolan ${baseEnName}`;
         } else if (englishName.includes('-galar')) {
           data.zhName = `伽勒爾${baseName}`;
+          data.enName = `Galarian ${baseEnName}`;
         } else if (englishName.includes('-hisui')) {
           data.zhName = `洗翠${baseName}`;
+          data.enName = `Hisuian ${baseEnName}`;
         } else if (englishName.includes('-paldea')) {
           data.zhName = `帕底亞${baseName}`;
+          data.enName = `Paldean ${baseEnName}`;
         } else {
           // 其他特殊形態，保留英文後綴但使用中文基礎名稱
           const suffix = englishName.replace(data.species.name, '').replace(/^-/, '');
           data.zhName = `${baseName} (${suffix})`;
+          // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
+          data.enName = capitalize(englishName);
         }
         data.name = data.zhName;
       } else {
