@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v23_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v24_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -99,36 +99,38 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
       // 特別處理 Darmanitan 的變體名稱
       if (v.pokemon.name.startsWith('darmanitan-') || v.pokemon.name === 'darmanitan') {
          const form = v.pokemon.name.replace('darmanitan-', '');
+         // 強制覆蓋，不依賴 formatted
          if (form === 'standard' || v.pokemon.name === 'darmanitan') {
             formatted.enName = 'Darmanitan (Standard)';
-            formatted.zhName = `${baseZhName}（普通模式）`;
+            formatted.zhName = '達摩狒狒（普通模式）';
          } else if (form === 'zen' || form === 'zen-mode') {
             formatted.enName = 'Darmanitan (Zen)';
-            formatted.zhName = `${baseZhName}（達摩模式）`;
+            formatted.zhName = '達摩狒狒（達摩模式）';
          } else if (form === 'galar-standard' || form === 'galarian-standard') {
             formatted.enName = 'Darmanitan (Galarian)';
-            formatted.zhName = `${baseZhName}（伽勒爾的樣子）`;
+            formatted.zhName = '達摩狒狒（伽勒爾的樣子）';
          } else if (form === 'galar-zen' || form === 'galarian-zen') {
             formatted.enName = 'Darmanitan (Galarian Zen)';
-            formatted.zhName = `${baseZhName}（伽勒爾達摩模式）`;
+            formatted.zhName = '達摩狒狒（伽勒爾達摩模式）';
          }
       }
 
       // 特別處理 Necrozma 的變體名稱
       if (v.pokemon.name.startsWith('necrozma-') || v.pokemon.name === 'necrozma') {
          const form = v.pokemon.name.replace('necrozma-', '');
+         // 強制覆蓋，不依賴 formatted
          if (v.pokemon.name === 'necrozma') {
             formatted.enName = 'Necrozma';
-            formatted.zhName = baseZhName;
+            formatted.zhName = '奈克洛茲瑪';
          } else if (form === 'dusk' || form === 'dusk-mane') {
             formatted.enName = 'Necrozma (Dusk Mane)';
-            formatted.zhName = `${baseZhName}（黃昏之鬃）`;
+            formatted.zhName = '奈克洛茲瑪（黃昏之鬃）';
          } else if (form === 'dawn' || form === 'dawn-wings') {
             formatted.enName = 'Necrozma (Dawn Wings)';
-            formatted.zhName = `${baseZhName}（拂曉之翼）`;
+            formatted.zhName = '奈克洛茲瑪（拂曉之翼）';
          } else if (form === 'ultra') {
             formatted.enName = 'Ultra Necrozma';
-            formatted.zhName = `究極${baseZhName}`;
+            formatted.zhName = '究極奈克洛茲瑪';
          }
       }
 
