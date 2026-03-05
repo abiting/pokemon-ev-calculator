@@ -105,6 +105,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
         const baseEnName = capitalize(data.species.name);
         
+        // 根據英文名稱後綴添加中文前綴/後綴
         if (englishName.includes('-mega-x')) {
           data.zhName = `超級${baseName} X`;
           data.enName = `Mega ${baseEnName} X`;
@@ -117,6 +118,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         } else if (englishName.includes('-gmax')) {
           data.zhName = `超極巨化${baseName}`;
           data.enName = `Gigantamax ${baseEnName}`;
+        } else if (englishName.includes('-eternamax')) {
+          data.zhName = `無極巨化${baseName}`;
+          data.enName = `Eternamax ${baseEnName}`;
         } else if (englishName.includes('-alola')) {
           data.zhName = `阿羅拉${baseName}`;
           data.enName = `Alolan ${baseEnName}`;
