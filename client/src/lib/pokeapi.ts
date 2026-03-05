@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v14_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v15_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -374,6 +374,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           
           // 排除皮卡丘的帽子形態 (Cosplay / Cap)
           if (name.startsWith('pikachu-') && !name.includes('-gmax') && !name.includes('-mega')) return false;
+
+          // 排除薩戮德 (Zarude) 的阿爸形態 (Dada)，因為能力值相同
+          if (name === 'zarude-dada') return false;
 
           // 1. Mega 進化
           if (name.includes('-mega')) return true;
