@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v9_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v10_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -203,15 +203,21 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
 	      
 	      if (form === 'family-of-three') zhName = `${baseZhName}（三隻家庭）`;
 	      else zhName = `${baseZhName}（${formCapitalized}）`;
-	    } else if (englishName.startsWith('palafin-')) {
-	      // 海豚俠 (Palafin) 形態處理
-	      const form = englishName.replace('palafin-', '');
-	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-	      enName = `Palafin ${formCapitalized}`;
-	      
-	      if (form === 'hero') zhName = `${baseZhName}（全能形態）`;
-	      else zhName = `${baseZhName}（${formCapitalized}）`;
-	    } else {
+    } else if (englishName.startsWith('palafin-')) {
+      // 海豚俠 (Palafin) 形態處理
+      const form = englishName.replace('palafin-', '');
+      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+      enName = `Palafin ${formCapitalized}`;
+      
+      if (form === 'hero') zhName = `${baseZhName}（全能形態）`;
+      else zhName = `${baseZhName}（${formCapitalized}）`;
+    } else if (englishName.includes('zacian-crowned')) {
+      zhName = `${baseZhName}（劍之王）`;
+      enName = `Zacian (Crowned Sword)`;
+    } else if (englishName.includes('zamazenta-crowned')) {
+      zhName = `${baseZhName}（盾之王）`;
+      enName = `Zamazenta (Crowned Shield)`;
+    } else {
 	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
 	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
 	      // 嘗試翻譯常見後綴
