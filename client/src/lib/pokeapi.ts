@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v11_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v12_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -133,97 +133,97 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     zhName = `無極巨${cleanBaseZhName}`;
     enName = `Eternamax ${baseEnName}`;
   } else if (englishName.includes('-alola')) {
-    zhName = `阿羅拉${cleanBaseZhName}`;
-    enName = `Alolan ${baseEnName}`;
+    zhName = `${cleanBaseZhName}（阿羅拉的樣子）`;
+    enName = `${baseEnName} (Alolan)`;
   } else if (englishName.includes('-galar')) {
-    zhName = `伽勒爾${cleanBaseZhName}`;
-    enName = `Galarian ${baseEnName}`;
+    zhName = `${cleanBaseZhName}（伽勒爾的樣子）`;
+    enName = `${baseEnName} (Galarian)`;
   } else if (englishName.includes('-hisui')) {
-    zhName = `洗翠${cleanBaseZhName}`;
-    enName = `Hisuian ${baseEnName}`;
+    zhName = `${cleanBaseZhName}（洗翠的樣子）`;
+    enName = `${baseEnName} (Hisuian)`;
   } else if (englishName.includes('-paldea')) {
-    zhName = `帕底亞${cleanBaseZhName}`;
-    enName = `Paldean ${baseEnName}`;
+    zhName = `${cleanBaseZhName}（帕底亞的樣子）`;
+    enName = `${baseEnName} (Paldean)`;
   } else if (englishName.includes('oricorio-pom-pom')) {
     zhName = `${baseZhName}（啪滋啪滋風格）`;
-    enName = `Oricorio Pom-Pom`;
+    enName = `Oricorio (Pom-Pom)`;
   } else if (englishName.includes('oricorio-pau')) {
     zhName = `${baseZhName}（呼拉呼拉風格）`;
-    enName = `Oricorio Pa'u`;
+    enName = `Oricorio (Pa'u)`;
   } else if (englishName.includes('oricorio-sensu')) {
     zhName = `${baseZhName}（輕盈輕盈風格）`;
-    enName = `Oricorio Sensu`;
+    enName = `Oricorio (Sensu)`;
   } else if (englishName === 'oricorio' || englishName === 'oricorio-baile') {
     // 預設型態 (Baile Style)
     zhName = `${baseZhName}（熱辣熱辣風格）`;
-    enName = `Oricorio Baile`;
+    enName = `Oricorio (Baile)`;
   } else if (englishName.startsWith('oricorio-')) {
     // 其他 Oricorio 風格的通用處理，防止漏網之魚
     const style = englishName.replace('oricorio-', '');
     const styleCapitalized = style.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-    enName = `Oricorio ${styleCapitalized}`;
+    enName = `Oricorio (${styleCapitalized})`;
     
-	      // 嘗試對應中文風格
-	      if (style === 'pom-pom') zhName = `${baseZhName}（啪滋啪滋風格）`;
-	      else if (style === 'pau') zhName = `${baseZhName}（呼拉呼拉風格）`;
-	      else if (style === 'sensu') zhName = `${baseZhName}（輕盈輕盈風格）`;
-	      else zhName = `${baseZhName}（${styleCapitalized}風格）`;
-	    } else if (englishName.startsWith('squawkabilly-')) {
-	      // 怒鸚哥 (Squawkabilly) 羽色處理
-	      const plumage = englishName.replace('squawkabilly-', '');
-	      const plumageCapitalized = plumage.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-	      enName = `Squawkabilly ${plumageCapitalized}`;
-	      
-	      if (plumage === 'blue-plumage') zhName = `${baseZhName}（藍羽毛）`;
-	      else if (plumage === 'yellow-plumage') zhName = `${baseZhName}（黃羽毛）`;
-	      else if (plumage === 'white-plumage') zhName = `${baseZhName}（白羽毛）`;
-	      else zhName = `${baseZhName}（${plumageCapitalized}）`;
-	    } else if (englishName.startsWith('tatsugiri-')) {
-	      // 米立龍 (Tatsugiri) 姿勢處理
-	      const form = englishName.replace('tatsugiri-', '');
-	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-	      enName = `Tatsugiri ${formCapitalized}`;
-	      
-	      if (form === 'droopy') zhName = `${baseZhName}（下垂姿勢）`;
-	      else if (form === 'stretchy') zhName = `${baseZhName}（上弓姿勢）`;
-	      else zhName = `${baseZhName}（${formCapitalized}）`;
-	    } else if (englishName.startsWith('dudunsparce-')) {
-	      // 土龍節節 (Dudunsparce) 節數處理
-	      const form = englishName.replace('dudunsparce-', '');
-	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-	      enName = `Dudunsparce ${formCapitalized}`;
-	      
-	      if (form === 'three-segment') zhName = `${baseZhName}（三節形態）`;
-	      else zhName = `${baseZhName}（${formCapitalized}）`;
-	    } else if (englishName.startsWith('maushold-')) {
-	      // 一對鼠 (Maushold) 家族處理
-	      const form = englishName.replace('maushold-', '');
-	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-	      enName = `Maushold ${formCapitalized}`;
-	      
-	      if (form === 'family-of-three') zhName = `${baseZhName}（三隻家庭）`;
-	      else zhName = `${baseZhName}（${formCapitalized}）`;
-    } else if (englishName.startsWith('palafin-')) {
-      // 海豚俠 (Palafin) 形態處理
-      const form = englishName.replace('palafin-', '');
-      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-      enName = `Palafin ${formCapitalized}`;
-      
-      if (form === 'hero') zhName = `${baseZhName}（全能形態）`;
-      else zhName = `${baseZhName}（${formCapitalized}）`;
-    } else if (englishName.includes('zacian-crowned')) {
-      zhName = `${baseZhName}（劍之王）`;
-      enName = `Zacian (Crowned Sword)`;
-    } else if (englishName.includes('zamazenta-crowned')) {
-      zhName = `${baseZhName}（盾之王）`;
-      enName = `Zamazenta (Crowned Shield)`;
-    } else if (englishName.includes('morpeko-full-belly')) {
-      zhName = `${baseZhName}（滿腹花紋）`;
-      enName = `Morpeko Full Belly`;
-    } else if (englishName.includes('morpeko-hangry')) {
-      zhName = `${baseZhName}（空腹花紋）`;
-      enName = `Morpeko Hangry`;
-    } else {
+    // 嘗試對應中文風格
+    if (style === 'pom-pom') zhName = `${baseZhName}（啪滋啪滋風格）`;
+    else if (style === 'pau') zhName = `${baseZhName}（呼拉呼拉風格）`;
+    else if (style === 'sensu') zhName = `${baseZhName}（輕盈輕盈風格）`;
+    else zhName = `${baseZhName}（${styleCapitalized}風格）`;
+  } else if (englishName.startsWith('squawkabilly-')) {
+    // 怒鸚哥 (Squawkabilly) 羽色處理
+    const plumage = englishName.replace('squawkabilly-', '');
+    const plumageCapitalized = plumage.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Squawkabilly (${plumageCapitalized})`;
+    
+    if (plumage === 'blue-plumage') zhName = `${baseZhName}（藍羽毛）`;
+    else if (plumage === 'yellow-plumage') zhName = `${baseZhName}（黃羽毛）`;
+    else if (plumage === 'white-plumage') zhName = `${baseZhName}（白羽毛）`;
+    else zhName = `${baseZhName}（${plumageCapitalized}）`;
+  } else if (englishName.startsWith('tatsugiri-')) {
+    // 米立龍 (Tatsugiri) 姿勢處理
+    const form = englishName.replace('tatsugiri-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Tatsugiri (${formCapitalized})`;
+    
+    if (form === 'droopy') zhName = `${baseZhName}（下垂姿勢）`;
+    else if (form === 'stretchy') zhName = `${baseZhName}（上弓姿勢）`;
+    else zhName = `${baseZhName}（${formCapitalized}）`;
+  } else if (englishName.startsWith('dudunsparce-')) {
+    // 土龍節節 (Dudunsparce) 節數處理
+    const form = englishName.replace('dudunsparce-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Dudunsparce (${formCapitalized})`;
+    
+    if (form === 'three-segment') zhName = `${baseZhName}（三節形態）`;
+    else zhName = `${baseZhName}（${formCapitalized}）`;
+  } else if (englishName.startsWith('maushold-')) {
+    // 一對鼠 (Maushold) 家族處理
+    const form = englishName.replace('maushold-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Maushold (${formCapitalized})`;
+    
+    if (form === 'family-of-three') zhName = `${baseZhName}（三隻家庭）`;
+    else zhName = `${baseZhName}（${formCapitalized}）`;
+  } else if (englishName.startsWith('palafin-')) {
+    // 海豚俠 (Palafin) 形態處理
+    const form = englishName.replace('palafin-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Palafin (${formCapitalized})`;
+    
+    if (form === 'hero') zhName = `${baseZhName}（全能形態）`;
+    else zhName = `${baseZhName}（${formCapitalized}）`;
+  } else if (englishName.includes('zacian-crowned')) {
+    zhName = `${baseZhName}（劍之王）`;
+    enName = `Zacian (Crowned Sword)`;
+  } else if (englishName.includes('zamazenta-crowned')) {
+    zhName = `${baseZhName}（盾之王）`;
+    enName = `Zamazenta (Crowned Shield)`;
+  } else if (englishName.includes('morpeko-full-belly')) {
+    zhName = `${baseZhName}（滿腹花紋）`;
+    enName = `Morpeko (Full Belly)`;
+  } else if (englishName.includes('morpeko-hangry')) {
+    zhName = `${baseZhName}（空腹花紋）`;
+    enName = `Morpeko (Hangry)`;
+  } else {
 	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
 	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
 	      // 嘗試翻譯常見後綴
