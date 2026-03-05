@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v15_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v16_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -179,14 +179,10 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     else if (plumage === 'white-plumage') zhName = `${baseZhName}（白羽毛）`;
     else zhName = `${baseZhName}（${plumageCapitalized}）`;
   } else if (englishName.startsWith('tatsugiri-')) {
-    // 米立龍 (Tatsugiri) 姿勢處理
-    const form = englishName.replace('tatsugiri-', '');
-    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-    enName = `Tatsugiri (${formCapitalized})`;
-    
-    if (form === 'droopy') zhName = `${baseZhName}（下垂姿勢）`;
-    else if (form === 'stretchy') zhName = `${baseZhName}（上弓姿勢）`;
-    else zhName = `${baseZhName}（${formCapitalized}）`;
+    // 米立龍 (Tatsugiri) 姿勢處理 - 簡化為單一名稱
+    // 因為使用者要求只保留一個形態並統稱為 Tatsugiri
+    zhName = baseZhName;
+    enName = 'Tatsugiri';
   } else if (englishName.startsWith('dudunsparce-')) {
     // 土龍節節 (Dudunsparce) 節數處理
     const form = englishName.replace('dudunsparce-', '');
@@ -301,6 +297,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'iron leaves') searchTerm = 'iron-leaves';
     else if (lowerName === 'oricorio') searchTerm = 'oricorio-baile'; // Oricorio default form
     else if (lowerName === 'morpeko') searchTerm = 'morpeko-full-belly'; // Morpeko default form
+    else if (lowerName === 'tatsugiri') searchTerm = 'tatsugiri-curly'; // Tatsugiri default form
 
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
@@ -377,6 +374,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 
           // 排除薩戮德 (Zarude) 的阿爸形態 (Dada)，因為能力值相同
           if (name === 'zarude-dada') return false;
+
+          // 排除米立龍 (Tatsugiri) 的其他形態，只保留預設 (curly)
+          if (name.startsWith('tatsugiri-') && name !== 'tatsugiri-curly') return false;
 
           // 1. Mega 進化
           if (name.includes('-mega')) return true;
