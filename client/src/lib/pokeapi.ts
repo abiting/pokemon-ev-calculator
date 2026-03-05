@@ -115,10 +115,10 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     zhName = `超級${baseZhName}`;
     enName = `Mega ${baseEnName}`;
   } else if (englishName.includes('-gmax')) {
-    zhName = `超極巨化${baseZhName}`;
+    zhName = `超極巨${baseZhName}`;
     enName = `Gigantamax ${baseEnName}`;
   } else if (englishName.includes('-eternamax')) {
-    zhName = `無極巨化${baseZhName}`;
+    zhName = `無極巨${baseZhName}`;
     enName = `Eternamax ${baseEnName}`;
   } else if (englishName.includes('-alola')) {
     zhName = `阿羅拉${baseZhName}`;
@@ -203,9 +203,9 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
 	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
 	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
 	      // 嘗試翻譯常見後綴
-	      let zhSuffix = suffix;
-	      if (suffix === 'gmax') zhSuffix = '超極巨化';
-	      else if (suffix === 'mega') zhSuffix = '超級進化';
+      let zhSuffix = suffix;
+      if (suffix === 'gmax') zhSuffix = '超極巨';
+      else if (suffix === 'mega') zhSuffix = '超級進化';
 	      else if (suffix === 'alola') zhSuffix = '阿羅拉樣子';
 	      else if (suffix === 'galar') zhSuffix = '伽勒爾樣子';
 	      else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
@@ -344,12 +344,20 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         })
         .map((v: any) => {
           const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
+          // 獲取顯示名稱
+          let displayName = v.pokemon.name;
+          if (v.is_default) {
+             // 如果是預設型態，直接使用基礎名稱 (稍後會被替換為正確的中文/英文名稱)
+             displayName = 'default-form-placeholder'; 
+          }
+
           return {
             is_default: v.is_default,
             pokemon: {
               name: v.pokemon.name,
               url: v.pokemon.url,
-              id: id // Add ID for easier access
+              id: id, // Add ID for easier access
+              displayName: displayName // Add a temporary display name
             }
           };
         });

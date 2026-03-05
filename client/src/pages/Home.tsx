@@ -133,18 +133,28 @@ export default function Home() {
               </DialogHeader>
               <div className="grid gap-2 py-4 max-h-[60vh] overflow-y-auto">
                  <p className="text-sm text-muted-foreground mb-2">此寶可夢有多種型態，請選擇：</p>
-	                 {varieties.map((v) => {
-	                    let displayName = v.pokemon.name;
-	                    if (!v.is_default && pokemon) {
-	                       const baseZhName = pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '';
-	                       const formatted = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
-	                       displayName = formatted.zhName || formatted.enName;
-	                    } else if (v.is_default) {
-	                       displayName = "一般型態";
-	                    }
-	                    
-	                    return (
-	                    <Button
+		                 {varieties.map((v) => {
+		                    let displayName = v.pokemon.name;
+                        // 使用 pokemon 物件中的資訊來格式化名稱
+                        if (pokemon) {
+                           // 獲取基礎中文名稱 (移除括號和前綴)
+                           const baseZhName = pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨', '').replace('極巨化', '') || pokemon.name;
+                           
+                           if (v.is_default) {
+                              // 如果是預設型態，直接顯示基礎名稱 (例如 "妙蛙花")
+                              displayName = baseZhName;
+                           } else {
+                              // 如果是特殊型態，格式化名稱 (例如 "超級妙蛙花")
+                              const formatted = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
+                              displayName = formatted.zhName || formatted.enName;
+                           }
+                        } else if (v.is_default) {
+                           // Fallback if pokemon is not yet set (shouldn't happen in this flow)
+                           displayName = "Base Form";
+                        }
+		                    
+		                    return (
+		                    <Button
 	                       key={v.pokemon.name}
 	                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
 	                       className="justify-start text-left h-auto py-3"
