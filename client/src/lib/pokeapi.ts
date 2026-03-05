@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v17_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v18_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -474,10 +474,15 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 	  const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
 	  data.enName = capitalize(englishName);
 	  
-	  // 特別處理 Oricorio Baile
-	  if (englishName === 'oricorio-baile' || englishName === 'oricorio') {
-	     data.enName = 'Oricorio Baile';
-	  }
+  // 特別處理 Oricorio Baile
+  if (englishName === 'oricorio-baile' || englishName === 'oricorio') {
+     data.enName = 'Oricorio Baile';
+  }
+  
+  // 特別處理 Tatsugiri Curly
+  if (englishName === 'tatsugiri-curly' || englishName === 'tatsugiri') {
+     data.enName = 'Tatsugiri';
+  }
   
   // 獲取繁體中文名稱
   // 優先使用本地翻譯對應表，避免 PokeAPI 的簡體字問題
