@@ -90,8 +90,17 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           (n: any) => n.language.name === 'zh-Hant'
         );
         
+        // 嘗試從 species URL 獲取 ID，並使用本地對應表
+        const speciesIdMatch = data.species.url.match(/\/pokemon-species\/(\d+)\//);
+        const speciesId = speciesIdMatch ? parseInt(speciesIdMatch[1]) : 0;
+        
         let baseName = zhHantName ? zhHantName.name : data.species.name;
         
+        // 如果本地對應表有該物種的翻譯，優先使用
+        if (speciesId && idToZhMapping[speciesId]) {
+          baseName = idToZhMapping[speciesId];
+        }
+
         // 根據英文名稱後綴添加中文前綴/後綴
         if (englishName.includes('-mega-x')) {
           data.zhName = `超級${baseName} X`;
