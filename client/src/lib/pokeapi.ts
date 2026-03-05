@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v2_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v3_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -123,7 +123,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Mega ${baseEnName}`;
   } else if (englishName.includes('-gmax')) {
     zhName = `超極巨${cleanBaseZhName}`;
-    enName = `Gmax ${baseEnName}`;
+    // 皮卡丘超極巨化特別顯示全名 Gigantamax
+    if (speciesName === 'pikachu' || englishName.includes('pikachu')) {
+      enName = `Gigantamax ${baseEnName}`;
+    } else {
+      enName = `Gmax ${baseEnName}`;
+    }
   } else if (englishName.includes('-eternamax')) {
     zhName = `無極巨${cleanBaseZhName}`;
     enName = `Eternamax ${baseEnName}`;
@@ -298,6 +303,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           
           // 0. 排除所有霸主型態 (Totem)，因為它們通常與普通地區形態重複
           if (name.includes('-totem')) return false;
+          
+          // 排除皮卡丘的帽子形態 (Cosplay / Cap)
+          if (name.startsWith('pikachu-') && !name.includes('-gmax') && !name.includes('-mega')) return false;
 
           // 1. Mega 進化
           if (name.includes('-mega')) return true;
