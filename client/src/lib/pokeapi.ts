@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v5_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v6_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -223,10 +223,37 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
 	      else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
 	      else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
 	      
-	      zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
-	      // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
-	      enName = capitalize(englishName);
-	    }
+      zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
+      // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
+      enName = capitalize(englishName);
+    }
+
+  // Final fix for special names that might have been overwritten
+  if (enName === 'Mr Mime' || enName === 'Mr-mime') enName = 'Mr. Mime';
+  if (enName === 'Mr Rime' || enName === 'Mr-rime') enName = 'Mr. Rime';
+  if (enName === 'Mime Jr' || enName === 'Mime-jr') enName = 'Mime Jr.';
+  if (enName === 'Type Null' || enName === 'Type-null') enName = 'Type: Null';
+  if (enName === 'Tapu Koko' || enName === 'Tapu-koko') enName = 'Tapu Koko'; // Ensure space
+  if (enName === 'Tapu Lele' || enName === 'Tapu-lele') enName = 'Tapu Lele';
+  if (enName === 'Tapu Bulu' || enName === 'Tapu-bulu') enName = 'Tapu Bulu';
+  if (enName === 'Tapu Fini' || enName === 'Tapu-fini') enName = 'Tapu Fini';
+  if (enName === 'Great Tusk' || enName === 'Great-tusk') enName = 'Great Tusk';
+  if (enName === 'Scream Tail' || enName === 'Scream-tail') enName = 'Scream Tail';
+  if (enName === 'Brute Bonnet' || enName === 'Brute-bonnet') enName = 'Brute Bonnet';
+  if (enName === 'Flutter Mane' || enName === 'Flutter-mane') enName = 'Flutter Mane';
+  if (enName === 'Slither Wing' || enName === 'Slither-wing') enName = 'Slither Wing';
+  if (enName === 'Sandy Shocks' || enName === 'Sandy-shocks') enName = 'Sandy Shocks';
+  if (enName === 'Iron Treads' || enName === 'Iron-treads') enName = 'Iron Treads';
+  if (enName === 'Iron Bundle' || enName === 'Iron-bundle') enName = 'Iron Bundle';
+  if (enName === 'Iron Hands' || enName === 'Iron-hands') enName = 'Iron Hands';
+  if (enName === 'Iron Jugulis' || enName === 'Iron-jugulis') enName = 'Iron Jugulis';
+  if (enName === 'Iron Moth' || enName === 'Iron-moth') enName = 'Iron Moth';
+  if (enName === 'Iron Thorns' || enName === 'Iron-thorns') enName = 'Iron Thorns';
+  if (enName === 'Roaring Moon' || enName === 'Roaring-moon') enName = 'Roaring Moon';
+  if (enName === 'Iron Valiant' || enName === 'Iron-valiant') enName = 'Iron Valiant';
+  if (enName === 'Walking Wake' || enName === 'Walking-wake') enName = 'Walking Wake';
+  if (enName === 'Iron Leaves' || enName === 'Iron-leaves') enName = 'Iron Leaves';
+
   return { zhName, enName };
 }
 
