@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v20_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v21_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -317,6 +317,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'morpeko') searchTerm = 'morpeko-full-belly'; // Morpeko default form
     else if (lowerName === 'tatsugiri') searchTerm = 'tatsugiri-curly'; // Tatsugiri default form
     else if (lowerName === 'toxtricity') searchTerm = 'toxtricity-amped'; // Toxtricity default form
+    else if (lowerName === 'darmanitan') searchTerm = 'darmanitan-standard'; // Darmanitan default form
 
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
@@ -438,6 +439,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
               name.includes('-snowy') ||
               name.includes('-attack') || // Deoxys
               name.includes('-defense') || 
+              name.includes('-zen') || // Darmanitan Zen Mode
               name.includes('-speed') ||
               name.includes('-sandy') || // Wormadam
               name.includes('-trash') ||
@@ -501,6 +503,24 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 特別處理 Toxtricity Amped
   if (englishName === 'toxtricity-amped' || englishName === 'toxtricity') {
      data.enName = 'Toxtricity (Amped)';
+  }
+  
+  // 特別處理 Darmanitan
+  if (englishName.startsWith('darmanitan-')) {
+     const form = englishName.replace('darmanitan-', '');
+     if (form === 'standard') {
+        data.enName = 'Darmanitan (Standard)';
+        if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（普通模式）`;
+     } else if (form === 'zen') {
+        data.enName = 'Darmanitan (Zen)';
+        if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（達摩模式）`;
+     } else if (form === 'galar-standard') {
+        data.enName = 'Darmanitan (Galarian)';
+        if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（伽勒爾的樣子）`;
+     } else if (form === 'galar-zen') {
+        data.enName = 'Darmanitan (Galarian Zen)';
+        if (idToZhMapping[data.id]) data.zhName = `${idToZhMapping[data.id]}（伽勒爾達摩模式）`;
+     }
   }
   
   // 獲取繁體中文名稱
