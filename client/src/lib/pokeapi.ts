@@ -100,8 +100,13 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
   
   // Ensure base names are clean
-  const cleanBaseZhName = baseZhName.replace(/（.*?）/g, '').replace(/\(.*?\)/g, '');
+  let cleanBaseZhName = baseZhName.replace(/（.*?）/g, '').replace(/\(.*?\)/g, '');
   const baseEnName = capitalize(speciesName);
+
+  // Hardcoded fix for Venusaur (ID 3)
+  if (speciesName === 'venusaur' || englishName.includes('venusaur')) {
+    cleanBaseZhName = '妙蛙花';
+  }
   
   let zhName = '';
   let enName = '';
