@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v16_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v17_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -179,10 +179,15 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     else if (plumage === 'white-plumage') zhName = `${baseZhName}（白羽毛）`;
     else zhName = `${baseZhName}（${plumageCapitalized}）`;
   } else if (englishName.startsWith('tatsugiri-')) {
-    // 米立龍 (Tatsugiri) 姿勢處理 - 簡化為單一名稱
-    // 因為使用者要求只保留一個形態並統稱為 Tatsugiri
-    zhName = baseZhName;
-    enName = 'Tatsugiri';
+    // 米立龍 (Tatsugiri) 姿勢處理
+    if (englishName.includes('-mega')) {
+       zhName = `超級${baseZhName}`;
+       enName = `Mega Tatsugiri`;
+    } else {
+       // 簡化為單一名稱
+       zhName = baseZhName;
+       enName = 'Tatsugiri';
+    }
   } else if (englishName.startsWith('dudunsparce-')) {
     // 土龍節節 (Dudunsparce) 節數處理
     const form = englishName.replace('dudunsparce-', '');
@@ -375,8 +380,15 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           // 排除薩戮德 (Zarude) 的阿爸形態 (Dada)，因為能力值相同
           if (name === 'zarude-dada') return false;
 
-          // 排除米立龍 (Tatsugiri) 的其他形態，只保留預設 (curly)
-          if (name.startsWith('tatsugiri-') && name !== 'tatsugiri-curly') return false;
+          // 排除米立龍 (Tatsugiri) 的其他形態，只保留預設 (curly) 和 Mega
+          if (name.startsWith('tatsugiri-')) {
+             // 如果是 Mega，只保留 curly 的 mega (去重)
+             if (name.includes('-mega')) {
+                return name.includes('curly');
+             }
+             // 如果不是 Mega，只保留 curly
+             if (name !== 'tatsugiri-curly') return false;
+          }
 
           // 1. Mega 進化
           if (name.includes('-mega')) return true;
