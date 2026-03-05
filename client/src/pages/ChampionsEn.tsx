@@ -238,7 +238,10 @@ export default function ChampionsEn() {
                        key={v.pokemon.name}
                        variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
                        className="justify-start text-left h-auto py-3"
-                       onClick={() => selectVariety(v.pokemon.url)}
+                       onClick={() => {
+                          selectVariety(v.pokemon.url);
+                          setShowVarieties(false);
+                       }}
                     >
                        {displayName}
                     </Button>
