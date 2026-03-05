@@ -148,6 +148,32 @@ export default function Home() {
                               const formatted = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
                               displayName = formatted.zhName || formatted.enName;
                            }
+                           
+                           // Final fix for special names in variety list
+                           if (displayName === 'Mr Mime' || displayName === 'Mr-mime') displayName = 'Mr. Mime';
+                           if (displayName === 'Mr Rime' || displayName === 'Mr-rime') displayName = 'Mr. Rime';
+                           if (displayName === 'Mime Jr' || displayName === 'Mime-jr') displayName = 'Mime Jr.';
+                           if (displayName === 'Type Null' || displayName === 'Type-null') displayName = 'Type: Null';
+                           if (displayName === 'Tapu Koko' || displayName === 'Tapu-koko') displayName = 'Tapu Koko';
+                           if (displayName === 'Tapu Lele' || displayName === 'Tapu-lele') displayName = 'Tapu Lele';
+                           if (displayName === 'Tapu Bulu' || displayName === 'Tapu-bulu') displayName = 'Tapu Bulu';
+                           if (displayName === 'Tapu Fini' || displayName === 'Tapu-fini') displayName = 'Tapu Fini';
+                           if (displayName === 'Great Tusk' || displayName === 'Great-tusk') displayName = 'Great Tusk';
+                           if (displayName === 'Scream Tail' || displayName === 'Scream-tail') displayName = 'Scream Tail';
+                           if (displayName === 'Brute Bonnet' || displayName === 'Brute-bonnet') displayName = 'Brute Bonnet';
+                           if (displayName === 'Flutter Mane' || displayName === 'Flutter-mane') displayName = 'Flutter Mane';
+                           if (displayName === 'Slither Wing' || displayName === 'Slither-wing') displayName = 'Slither Wing';
+                           if (displayName === 'Sandy Shocks' || displayName === 'Sandy-shocks') displayName = 'Sandy Shocks';
+                           if (displayName === 'Iron Treads' || displayName === 'Iron-treads') displayName = 'Iron Treads';
+                           if (displayName === 'Iron Bundle' || displayName === 'Iron-bundle') displayName = 'Iron Bundle';
+                           if (displayName === 'Iron Hands' || displayName === 'Iron-hands') displayName = 'Iron Hands';
+                           if (displayName === 'Iron Jugulis' || displayName === 'Iron-jugulis') displayName = 'Iron Jugulis';
+                           if (displayName === 'Iron Moth' || displayName === 'Iron-moth') displayName = 'Iron Moth';
+                           if (displayName === 'Iron Thorns' || displayName === 'Iron-thorns') displayName = 'Iron Thorns';
+                           if (displayName === 'Roaring Moon' || displayName === 'Roaring-moon') displayName = 'Roaring Moon';
+                           if (displayName === 'Iron Valiant' || displayName === 'Iron-valiant') displayName = 'Iron Valiant';
+                           if (displayName === 'Walking Wake' || displayName === 'Walking-wake') displayName = 'Walking Wake';
+                           if (displayName === 'Iron Leaves' || displayName === 'Iron-leaves') displayName = 'Iron Leaves';
                         } else if (v.is_default) {
                            // Fallback if pokemon is not yet set (shouldn't happen in this flow)
                            displayName = "Base Form";

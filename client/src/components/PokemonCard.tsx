@@ -78,7 +78,34 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
 	                return speciesId.padStart(4, '0');
 	             }
 	             return pokemon.id.toString().padStart(4, '0');
-	          })()} {language === 'zh' ? (pokemon.zhName || pokemon.name) : (pokemon.enName || pokemon.name).split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+	          })()} {language === 'zh' ? (pokemon.zhName || pokemon.name) : (() => {
+            const name = (pokemon.enName || pokemon.name).split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            if (name === 'Mr Mime' || name === 'Mr-mime') return 'Mr. Mime';
+            if (name === 'Mr Rime' || name === 'Mr-rime') return 'Mr. Rime';
+            if (name === 'Mime Jr' || name === 'Mime-jr') return 'Mime Jr.';
+            if (name === 'Type Null' || name === 'Type-null') return 'Type: Null';
+            if (name === 'Tapu Koko' || name === 'Tapu-koko') return 'Tapu Koko';
+            if (name === 'Tapu Lele' || name === 'Tapu-lele') return 'Tapu Lele';
+            if (name === 'Tapu Bulu' || name === 'Tapu-bulu') return 'Tapu Bulu';
+            if (name === 'Tapu Fini' || name === 'Tapu-fini') return 'Tapu Fini';
+            if (name === 'Great Tusk' || name === 'Great-tusk') return 'Great Tusk';
+            if (name === 'Scream Tail' || name === 'Scream-tail') return 'Scream Tail';
+            if (name === 'Brute Bonnet' || name === 'Brute-bonnet') return 'Brute Bonnet';
+            if (name === 'Flutter Mane' || name === 'Flutter-mane') return 'Flutter Mane';
+            if (name === 'Slither Wing' || name === 'Slither-wing') return 'Slither Wing';
+            if (name === 'Sandy Shocks' || name === 'Sandy-shocks') return 'Sandy Shocks';
+            if (name === 'Iron Treads' || name === 'Iron-treads') return 'Iron Treads';
+            if (name === 'Iron Bundle' || name === 'Iron-bundle') return 'Iron Bundle';
+            if (name === 'Iron Hands' || name === 'Iron-hands') return 'Iron Hands';
+            if (name === 'Iron Jugulis' || name === 'Iron-jugulis') return 'Iron Jugulis';
+            if (name === 'Iron Moth' || name === 'Iron-moth') return 'Iron Moth';
+            if (name === 'Iron Thorns' || name === 'Iron-thorns') return 'Iron Thorns';
+            if (name === 'Roaring Moon' || name === 'Roaring-moon') return 'Roaring Moon';
+            if (name === 'Iron Valiant' || name === 'Iron-valiant') return 'Iron Valiant';
+            if (name === 'Walking Wake' || name === 'Walking-wake') return 'Walking Wake';
+            if (name === 'Iron Leaves' || name === 'Iron-leaves') return 'Iron Leaves';
+            return name;
+          })()}
 	        </CardTitle>
 	      </CardHeader>
       <CardContent>
