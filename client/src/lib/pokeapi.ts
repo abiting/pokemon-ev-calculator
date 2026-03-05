@@ -151,18 +151,70 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     const styleCapitalized = style.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
     enName = `Oricorio ${styleCapitalized}`;
     
-    // 嘗試對應中文風格
-    if (style === 'pom-pom') zhName = `${baseZhName}（啪滋啪滋風格）`;
-    else if (style === 'pau') zhName = `${baseZhName}（呼拉呼拉風格）`;
-    else if (style === 'sensu') zhName = `${baseZhName}（輕盈輕盈風格）`;
-    else zhName = `${baseZhName}（${styleCapitalized}風格）`;
-  } else {
-    // 其他特殊形態，保留英文後綴但使用中文基礎名稱
-    const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
-    zhName = `${baseZhName}（${suffix}）`; // 使用全形括號
-    // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
-    enName = capitalize(englishName);
-  }
+	      // 嘗試對應中文風格
+	      if (style === 'pom-pom') zhName = `${baseZhName}（啪滋啪滋風格）`;
+	      else if (style === 'pau') zhName = `${baseZhName}（呼拉呼拉風格）`;
+	      else if (style === 'sensu') zhName = `${baseZhName}（輕盈輕盈風格）`;
+	      else zhName = `${baseZhName}（${styleCapitalized}風格）`;
+	    } else if (englishName.startsWith('squawkabilly-')) {
+	      // 怒鸚哥 (Squawkabilly) 羽色處理
+	      const plumage = englishName.replace('squawkabilly-', '');
+	      const plumageCapitalized = plumage.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Squawkabilly ${plumageCapitalized}`;
+	      
+	      if (plumage === 'blue-plumage') zhName = `${baseZhName}（藍羽毛）`;
+	      else if (plumage === 'yellow-plumage') zhName = `${baseZhName}（黃羽毛）`;
+	      else if (plumage === 'white-plumage') zhName = `${baseZhName}（白羽毛）`;
+	      else zhName = `${baseZhName}（${plumageCapitalized}）`;
+	    } else if (englishName.startsWith('tatsugiri-')) {
+	      // 米立龍 (Tatsugiri) 姿勢處理
+	      const form = englishName.replace('tatsugiri-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Tatsugiri ${formCapitalized}`;
+	      
+	      if (form === 'droopy') zhName = `${baseZhName}（下垂姿勢）`;
+	      else if (form === 'stretchy') zhName = `${baseZhName}（上弓姿勢）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else if (englishName.startsWith('dudunsparce-')) {
+	      // 土龍節節 (Dudunsparce) 節數處理
+	      const form = englishName.replace('dudunsparce-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Dudunsparce ${formCapitalized}`;
+	      
+	      if (form === 'three-segment') zhName = `${baseZhName}（三節形態）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else if (englishName.startsWith('maushold-')) {
+	      // 一對鼠 (Maushold) 家族處理
+	      const form = englishName.replace('maushold-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Maushold ${formCapitalized}`;
+	      
+	      if (form === 'family-of-three') zhName = `${baseZhName}（三隻家庭）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else if (englishName.startsWith('palafin-')) {
+	      // 海豚俠 (Palafin) 形態處理
+	      const form = englishName.replace('palafin-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Palafin ${formCapitalized}`;
+	      
+	      if (form === 'hero') zhName = `${baseZhName}（全能形態）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else {
+	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
+	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
+	      // 嘗試翻譯常見後綴
+	      let zhSuffix = suffix;
+	      if (suffix === 'gmax') zhSuffix = '超極巨化';
+	      else if (suffix === 'mega') zhSuffix = '超級進化';
+	      else if (suffix === 'alola') zhSuffix = '阿羅拉樣子';
+	      else if (suffix === 'galar') zhSuffix = '伽勒爾樣子';
+	      else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
+	      else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
+	      
+	      zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
+	      // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
+	      enName = capitalize(englishName);
+	    }
   return { zhName, enName };
 }
 
@@ -309,11 +361,12 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 	                   id: id // Add ID for easier access
 	                }
 	             };
-	          });
+		          });
 	    }
 	  } catch (e) {
-	    console.warn('Failed to fetch varieties', e);
+	    console.warn('Failed to fetch species data', e);
 	  }
+	  
 	  const englishName = data.name; // Store original English name
 	  
 	  // 強制格式化英文名稱，確保去連接號且首字母大寫
