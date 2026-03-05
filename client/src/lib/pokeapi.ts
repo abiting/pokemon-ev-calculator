@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v12_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v13_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -217,7 +217,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('zamazenta-crowned')) {
     zhName = `${baseZhName}（盾之王）`;
     enName = `Zamazenta (Crowned Shield)`;
-  } else if (englishName.includes('morpeko-full-belly')) {
+  } else if (englishName.includes('morpeko-full-belly') || englishName === 'morpeko') {
     zhName = `${baseZhName}（滿腹花紋）`;
     enName = `Morpeko (Full Belly)`;
   } else if (englishName.includes('morpeko-hangry')) {
