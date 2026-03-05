@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v8_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v9_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -287,6 +287,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'iron valiant') searchTerm = 'iron-valiant';
     else if (lowerName === 'walking wake') searchTerm = 'walking-wake';
     else if (lowerName === 'iron leaves') searchTerm = 'iron-leaves';
+    else if (lowerName === 'oricorio') searchTerm = 'oricorio-baile'; // Oricorio default form
 
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
