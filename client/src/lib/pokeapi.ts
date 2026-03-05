@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v25_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v26_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -84,7 +84,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
     const zhHantName = data.names.find((n: any) => n.language.name === 'zh-Hant');
     const baseZhName = zhHantName ? zhHantName.name : data.name;
 
-    return Promise.all(data.varieties.map(async (v: any) => {
+    const varieties = await Promise.all(data.varieties.map(async (v: any) => {
       const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
       // 這裡我們需要一個簡單的方式來獲取變體的中文名，
       // 但 fetchPokemon 已經有這個邏輯了。
@@ -115,6 +115,19 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          }
       }
 
+      // 特別處理 Mimikyu 的變體名稱
+      if (v.pokemon.name.includes('mimikyu')) {
+         console.log('Processing Mimikyu variety:', v.pokemon.name); // Debug log
+         
+         if (v.pokemon.name === 'mimikyu-disguised' || v.pokemon.name === 'mimikyu') {
+            formatted.enName = 'Mimikyu';
+            formatted.zhName = '謎擬 Ｑ';
+         } else {
+            // 謎擬 Ｑ 的其他形態（現形、霸主等）種族值相同，直接過濾掉
+            return null;
+         }
+      }
+
       // 特別處理 Necrozma 的變體名稱
       if (v.pokemon.name.includes('necrozma')) {
          console.log('Processing Necrozma variety:', v.pokemon.name); // Debug log
@@ -141,6 +154,8 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
         isDefault: v.is_default
       };
     }));
+    
+    return varieties.filter((v): v is SearchResult => v !== null);
   } catch (error) {
     console.warn('獲取變體失敗:', error);
     return [];
@@ -561,7 +576,43 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   if (englishName === 'darmanitan-standard' || englishName === 'darmanitan') {
      data.enName = 'Darmanitan (Standard)';
   }
+
+  // 特別處理 Mimikyu
+  if (englishName.startsWith('mimikyu-') || englishName === 'mimikyu') {
+     const form = englishName.replace('mimikyu-', '');
+     if (englishName === 'mimikyu' || form === 'disguised') {
+        data.enName = 'Mimikyu';
+        data.zhName = '謎擬 Ｑ';
+     } else if (form === 'busted') {
+        data.enName = 'Mimikyu (Busted)';
+        data.zhName = '謎擬 Ｑ（現形）';
+     } else if (form === 'totem-disguised') {
+        data.enName = 'Mimikyu (Totem)';
+        data.zhName = '謎擬 Ｑ（霸主）';
+     } else if (form === 'totem-busted') {
+        data.enName = 'Mimikyu (Totem Busted)';
+        data.zhName = '謎擬 Ｑ（霸主現形）';
+     }
+  }
   
+  // 特別處理 Mimikyu
+  if (englishName.startsWith('mimikyu-') || englishName === 'mimikyu') {
+     const form = englishName.replace('mimikyu-', '');
+     if (englishName === 'mimikyu' || form === 'disguised') {
+        data.enName = 'Mimikyu';
+        data.zhName = '謎擬 Ｑ';
+     } else if (form === 'busted') {
+        data.enName = 'Mimikyu (Busted)';
+        data.zhName = '謎擬 Ｑ（現形）';
+     } else if (form === 'totem-disguised') {
+        data.enName = 'Mimikyu (Totem)';
+        data.zhName = '謎擬 Ｑ（霸主）';
+     } else if (form === 'totem-busted') {
+        data.enName = 'Mimikyu (Totem Busted)';
+        data.zhName = '謎擬 Ｑ（霸主現形）';
+     }
+  }
+
   // 特別處理 Necrozma
   if (englishName.startsWith('necrozma-') || englishName === 'necrozma') {
      const form = englishName.replace('necrozma-', '');
