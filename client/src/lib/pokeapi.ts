@@ -43,6 +43,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     if (pokemonId) {
       searchTerm = pokemonId;
     }
+  } else if (typeof nameOrId === 'number' && nameOrId > 10000) {
+    // 直接支援 ID > 10000 的特殊形態（如 Mega 進化）
+    searchTerm = nameOrId;
   }
   
   const cacheKey = `${CACHE_KEY_PREFIX}${searchTerm}`;
@@ -76,6 +79,51 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   if (idToZhMapping[data.id]) {
     data.zhName = idToZhMapping[data.id];
     data.name = idToZhMapping[data.id]; // Keep backward compatibility for existing code using .name
+  } else if (data.id > 10000) {
+    // 特殊形態（如 Mega 進化）處理邏輯
+    try {
+      // 嘗試獲取原始物種名稱
+      const speciesResponse = await fetch(data.species.url);
+      if (speciesResponse.ok) {
+        const speciesData = await speciesResponse.json();
+        const zhHantName = speciesData.names.find(
+          (n: any) => n.language.name === 'zh-Hant'
+        );
+        
+        let baseName = zhHantName ? zhHantName.name : data.species.name;
+        
+        // 根據英文名稱後綴添加中文前綴/後綴
+        if (englishName.includes('-mega-x')) {
+          data.zhName = `超級${baseName} X`;
+        } else if (englishName.includes('-mega-y')) {
+          data.zhName = `超級${baseName} Y`;
+        } else if (englishName.includes('-mega')) {
+          data.zhName = `超級${baseName}`;
+        } else if (englishName.includes('-gmax')) {
+          data.zhName = `超極巨化${baseName}`;
+        } else if (englishName.includes('-alola')) {
+          data.zhName = `阿羅拉${baseName}`;
+        } else if (englishName.includes('-galar')) {
+          data.zhName = `伽勒爾${baseName}`;
+        } else if (englishName.includes('-hisui')) {
+          data.zhName = `洗翠${baseName}`;
+        } else if (englishName.includes('-paldea')) {
+          data.zhName = `帕底亞${baseName}`;
+        } else {
+          // 其他特殊形態，保留英文後綴但使用中文基礎名稱
+          const suffix = englishName.replace(data.species.name, '').replace(/^-/, '');
+          data.zhName = `${baseName} (${suffix})`;
+        }
+        data.name = data.zhName;
+      } else {
+        data.zhName = englishName;
+        data.name = englishName;
+      }
+    } catch (error) {
+      console.warn('無法獲取特殊形態中文名稱:', error);
+      data.zhName = englishName;
+      data.name = englishName;
+    }
   } else {
     // 如果本地沒有翻譯，才從 API 獲取
     try {
