@@ -229,17 +229,87 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 	    const speciesResponse = await fetch(data.species.url);
 	    if (speciesResponse.ok) {
 	       const speciesData = await speciesResponse.json();
-	       data.varieties = speciesData.varieties.map((v: any) => {
-	          const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
-	          return {
-	             is_default: v.is_default,
-	             pokemon: {
-	                name: v.pokemon.name,
-	                url: v.pokemon.url,
-	                id: id // Add ID for easier access
-	             }
-	          };
-	       });
+	       data.varieties = speciesData.varieties
+	          .filter((v: any) => {
+	             const name = v.pokemon.name;
+	             // 保留預設型態
+	             if (v.is_default) return true;
+	             
+	             // 保留重要對戰型態
+	             if (name.includes('-mega') || 
+	                 name.includes('-gmax') || 
+	                 name.includes('-alola') || 
+	                 name.includes('-galar') || 
+	                 name.includes('-hisui') || 
+	                 name.includes('-paldea') ||
+	                 name.includes('-primal') ||
+	                 name.includes('-eternamax') ||
+	                 name.includes('-origin') || // 起源型態
+	                 name.includes('-therian') || // 靈獸型態
+	                 name.includes('-incarnate') || // 化身型態
+	                 name.includes('-black') || // 酋雷ム
+	                 name.includes('-white') || // 酋雷ム
+	                 name.includes('-dusk') || // 黃昏狗
+	                 name.includes('-dawn') || // 拂曉之翼
+	                 name.includes('-ultra') || // 究極奈克洛茲瑪
+	                 name.includes('-crowned') || // 蒼響/藏瑪然特
+	                 name.includes('-rapid-strike') || // 武道熊師
+	                 name.includes('-single-strike') || // 武道熊師
+	                 name.includes('-low-key') || // 顫弦蠑螈
+	                 name.includes('-female') || // 性別差異有對戰影響的 (如愛管侍)
+	                 name.includes('-male') ||
+	                 name.startsWith('oricorio-') || // 花舞鳥
+	                 name.startsWith('rotom-') || // 洛托姆
+	                 name.startsWith('deoxys-') || // 代歐奇希斯
+	                 name.startsWith('wormadam-') || // 結草貴婦
+	                 name.startsWith('shaymin-') || // 謝米
+	                 name.startsWith('giratina-') || // 騎拉帝納
+	                 name.startsWith('tornadus-') || // 龍捲雲
+	                 name.startsWith('thundurus-') || // 雷電雲
+	                 name.startsWith('landorus-') || // 土地雲
+	                 name.startsWith('kyurem-') || // 酋雷姆
+	                 name.startsWith('keldeo-') || // 凱路迪歐
+	                 name.startsWith('meloetta-') || // 美洛耶塔
+	                 name.startsWith('aegislash-') || // 堅盾劍怪
+	                 name.startsWith('pumpkaboo-') || // 南瓜精 (尺寸)
+	                 name.startsWith('gourgeist-') || // 南瓜怪人 (尺寸)
+	                 name.startsWith('zygarde-') || // 基格爾德
+	                 name.startsWith('hoopa-') || // 胡帕
+	                 name.startsWith('lycanroc-') || // 鬃岩狼人
+	                 name.startsWith('wishiwashi-') || // 弱丁魚
+	                 name.startsWith('minior-') || // 小隕星
+	                 name.startsWith('mimikyu-') || // 謎擬Q
+	                 name.startsWith('necrozma-') || // 奈克洛茲瑪
+	                 name.startsWith('toxtricity-') || // 顫弦蠑螈
+	                 name.startsWith('eiscue-') || // 冰砌鵝
+	                 name.startsWith('indeedee-') || // 愛管侍
+	                 name.startsWith('morpeko-') || // 莫魯貝可
+	                 name.startsWith('urshifu-') || // 武道熊師
+	                 name.startsWith('calyrex-') || // 蕾冠王
+	                 name.startsWith('basculegion-') || // 幽尾玄魚
+	                 name.startsWith('enamorus-') || // 眷戀雲
+	                 name.startsWith('palafin-') || // 海豚俠
+	                 name.startsWith('tatsugiri-') || // 米立龍
+	                 name.startsWith('dudunsparce-') || // 土龍節節
+	                 name.startsWith('gimmighoul-') || // 索財靈
+	                 name.startsWith('ogerpon-') || // 厄鬼椪
+	                 name.startsWith('terapagos-') // 太樂巴戈斯
+	             ) return true;
+	             
+	             // 過濾掉其他所有特殊型態 (帽子、換裝、霸主、特殊活動等)
+	             return false;
+	          })
+	          .map((v: any) => {
+	             const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
+	             return {
+	                is_default: v.is_default,
+	                pokemon: {
+	                   name: v.pokemon.name,
+	                   url: v.pokemon.url,
+	                   id: id // Add ID for easier access
+	                }
+	             };
+	          });
 	    }
 	  } catch (e) {
 	    console.warn('Failed to fetch varieties', e);
