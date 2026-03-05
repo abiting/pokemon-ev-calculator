@@ -30,6 +30,9 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
   // 1. 嘗試解析為 ID
   const id = parseInt(query);
   if (!isNaN(id)) {
+    // 如果是 ID，直接返回單一結果（這裡簡化處理，實際可能需要 fetch 確認）
+    // 但為了保持一致性，我們還是走 fetchPokemon 流程，或者這裡先返回一個預測結果
+    // 為了準確，我們這裡先只處理名稱搜尋，ID 搜尋直接交給 fetchPokemon
     return [];
   }
 
@@ -39,8 +42,9 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
 
   if (matchingNames.length === 0) {
     // 如果中文搜尋沒有結果，允許使用者直接搜尋英文
+    // 回傳一個特殊的結果，讓 UI 知道這是一個直接搜尋的建議
     return [{
-      id: 0,
+      id: 0, // 0 表示這是一個搜尋建議，不是具體的 ID
       name: query,
       zhName: `搜尋 "${query}"`,
       isDefault: true
@@ -50,7 +54,7 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
   // 3. 構建結果列表
   const results: SearchResult[] = matchingNames.map(name => ({
     id: (pokemonZhMapping as Record<string, number>)[name],
-    name: name,
+    name: name, // 這裡暫時用中文名當 name，後續 fetchPokemon 會處理
     zhName: name,
     isDefault: true
   }));
@@ -68,86 +72,23 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
     const zhHantName = data.names.find((n: any) => n.language.name === 'zh-Hant');
     const baseZhName = zhHantName ? zhHantName.name : data.name;
 
-    return Promise.all(data.varieties
-      .filter((v: any) => {
-        const name = v.pokemon.name;
-        // 保留預設型態
-        if (v.is_default) return true;
-        
-        // 僅保留種族值不同的形態
-        if (name.includes('-mega') || 
-            name.includes('-gmax') || 
-            name.includes('-alola') || 
-            name.includes('-galar') || 
-            name.includes('-hisui') || 
-            name.includes('-paldea') ||
-            name.includes('-primal') ||
-            name.includes('-eternamax') ||
-            name.includes('-origin') || 
-            name.includes('-therian') || 
-            name.includes('-incarnate') || 
-            name.includes('-black') || 
-            name.includes('-white') || 
-            name.includes('-dusk') || 
-            name.includes('-dawn') || 
-            name.includes('-ultra') || 
-            name.includes('-crowned') || 
-            name.includes('-rapid-strike') || 
-            name.includes('-single-strike') || 
-            name.includes('-low-key') || 
-            name.includes('-female') || 
-            name.includes('-male') ||
-            name.startsWith('rotom-') || 
-            name.startsWith('deoxys-') || 
-            name.startsWith('wormadam-') || 
-            name.startsWith('shaymin-') || 
-            name.startsWith('giratina-') || 
-            name.startsWith('tornadus-') || 
-            name.startsWith('thundurus-') || 
-            name.startsWith('landorus-') || 
-            name.startsWith('kyurem-') || 
-            name.startsWith('keldeo-') || 
-            name.startsWith('meloetta-') || 
-            name.startsWith('aegislash-') || 
-            name.startsWith('pumpkaboo-') || 
-            name.startsWith('gourgeist-') || 
-            name.startsWith('zygarde-') || 
-            name.startsWith('hoopa-') || 
-            name.startsWith('lycanroc-') || 
-            name.startsWith('wishiwashi-') || 
-            name.startsWith('minior-') || 
-            name.startsWith('mimikyu-') || 
-            name.startsWith('necrozma-') || 
-            name.startsWith('toxtricity-') || 
-            name.startsWith('eiscue-') || 
-            name.startsWith('indeedee-') || 
-            name.startsWith('morpeko-') || 
-            name.startsWith('urshifu-') || 
-            name.startsWith('calyrex-') || 
-            name.startsWith('basculegion-') || 
-            name.startsWith('enamorus-') || 
-            name.startsWith('palafin-') || 
-            name.startsWith('dudunsparce-') || 
-            name.startsWith('gimmighoul-') || 
-            name.startsWith('ogerpon-') || 
-            name.startsWith('terapagos-')
-        ) return true;
-        
-        return false;
-      })
-      .map(async (v: any) => {
-        const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
-        
-        // 格式化名稱
-        const { zhName } = formatPokemonName(v.pokemon.name, baseZhName, data.name);
-        
-        return {
-          id,
-          name: v.pokemon.name,
-          zhName: v.is_default ? baseZhName : zhName,
-          isDefault: v.is_default
-        };
-      }));
+    return Promise.all(data.varieties.map(async (v: any) => {
+      const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
+      // 這裡我們需要一個簡單的方式來獲取變體的中文名，
+      // 但 fetchPokemon 已經有這個邏輯了。
+      // 為了避免循環依賴或重複代碼，我們這裡先簡單處理，
+      // 或者我們讓 UI 層去 fetch 詳細資料。
+      // 更好的方式是：這裡只返回基本資訊，UI 顯示時再 fetch 詳細資料（如果需要）
+      // 或者我們這裡直接調用 fetchPokemon 的邏輯片段（需要重構）
+      
+      // 暫時返回基本結構，讓 UI 決定如何顯示
+      return {
+        id,
+        name: v.pokemon.name,
+        zhName: v.is_default ? baseZhName : `${baseZhName} (${v.pokemon.name})`, // 暫時名稱，fetchPokemon 會修正
+        isDefault: v.is_default
+      };
+    }));
   } catch (error) {
     console.warn('獲取變體失敗:', error);
     return [];
@@ -155,12 +96,15 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 }
 
 export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string } {
+  // 格式化英文名稱 (e.g., "venusaur-mega" -> "Mega Venusaur", "pom-pom" -> "Pom Pom")
+  // 將連接號替換為空格，並將每個單字首字母大寫
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
   const baseEnName = capitalize(speciesName);
   
   let zhName = '';
   let enName = '';
 
+  // 根據英文名稱後綴添加中文前綴/後綴
   if (englishName.includes('-mega-x')) {
     zhName = `超級${baseZhName} X`;
     enName = `Mega ${baseEnName} X`;
@@ -188,57 +132,110 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('-paldea')) {
     zhName = `帕底亞${baseZhName}`;
     enName = `Paldean ${baseEnName}`;
-  } else if (englishName.includes('-origin')) {
-    zhName = `${baseZhName}（起源形態）`;
-    enName = `Origin ${baseEnName}`;
-  } else if (englishName.includes('-therian')) {
-    zhName = `${baseZhName}（靈獸形態）`;
-    enName = `Therian ${baseEnName}`;
-  } else if (englishName.includes('-incarnate')) {
-    zhName = `${baseZhName}（化身形態）`;
-    enName = `Incarnate ${baseEnName}`;
-  } else if (englishName.includes('-black')) {
-    zhName = `暗黑${baseZhName}`;
-    enName = `Black ${baseEnName}`;
-  } else if (englishName.includes('-white')) {
-    zhName = `焰白${baseZhName}`;
-    enName = `White ${baseEnName}`;
-  } else if (englishName.includes('-crowned')) {
-    zhName = `${baseZhName}（劍之王/盾之王）`;
-    enName = `Crowned ${baseEnName}`;
-  } else if (englishName.includes('-rapid-strike')) {
-    zhName = `${baseZhName}（連擊流）`;
-    enName = `Rapid Strike ${baseEnName}`;
-  } else if (englishName.includes('-single-strike')) {
-    zhName = `${baseZhName}（一擊流）`;
-    enName = `Single Strike ${baseEnName}`;
-  } else {
-    // 其他特殊形態
-    const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
-    let zhSuffix = suffix;
-    // 簡單翻譯常見後綴
-    if (suffix === 'altered') zhSuffix = '別種形態';
+  } else if (englishName.includes('oricorio-pom-pom')) {
+    zhName = `${baseZhName}（啪滋啪滋風格）`;
+    enName = `Oricorio Pom-Pom`;
+  } else if (englishName.includes('oricorio-pau')) {
+    zhName = `${baseZhName}（呼拉呼拉風格）`;
+    enName = `Oricorio Pa'u`;
+  } else if (englishName.includes('oricorio-sensu')) {
+    zhName = `${baseZhName}（輕盈輕盈風格）`;
+    enName = `Oricorio Sensu`;
+  } else if (englishName === 'oricorio' || englishName === 'oricorio-baile') {
+    // 預設型態 (Baile Style)
+    zhName = `${baseZhName}（熱辣熱辣風格）`;
+    enName = `Oricorio Baile`;
+  } else if (englishName.startsWith('oricorio-')) {
+    // 其他 Oricorio 風格的通用處理，防止漏網之魚
+    const style = englishName.replace('oricorio-', '');
+    const styleCapitalized = style.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Oricorio ${styleCapitalized}`;
     
-    zhName = `${baseZhName}（${zhSuffix}）`;
-    enName = capitalize(englishName);
-  }
+	      // 嘗試對應中文風格
+	      if (style === 'pom-pom') zhName = `${baseZhName}（啪滋啪滋風格）`;
+	      else if (style === 'pau') zhName = `${baseZhName}（呼拉呼拉風格）`;
+	      else if (style === 'sensu') zhName = `${baseZhName}（輕盈輕盈風格）`;
+	      else zhName = `${baseZhName}（${styleCapitalized}風格）`;
+	    } else if (englishName.startsWith('squawkabilly-')) {
+	      // 怒鸚哥 (Squawkabilly) 羽色處理
+	      const plumage = englishName.replace('squawkabilly-', '');
+	      const plumageCapitalized = plumage.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Squawkabilly ${plumageCapitalized}`;
+	      
+	      if (plumage === 'blue-plumage') zhName = `${baseZhName}（藍羽毛）`;
+	      else if (plumage === 'yellow-plumage') zhName = `${baseZhName}（黃羽毛）`;
+	      else if (plumage === 'white-plumage') zhName = `${baseZhName}（白羽毛）`;
+	      else zhName = `${baseZhName}（${plumageCapitalized}）`;
+	    } else if (englishName.startsWith('tatsugiri-')) {
+	      // 米立龍 (Tatsugiri) 姿勢處理
+	      const form = englishName.replace('tatsugiri-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Tatsugiri ${formCapitalized}`;
+	      
+	      if (form === 'droopy') zhName = `${baseZhName}（下垂姿勢）`;
+	      else if (form === 'stretchy') zhName = `${baseZhName}（上弓姿勢）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else if (englishName.startsWith('dudunsparce-')) {
+	      // 土龍節節 (Dudunsparce) 節數處理
+	      const form = englishName.replace('dudunsparce-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Dudunsparce ${formCapitalized}`;
+	      
+	      if (form === 'three-segment') zhName = `${baseZhName}（三節形態）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else if (englishName.startsWith('maushold-')) {
+	      // 一對鼠 (Maushold) 家族處理
+	      const form = englishName.replace('maushold-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Maushold ${formCapitalized}`;
+	      
+	      if (form === 'family-of-three') zhName = `${baseZhName}（三隻家庭）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else if (englishName.startsWith('palafin-')) {
+	      // 海豚俠 (Palafin) 形態處理
+	      const form = englishName.replace('palafin-', '');
+	      const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+	      enName = `Palafin ${formCapitalized}`;
+	      
+	      if (form === 'hero') zhName = `${baseZhName}（全能形態）`;
+	      else zhName = `${baseZhName}（${formCapitalized}）`;
+	    } else {
+	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
+	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
+	      // 嘗試翻譯常見後綴
+	      let zhSuffix = suffix;
+	      if (suffix === 'gmax') zhSuffix = '超極巨化';
+	      else if (suffix === 'mega') zhSuffix = '超級進化';
+	      else if (suffix === 'alola') zhSuffix = '阿羅拉樣子';
+	      else if (suffix === 'galar') zhSuffix = '伽勒爾樣子';
+	      else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
+	      else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
+	      
+	      zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
+	      // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
+	      enName = capitalize(englishName);
+	    }
   return { zhName, enName };
 }
 
 export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> {
+  // 如果是繁體中文名稱，轉換為 ID
   let searchTerm = nameOrId;
-  
-  // 中文轉 ID
   if (typeof nameOrId === 'string') {
+    // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
+    
+    // 如果沒有完全匹配，嘗試模糊搜尋
     if (!pokemonId) {
-      // 模糊搜尋
       const matchingNames = Object.keys(pokemonZhMapping as Record<string, number>)
         .filter(name => name.includes(nameOrId));
       
       if (matchingNames.length === 1) {
+        // 只有一個匹配結果，直接使用
         pokemonId = (pokemonZhMapping as Record<string, number>)[matchingNames[0]];
       } else if (matchingNames.length > 1) {
+        // 多個匹配結果，拋出錯誤並提示
+        // 這裡改為拋出特殊錯誤，攜帶候選列表，讓 UI 處理
         const candidates = matchingNames.map(name => ({
           name,
           id: (pokemonZhMapping as Record<string, number>)[name]
@@ -246,11 +243,18 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         throw { isAmbiguous: true, candidates };
       }
     }
-    if (pokemonId) searchTerm = pokemonId;
+    
+    if (pokemonId) {
+      searchTerm = pokemonId;
+    }
+  } else if (typeof nameOrId === 'number' && nameOrId > 10000) {
+    // 直接支援 ID > 10000 的特殊形態（如 Mega 進化）
+    searchTerm = nameOrId;
   }
-
+  
   const cacheKey = `${CACHE_KEY_PREFIX}${searchTerm}`;
   
+  // 檢查快取
   try {
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
@@ -263,84 +267,262 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     console.warn('快取讀取失敗:', error);
   }
 
+  // 從 API 獲取資料
   const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${searchTerm.toString().toLowerCase()}`);
+  
   if (!response.ok) {
-    throw new Error('找不到該寶可夢');
+    throw new Error('找不到該寶可夢，請檢查名稱或編號是否正確');
   }
 
   const data: any = await response.json();
   
-  // 獲取物種資訊以取得中文名
-  let zhName = data.name;
-  let varieties: SearchResult[] = [];
-  
+  // 獲取變體資訊 (對所有寶可夢都嘗試獲取，以支援像 Oricorio 這種預設型態也是變體的情況)
   try {
     const speciesResponse = await fetch(data.species.url);
     if (speciesResponse.ok) {
       const speciesData = await speciesResponse.json();
-      const zhHantName = speciesData.names.find((n: any) => n.language.name === 'zh-Hant');
-      if (zhHantName) {
-        zhName = zhHantName.name;
-      }
-      
-      // 獲取變體列表
-      varieties = await fetchPokemonVarieties(data.species.url);
+      data.varieties = speciesData.varieties
+        .filter((v: any) => {
+          const name = v.pokemon.name;
+          // 保留預設型態
+          if (v.is_default) return true;
+          
+          // 保留重要對戰型態
+          if (name.includes('-mega') || 
+              name.includes('-gmax') || 
+              name.includes('-alola') || 
+              name.includes('-galar') || 
+              name.includes('-hisui') || 
+              name.includes('-paldea') ||
+              name.includes('-primal') ||
+              name.includes('-eternamax') ||
+              name.includes('-origin') || // 起源型態
+              name.includes('-therian') || // 靈獸型態
+              name.includes('-incarnate') || // 化身型態
+              name.includes('-black') || // 酋雷ム
+              name.includes('-white') || // 酋雷ム
+              name.includes('-dusk') || // 黃昏狗
+              name.includes('-dawn') || // 拂曉之翼
+              name.includes('-ultra') || // 究極奈克洛茲瑪
+              name.includes('-crowned') || // 蒼響/藏瑪然特
+              name.includes('-rapid-strike') || // 武道熊師
+              name.includes('-single-strike') || // 武道熊師
+              name.includes('-low-key') || // 顫弦蠑螈
+              name.includes('-female') || // 性別差異有對戰影響的 (如愛管侍)
+              name.includes('-male') ||
+              name.startsWith('oricorio-') || // 花舞鳥
+              name.startsWith('rotom-') || // 洛托姆
+              name.startsWith('deoxys-') || // 代歐奇希斯
+              name.startsWith('wormadam-') || // 結草貴婦
+              name.startsWith('shaymin-') || // 謝米
+              name.startsWith('giratina-') || // 騎拉帝納
+              name.startsWith('tornadus-') || // 龍捲雲
+              name.startsWith('thundurus-') || // 雷電雲
+              name.startsWith('landorus-') || // 土地雲
+              name.startsWith('kyurem-') || // 酋雷姆
+              name.startsWith('keldeo-') || // 凱路迪歐
+              name.startsWith('meloetta-') || // 美洛耶塔
+              name.startsWith('aegislash-') || // 堅盾劍怪
+              name.startsWith('pumpkaboo-') || // 南瓜精 (尺寸)
+              name.startsWith('gourgeist-') || // 南瓜怪人 (尺寸)
+              name.startsWith('zygarde-') || // 基格爾德
+              name.startsWith('hoopa-') || // 胡帕
+              name.startsWith('lycanroc-') || // 鬃岩狼人
+              name.startsWith('wishiwashi-') || // 弱丁魚
+              name.startsWith('minior-') || // 小隕星
+              name.startsWith('mimikyu-') || // 謎擬Q
+              name.startsWith('necrozma-') || // 奈克洛茲瑪
+              name.startsWith('toxtricity-') || // 顫弦蠑螈
+              name.startsWith('eiscue-') || // 冰砌鵝
+              name.startsWith('indeedee-') || // 愛管侍
+              name.startsWith('morpeko-') || // 莫魯貝可
+              name.startsWith('urshifu-') || // 武道熊師
+              name.startsWith('calyrex-') || // 蕾冠王
+              name.startsWith('basculegion-') || // 幽尾玄魚
+              name.startsWith('enamorus-') || // 眷戀雲
+              name.startsWith('palafin-') || // 海豚俠
+              name.startsWith('tatsugiri-') || // 米立龍
+              name.startsWith('dudunsparce-') || // 土龍節節
+              name.startsWith('gimmighoul-') || // 索財靈
+              name.startsWith('ogerpon-') || // 厄鬼椪
+              name.startsWith('terapagos-') // 太樂巴戈斯
+          ) return true;
+          
+          // 過濾掉其他所有特殊型態 (帽子、換裝、霸主、特殊活動等)
+          return false;
+        })
+        .map((v: any) => {
+          const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
+          return {
+            is_default: v.is_default,
+            pokemon: {
+              name: v.pokemon.name,
+              url: v.pokemon.url,
+              id: id // Add ID for easier access
+            }
+          };
+        });
     }
   } catch (e) {
     console.warn('Failed to fetch species data', e);
   }
-
-  // 格式化名稱
-  const { zhName: formattedZhName, enName } = formatPokemonName(data.name, zhName, data.species.name);
+	  
+	  const englishName = data.name; // Store original English name
+	  
+	  // 強制格式化英文名稱，確保去連接號且首字母大寫
+	  const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+	  data.enName = capitalize(englishName);
+	  
+	  // 特別處理 Oricorio Baile
+	  if (englishName === 'oricorio-baile' || englishName === 'oricorio') {
+	     data.enName = 'Oricorio Baile';
+	  }
   
-  // 如果是預設型態，直接使用基礎中文名
-  const finalZhName = data.is_default ? zhName : formattedZhName;
+  // 獲取繁體中文名稱
+  // 優先使用本地翻譯對應表，避免 PokeAPI 的簡體字問題
+  if (idToZhMapping[data.id]) {
+    data.zhName = idToZhMapping[data.id];
+    data.name = idToZhMapping[data.id]; // Keep backward compatibility for existing code using .name
+  } else if (data.id > 10000) {
+    // 特殊形態（如 Mega 進化）處理邏輯
+    try {
+      // 嘗試獲取原始物種名稱
+      const speciesResponse = await fetch(data.species.url);
+      if (speciesResponse.ok) {
+        const speciesData = await speciesResponse.json();
+        const zhHantName = speciesData.names.find(
+          (n: any) => n.language.name === 'zh-Hant'
+        );
+        
+        // 嘗試從 species URL 獲取 ID，並使用本地對應表
+        const speciesIdMatch = data.species.url.match(/\/pokemon-species\/(\d+)\//);
+        const speciesId = speciesIdMatch ? parseInt(speciesIdMatch[1]) : 0;
+        
+        // 統一使用 Species ID 作為顯示 ID
+        if (speciesId > 0) {
+          data.id = speciesId;
+        }
+        
+        // 優先使用本地對應表獲取基礎中文名稱，避免 API 缺漏或簡體字
+        let baseName = '';
+        if (speciesId && idToZhMapping[speciesId]) {
+          baseName = idToZhMapping[speciesId];
+        } else {
+          // 如果本地沒有，才使用 API 返回的名稱
+          baseName = zhHantName ? zhHantName.name : data.species.name;
+        }
 
-  const pokemon: Pokemon = {
-    id: data.id,
-    name: finalZhName,
-    enName: enName,
-    types: data.types.map((t: any) => {
-      const typeMap: Record<string, string> = {
-        normal: '一般', fire: '火', water: '水', electric: '電', grass: '草',
-        ice: '冰', fighting: '格鬥', poison: '毒', ground: '地面', flying: '飛行',
-        psychic: '超能力', bug: '蟲', rock: '岩石', ghost: '幽靈', dragon: '龍',
-        steel: '鋼', dark: '惡', fairy: '妖精'
-      };
-      return typeMap[t.type.name] || t.type.name;
-    }),
-    stats: {
-      hp: data.stats[0].base_stat,
-      attack: data.stats[1].base_stat,
-      defense: data.stats[2].base_stat,
-      spAttack: data.stats[3].base_stat,
-      spDefense: data.stats[4].base_stat,
-      speed: data.stats[5].base_stat,
-    },
-    evs: {
-      hp: data.stats[0].effort,
-      attack: data.stats[1].effort,
-      defense: data.stats[2].effort,
-      spAttack: data.stats[3].effort,
-      spDefense: data.stats[4].effort,
-      speed: data.stats[5].effort,
-    },
-    abilities: data.abilities.map((a: any) => ({
-      name: ABILITY_TRANSLATIONS[a.ability.name] || a.ability.name,
-      isHidden: a.is_hidden
-    })),
-    imageUrl: data.sprites.other['official-artwork'].front_default || data.sprites.front_default,
-    varieties: varieties.length > 1 ? varieties : undefined
-  };
-
-  try {
-    localStorage.setItem(cacheKey, JSON.stringify({
-      data: pokemon,
-      timestamp: Date.now()
-    }));
-  } catch (e) {
-    console.warn('快取寫入失敗:', e);
+        const formatted = formatPokemonName(englishName, baseName, data.species.name);
+        data.zhName = formatted.zhName;
+        data.enName = formatted.enName;
+        data.name = data.zhName;
+      } else {
+        // 如果 species fetch 失敗，嘗試從 URL 解析 ID 並查表
+        const speciesIdMatch = data.species.url.match(/\/pokemon-species\/(\d+)\//);
+        const speciesId = speciesIdMatch ? parseInt(speciesIdMatch[1]) : 0;
+        
+        if (speciesId > 0) {
+           data.id = speciesId;
+           let baseName = data.species.name;
+           if (idToZhMapping[speciesId]) {
+              baseName = idToZhMapping[speciesId];
+           }
+           const formatted = formatPokemonName(englishName, baseName, data.species.name);
+           data.zhName = formatted.zhName;
+           data.enName = formatted.enName;
+           data.name = data.zhName;
+        } else {
+           // 即使沒有 ID，也嘗試格式化英文名稱
+           const formatted = formatPokemonName(englishName, englishName, data.species.name);
+           data.zhName = formatted.zhName;
+           data.enName = formatted.enName;
+           data.name = data.zhName;
+        }
+      }
+    } catch (error) {
+      console.warn('無法獲取特殊形態中文名稱:', error);
+      data.zhName = englishName;
+      data.name = englishName;
+    }
+  } else {
+    // 如果本地沒有翻譯，才從 API 獲取
+    try {
+      const speciesResponse = await fetch(`${POKEAPI_BASE_URL}/pokemon-species/${data.id}`);
+      if (speciesResponse.ok) {
+        const speciesData = await speciesResponse.json();
+        const zhHantName = speciesData.names.find(
+          (n: any) => n.language.name === 'zh-Hant'
+        );
+        if (zhHantName) {
+          data.zhName = zhHantName.name;
+          data.name = zhHantName.name;
+        } else {
+          // 如果沒有繁中名稱，使用英文名稱作為預設
+          data.zhName = englishName;
+          data.name = englishName;
+        }
+      }
+    } catch (error) {
+      console.warn('無法獲取繁體中文名稱:', error);
+      data.zhName = englishName;
+      data.name = englishName;
+    }
   }
 
-  return pokemon;
+  // 儲存到快取
+  try {
+    const cacheData: CacheData = {
+      data,
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+  } catch (error) {
+    console.warn('快取儲存失敗:', error);
+  }
+
+  return data;
+}
+
+export function calculateStatIncrease(ev: number): number {
+  return Math.floor(ev / 4);
+}
+
+export function getTotalEV(evs: Record<string, number>): number {
+  return Object.values(evs).reduce((sum, val) => sum + val, 0);
+}
+
+export function getHighQualitySprite(pokemon: Pokemon): string {
+  return pokemon.sprites.other?.['official-artwork']?.front_default || pokemon.sprites.front_default;
+}
+
+export async function fetchAbilityDetails(abilityUrl: string): Promise<{ name: string; zhName: string }> {
+  try {
+    const response = await fetch(abilityUrl);
+    if (!response.ok) {
+      throw new Error('無法獲取特性資料');
+    }
+    const data = await response.json();
+    // 優先使用本地翻譯對應表，確保穩定性
+    const localTranslation = ABILITY_TRANSLATIONS[data.name];
+    
+    if (localTranslation) {
+      return {
+        name: data.name,
+        zhName: localTranslation
+      };
+    }
+
+    // 如果本地沒有翻譯，嘗試從 API 獲取
+    const zhHantName = data.names.find(
+      (n: any) => n.language.name === 'zh-Hant'
+    );
+    
+    return {
+      name: data.name,
+      zhName: zhHantName?.name || data.name
+    };
+  } catch (error) {
+    console.warn('無法獲取特性繁中名稱:', error);
+    return { name: '', zhName: '未知特性' };
+  }
 }
