@@ -27,7 +27,7 @@ export interface SearchResult {
 }
 
 // 繁體中文名稱映射
-const pokemonZhMapping = zhMapping;
+// const pokemonZhMapping = zhMapping; // Already imported as pokemonZhMapping
 
 // 全域搜尋映射表 (Centralized Search Mapping)
 const SEARCH_MAPPING: Record<string, string> = {
