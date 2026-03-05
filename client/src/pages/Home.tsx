@@ -2,14 +2,25 @@ import EVCalculator from '@/components/EVCalculator';
 import PokemonCard from '@/components/PokemonCard';
 import PokemonSearch from '@/components/PokemonSearch';
 import { APP_TITLE } from '@/const';
-import { fetchPokemon } from '@/lib/pokeapi';
+import { fetchPokemon, formatPokemonName } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+interface SearchCandidate {
+  name: string;
+  id: number;
+}
 
 export default function Home() {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [candidates, setCandidates] = useState<SearchCandidate[]>([]);
+  const [showCandidates, setShowCandidates] = useState(false);
+  const [varieties, setVarieties] = useState<any[]>([]);
+  const [showVarieties, setShowVarieties] = useState(false);
 
   useEffect(() => {
     document.title = APP_TITLE;
@@ -17,16 +28,47 @@ export default function Home() {
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
+    setCandidates([]);
+    setShowCandidates(false);
+    setVarieties([]);
+    setShowVarieties(false);
+
     try {
       const data = await fetchPokemon(query);
+      
+      // Check for varieties if it's a base form
+      if (data.varieties && data.varieties.length > 1) {
+         setVarieties(data.varieties);
+         setShowVarieties(true);
+      }
+
       setPokemon(data);
       toast.success(`成功載入 ${data.name}！`);
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : '搜尋失敗，請稍後再試');
-      setPokemon(null);
+    } catch (error: any) {
+      if (error.isAmbiguous) {
+        setCandidates(error.candidates);
+        setShowCandidates(true);
+        toast.info('找到多個結果，請選擇一個');
+      } else {
+        toast.error(error instanceof Error ? error.message : '搜尋失敗，請稍後再試');
+        setPokemon(null);
+      }
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const selectCandidate = (candidateName: string) => {
+    setShowCandidates(false);
+    handleSearch(candidateName);
+  };
+
+  const selectVariety = async (url: string) => {
+     const id = url.split('/').filter(Boolean).pop();
+     if (id) {
+        setShowVarieties(false);
+        await handleSearch(id);
+     }
   };
 
   return (
@@ -48,8 +90,82 @@ export default function Home() {
         {/* 搜尋區 */}
         <div className="mb-8">
           <PokemonSearch onSearch={handleSearch} isLoading={isLoading} />
-
         </div>
+
+        {/* 多重結果選擇對話框 */}
+        <Dialog open={showCandidates} onOpenChange={setShowCandidates}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>請選擇寶可夢</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-2 py-4">
+              {candidates.map((candidate) => (
+                <Button 
+                  key={candidate.name} 
+                  variant="outline" 
+                  className="justify-start text-left h-auto py-3"
+                  onClick={() => selectCandidate(candidate.name)}
+                >
+                  <span className="font-bold mr-2">#{candidate.id}</span>
+                  {candidate.name}
+                </Button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* 變體選擇對話框 (當搜尋結果有多種型態時顯示，例如妙蛙花) */}
+        {/* 注意：這裡我們選擇直接在卡片上方顯示切換按鈕，或者用 Dialog */}
+        {/* 為了簡化，我們先用 Dialog 讓使用者知道有其他型態 */}
+        <Dialog open={showVarieties} onOpenChange={setShowVarieties}>
+           <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                 <DialogTitle>發現多種型態</DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-2 py-4 max-h-[60vh] overflow-y-auto">
+                 <p className="text-sm text-muted-foreground mb-2">此寶可夢有多種型態，請選擇：</p>
+                 {varieties.map((v) => {
+                    let displayName = v.pokemon.name;
+                    if (!v.is_default && pokemon) {
+                       // 嘗試格式化名稱
+                       // 注意：這裡我們需要 baseZhName 和 speciesName，但目前 pokemon 物種資訊可能不完整
+                       // 我們可以從 pokemon.species.name 獲取 speciesName
+                       // 從 pokemon.zhName (如果是基礎型態) 推斷 baseZhName
+                       // 這裡做一個簡單的處理：如果 pokemon 是基礎型態，那它的 zhName 就是 baseZhName
+                       // 如果不是，我們可能需要從 API 獲取，或者簡單地顯示英文格式化名稱
+                       
+                       // 為了更好的體驗，我們使用 formatPokemonName
+                       // 假設 pokemon.species.name 是正確的 speciesName
+                       // 假設 pokemon.zhName 去掉括號部分是 baseZhName (這有點冒險)
+                       
+                       // 更穩健的做法：我們在 fetchPokemon 時已經把 varieties 的名稱處理好放進去？
+                       // 或者我們在這裡即時計算。
+                       
+                       // 讓我們嘗試用 formatPokemonName，但我們需要 baseZhName。
+                       // 如果當前顯示的是 Mega，我們不知道「妙蛙花」這個詞。
+                       // 除非我們在 fetchPokemon 時把 baseZhName 也存下來。
+                       
+                       // 替代方案：直接顯示 v.pokemon.name 的格式化英文，或者簡單翻譯
+                       const formatted = formatPokemonName(v.pokemon.name, pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '', pokemon.species.name);
+                       displayName = formatted.zhName || formatted.enName;
+                    } else if (v.is_default) {
+                       displayName = "一般型態";
+                    }
+                    
+                    return (
+                    <Button
+                       key={v.pokemon.name}
+                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
+                       className="justify-start text-left h-auto py-3"
+                       onClick={() => selectVariety(v.pokemon.url)}
+                    >
+                       {displayName}
+                    </Button>
+                 );
+                 })}
+              </div>
+           </DialogContent>
+        </Dialog>
 
         {/* 載入中 */}
         {isLoading && (

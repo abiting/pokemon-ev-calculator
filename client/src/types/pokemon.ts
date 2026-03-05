@@ -53,6 +53,18 @@ export interface Pokemon {
   sprites: PokemonSprites;
   abilities: PokemonAbility[];
   abilityDetails?: AbilityDetail[];
+  varieties?: Array<{
+    is_default: boolean;
+    pokemon: {
+      name: string;
+      url: string;
+      id?: number;
+    };
+  }>;
+  species: {
+    name: string;
+    url: string;
+  };
 }
 
 export interface EVDistribution {
