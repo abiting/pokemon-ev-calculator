@@ -526,8 +526,18 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 獲取繁體中文名稱
   // 優先使用本地翻譯對應表，避免 PokeAPI 的簡體字問題
   if (idToZhMapping[data.id]) {
-    data.zhName = idToZhMapping[data.id];
-    data.name = idToZhMapping[data.id]; // Keep backward compatibility for existing code using .name
+    // 如果已經有特殊處理過的 zhName (例如 Darmanitan)，不要覆蓋它
+    if (!data.zhName) {
+        data.zhName = idToZhMapping[data.id];
+    }
+    // 對於 .name，我們也應該小心不要覆蓋特殊處理過的名稱
+    // 但為了保持相容性，我們通常將 .name 設為中文名
+    // 這裡我們做一個判斷：如果 zhName 已經被設定且包含括號（表示有形態），則使用 zhName
+    if (data.zhName && (data.zhName.includes('（') || data.zhName.includes('('))) {
+        data.name = data.zhName;
+    } else {
+        data.name = idToZhMapping[data.id];
+    }
   } else if (data.id > 10000) {
     // 特殊形態（如 Mega 進化）處理邏輯
     try {
