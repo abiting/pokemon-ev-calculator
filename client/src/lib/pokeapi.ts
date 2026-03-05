@@ -287,68 +287,59 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           // 保留預設型態
           if (v.is_default) return true;
           
-          // 保留重要對戰型態
-          if (name.includes('-mega') || 
-              name.includes('-gmax') || 
-              name.includes('-alola') || 
-              name.includes('-galar') || 
-              name.includes('-hisui') || 
-              name.includes('-paldea') ||
-              name.includes('-primal') ||
-              name.includes('-eternamax') ||
-              name.includes('-origin') || // 起源型態
-              name.includes('-therian') || // 靈獸型態
-              name.includes('-incarnate') || // 化身型態
-              name.includes('-black') || // 酋雷ム
-              name.includes('-white') || // 酋雷ム
-              name.includes('-dusk') || // 黃昏狗
-              name.includes('-dawn') || // 拂曉之翼
-              name.includes('-ultra') || // 究極奈克洛茲瑪
-              name.includes('-crowned') || // 蒼響/藏瑪然特
-              name.includes('-rapid-strike') || // 武道熊師
-              name.includes('-single-strike') || // 武道熊師
-              name.includes('-low-key') || // 顫弦蠑螈
-              name.includes('-female') || // 性別差異有對戰影響的 (如愛管侍)
-              name.includes('-male') ||
-              name.startsWith('oricorio-') || // 花舞鳥
-              name.startsWith('rotom-') || // 洛托姆
-              name.startsWith('deoxys-') || // 代歐奇希斯
-              name.startsWith('wormadam-') || // 結草貴婦
-              name.startsWith('shaymin-') || // 謝米
-              name.startsWith('giratina-') || // 騎拉帝納
-              name.startsWith('tornadus-') || // 龍捲雲
-              name.startsWith('thundurus-') || // 雷電雲
-              name.startsWith('landorus-') || // 土地雲
-              name.startsWith('kyurem-') || // 酋雷姆
-              name.startsWith('keldeo-') || // 凱路迪歐
-              name.startsWith('meloetta-') || // 美洛耶塔
-              name.startsWith('aegislash-') || // 堅盾劍怪
-              name.startsWith('pumpkaboo-') || // 南瓜精 (尺寸)
-              name.startsWith('gourgeist-') || // 南瓜怪人 (尺寸)
-              name.startsWith('zygarde-') || // 基格爾德
-              name.startsWith('hoopa-') || // 胡帕
-              name.startsWith('lycanroc-') || // 鬃岩狼人
-              name.startsWith('wishiwashi-') || // 弱丁魚
-              name.startsWith('minior-') || // 小隕星
-              name.startsWith('mimikyu-') || // 謎擬Q
-              name.startsWith('necrozma-') || // 奈克洛茲瑪
-              name.startsWith('toxtricity-') || // 顫弦蠑螈
-              name.startsWith('eiscue-') || // 冰砌鵝
-              name.startsWith('indeedee-') || // 愛管侍
-              name.startsWith('morpeko-') || // 莫魯貝可
-              name.startsWith('urshifu-') || // 武道熊師
-              name.startsWith('calyrex-') || // 蕾冠王
-              name.startsWith('basculegion-') || // 幽尾玄魚
-              name.startsWith('enamorus-') || // 眷戀雲
-              name.startsWith('palafin-') || // 海豚俠
-              name.startsWith('tatsugiri-') || // 米立龍
-              name.startsWith('dudunsparce-') || // 土龍節節
-              name.startsWith('gimmighoul-') || // 索財靈
-              name.startsWith('ogerpon-') || // 厄鬼椪
-              name.startsWith('terapagos-') // 太樂巴戈斯
-          ) return true;
-          
-          // 過濾掉其他所有特殊型態 (帽子、換裝、霸主、特殊活動等)
+          // 簡化過濾邏輯：只保留會影響能力值的形態
+          // 1. Mega 進化
+          if (name.includes('-mega')) return true;
+          // 2. 極巨化 (Gmax)
+          if (name.includes('-gmax')) return true;
+          // 3. 地區形態 (Alola, Galar, Hisui, Paldea)
+          if (name.includes('-alola') || name.includes('-galar') || name.includes('-hisui') || name.includes('-paldea')) return true;
+          // 4. 原始回歸 (Primal)
+          if (name.includes('-primal')) return true;
+          // 5. 特殊戰鬥形態 (Origin, Therian, Incarnate, Black/White Kyurem, Dusk/Dawn Necrozma, Crowned Zacian/Zamazenta, etc.)
+          if (name.includes('-origin') || 
+              name.includes('-therian') || 
+              name.includes('-incarnate') || 
+              name.includes('-black') || 
+              name.includes('-white') || 
+              name.includes('-dusk') || 
+              name.includes('-dawn') || 
+              name.includes('-ultra') || 
+              name.includes('-crowned') ||
+              name.includes('-rapid-strike') ||
+              name.includes('-single-strike') ||
+              name.includes('-low-key') ||
+              name.includes('-hero') || // Palafin Hero
+              name.includes('-school') || // Wishiwashi School
+              name.includes('-complete') || // Zygarde Complete
+              name.includes('-unbound') || // Hoopa Unbound
+              name.includes('-resolute') || // Keldeo Resolute
+              name.includes('-pirouette') || // Meloetta Pirouette
+              name.includes('-blade') || // Aegislash Blade
+              name.includes('-sky') || // Shaymin Sky
+              name.includes('-sunny') || // Castform / Cherrim (雖然能力值可能一樣，但屬性不同)
+              name.includes('-rainy') || 
+              name.includes('-snowy') ||
+              name.includes('-attack') || // Deoxys
+              name.includes('-defense') || 
+              name.includes('-speed') ||
+              name.includes('-sandy') || // Wormadam
+              name.includes('-trash') ||
+              name.includes('-midnight') || // Lycanroc
+              name.includes('-dusk') ||
+              name.includes('-ice') || // Eiscue Noice
+              name.includes('-hangry') || // Morpeko
+              name.includes('-shadow') || // Calyrex
+              name.includes('-ice') // Calyrex
+             ) return true;
+
+          // 6. 排除純外觀形態 (如花舞鳥風格、米立龍姿勢、怒鸚哥羽色等，除非使用者特別要求，否則預設隱藏以簡化列表)
+          // 這些形態通常種族值相同，只是外觀或屬性微調（花舞鳥屬性不同，但這裡先簡化，若使用者搜尋特定風格，會由搜尋建議處理）
+          // 修正：花舞鳥屬性不同，應該保留！
+          if (name.startsWith('oricorio-')) return true;
+          if (name.startsWith('wormadam-')) return true;
+          if (name.startsWith('rotom-') && name !== 'rotom') return true; // Rotom forms change types/stats
+
           return false;
         })
         .map((v: any) => {
