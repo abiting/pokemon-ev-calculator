@@ -65,12 +65,22 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
   }, [pokemon.id]);
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">
-          #{pokemon.id.toString().padStart(4, '0')} {language === 'zh' ? (pokemon.zhName || pokemon.name) : (pokemon.enName || pokemon.name).charAt(0).toUpperCase() + (pokemon.enName || pokemon.name).slice(1)}
-        </CardTitle>
-      </CardHeader>
+	    <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg">
+	      <CardHeader>
+	        <CardTitle className="text-2xl font-bold text-center">
+	          {/* 強制顯示原始 ID，如果 id > 10000，則嘗試從 species url 解析，或者直接使用 pokemon.species.url */}
+	          {/* 由於 Pokemon 介面沒有 species.id，我們這裡做一個簡單的判斷：如果 id > 10000，則顯示 species url 中的 id */}
+	          {/* 但為了保險，我們假設 pokemon 物種資料已經正確處理。如果沒有，我們這裡做一個 fallback */}
+	          #{(() => {
+	             if (pokemon.id > 10000 && pokemon.species && pokemon.species.url) {
+	                const parts = pokemon.species.url.split('/');
+	                const speciesId = parts[parts.length - 2]; // .../species/1/
+	                return speciesId.padStart(4, '0');
+	             }
+	             return pokemon.id.toString().padStart(4, '0');
+	          })()} {language === 'zh' ? (pokemon.zhName || pokemon.name) : (pokemon.enName || pokemon.name).split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+	        </CardTitle>
+	      </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center gap-4">
           {/* 桌面版：圖片和特性並排 */}

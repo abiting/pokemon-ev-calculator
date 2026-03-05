@@ -133,48 +133,30 @@ export default function Home() {
               </DialogHeader>
               <div className="grid gap-2 py-4 max-h-[60vh] overflow-y-auto">
                  <p className="text-sm text-muted-foreground mb-2">此寶可夢有多種型態，請選擇：</p>
-                 {varieties.map((v) => {
-                    let displayName = v.pokemon.name;
-                    if (!v.is_default && pokemon) {
-                       // 嘗試格式化名稱
-                       // 注意：這裡我們需要 baseZhName 和 speciesName，但目前 pokemon 物種資訊可能不完整
-                       // 我們可以從 pokemon.species.name 獲取 speciesName
-                       // 從 pokemon.zhName (如果是基礎型態) 推斷 baseZhName
-                       // 這裡做一個簡單的處理：如果 pokemon 是基礎型態，那它的 zhName 就是 baseZhName
-                       // 如果不是，我們可能需要從 API 獲取，或者簡單地顯示英文格式化名稱
-                       
-                       // 為了更好的體驗，我們使用 formatPokemonName
-                       // 假設 pokemon.species.name 是正確的 speciesName
-                       // 假設 pokemon.zhName 去掉括號部分是 baseZhName (這有點冒險)
-                       
-                       // 更穩健的做法：我們在 fetchPokemon 時已經把 varieties 的名稱處理好放進去？
-                       // 或者我們在這裡即時計算。
-                       
-                       // 讓我們嘗試用 formatPokemonName，但我們需要 baseZhName。
-                       // 如果當前顯示的是 Mega，我們不知道「妙蛙花」這個詞。
-                       // 除非我們在 fetchPokemon 時把 baseZhName 也存下來。
-                       
-                       // 替代方案：直接顯示 v.pokemon.name 的格式化英文，或者簡單翻譯
-                       const formatted = formatPokemonName(v.pokemon.name, pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '', pokemon.species.name);
-                       displayName = formatted.zhName || formatted.enName;
-                    } else if (v.is_default) {
-                       displayName = "一般型態";
-                    }
-                    
-                    return (
-                    <Button
-                       key={v.pokemon.name}
-                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
-                       className="justify-start text-left h-auto py-3"
-                       onClick={() => {
-                          selectVariety(v.pokemon.url);
-                          setShowVarieties(false);
-                       }}
-                    >
-                       {displayName}
-                    </Button>
-                 );
-                 })}
+	                 {varieties.map((v) => {
+	                    let displayName = v.pokemon.name;
+	                    if (!v.is_default && pokemon) {
+	                       const baseZhName = pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '';
+	                       const formatted = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
+	                       displayName = formatted.zhName || formatted.enName;
+	                    } else if (v.is_default) {
+	                       displayName = "一般型態";
+	                    }
+	                    
+	                    return (
+	                    <Button
+	                       key={v.pokemon.name}
+	                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
+	                       className="justify-start text-left h-auto py-3"
+	                       onClick={() => {
+	                          selectVariety(v.pokemon.url);
+	                          setShowVarieties(false);
+	                       }}
+	                    >
+	                       {displayName}
+	                    </Button>
+	                 );
+	                 })}
               </div>
            </DialogContent>
         </Dialog>

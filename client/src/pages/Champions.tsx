@@ -224,27 +224,28 @@ export default function Champions() {
                  <p className="text-sm text-muted-foreground mb-2">此寶可夢有多種型態，請選擇：</p>
                  {varieties.map((v) => {
                     let displayName = v.pokemon.name;
-                    if (!v.is_default && pokemon) {
-                       const formatted = formatPokemonName(v.pokemon.name, pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '', pokemon.species.name);
-                       displayName = formatted.zhName || formatted.enName;
-                    } else if (v.is_default) {
-                       displayName = "一般型態";
-                    }
-                    
-                    return (
-                    <Button
-                       key={v.pokemon.name}
-                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
-                       className="justify-start text-left h-auto py-3"
-                       onClick={() => {
-                          selectVariety(v.pokemon.url);
-                          setShowVarieties(false);
-                       }}
-                    >
-                       {displayName}
-                    </Button>
-                 );
-                 })}
+	                    if (!v.is_default && pokemon) {
+	                       const baseZhName = pokemon.zhName?.split('（')[0].replace('超級', '').replace('超極巨化', '').replace('極巨化', '') || '';
+	                       const formatted = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
+	                       displayName = formatted.zhName || formatted.enName;
+	                    } else if (v.is_default) {
+	                       displayName = "一般型態";
+	                    }
+	                    
+	                    return (
+	                    <Button
+	                       key={v.pokemon.name}
+	                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
+	                       className="justify-start text-left h-auto py-3"
+	                       onClick={() => {
+	                          selectVariety(v.pokemon.url);
+	                          setShowVarieties(false);
+	                       }}
+	                    >
+	                       {displayName}
+	                    </Button>
+	                 );
+	                 })}
               </div>
            </DialogContent>
         </Dialog>
