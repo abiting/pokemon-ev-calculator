@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v26_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v27_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -48,7 +48,8 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
       'tatsugiri': 'tatsugiri-curly',
       'toxtricity': 'toxtricity-amped',
       'darmanitan': 'darmanitan-standard',
-      'necrozma': 'necrozma'
+      'necrozma': 'necrozma',
+      'lycanroc': 'lycanroc-midday'
     };
 
     const mappedQuery = searchMap[query.toLowerCase()] || query;
@@ -112,6 +113,22 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          } else if (v.pokemon.name.includes('galar') && v.pokemon.name.includes('zen')) {
             formatted.enName = 'Darmanitan (Galarian Zen)';
             formatted.zhName = '達摩狒狒（伽勒爾達摩模式）';
+         }
+      }
+
+      // 特別處理 Lycanroc 的變體名稱
+      if (v.pokemon.name.includes('lycanroc')) {
+         console.log('Processing Lycanroc variety:', v.pokemon.name); // Debug log
+         
+         if (v.pokemon.name === 'lycanroc-midday' || v.pokemon.name === 'lycanroc') {
+            formatted.enName = 'Lycanroc (Midday)';
+            formatted.zhName = '鬃岩狼人（白晝的樣子）';
+         } else if (v.pokemon.name.includes('midnight')) {
+            formatted.enName = 'Lycanroc (Midnight)';
+            formatted.zhName = '鬃岩狼人（黑夜的樣子）';
+         } else if (v.pokemon.name.includes('dusk')) {
+            formatted.enName = 'Lycanroc (Dusk)';
+            formatted.zhName = '鬃岩狼人（黃昏的樣子）';
          }
       }
 
@@ -575,6 +592,21 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 特別處理 Darmanitan Standard
   if (englishName === 'darmanitan-standard' || englishName === 'darmanitan') {
      data.enName = 'Darmanitan (Standard)';
+  }
+
+  // 特別處理 Lycanroc
+  if (englishName.startsWith('lycanroc-') || englishName === 'lycanroc') {
+     const form = englishName.replace('lycanroc-', '');
+     if (englishName === 'lycanroc' || form === 'midday') {
+        data.enName = 'Lycanroc (Midday)';
+        data.zhName = '鬃岩狼人（白晝的樣子）';
+     } else if (form === 'midnight') {
+        data.enName = 'Lycanroc (Midnight)';
+        data.zhName = '鬃岩狼人（黑夜的樣子）';
+     } else if (form === 'dusk') {
+        data.enName = 'Lycanroc (Dusk)';
+        data.zhName = '鬃岩狼人（黃昏的樣子）';
+     }
   }
 
   // 特別處理 Mimikyu
