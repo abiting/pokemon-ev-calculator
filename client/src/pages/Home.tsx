@@ -143,6 +143,13 @@ export default function Home() {
                            if (v.is_default) {
                               // 如果是預設型態，直接顯示基礎名稱 (例如 "妙蛙花")
                               displayName = baseZhName;
+                              
+                              // 特殊處理：莫魯貝可預設型態也需要顯示完整名稱
+                              if (pokemon.species.name === 'morpeko') {
+                                 const formatted = formatPokemonName('morpeko-full-belly', baseZhName, pokemon.species.name);
+                                 displayName = formatted.zhName || formatted.enName;
+                              }
+                              
                               // 如果是英文環境，且名稱是 Mr Mime 等，需要修正
                               if (displayName === 'Mr Mime' || displayName === 'Mr-mime') displayName = 'Mr. Mime';
                               if (displayName === 'Mr Rime' || displayName === 'Mr-rime') displayName = 'Mr. Rime';
