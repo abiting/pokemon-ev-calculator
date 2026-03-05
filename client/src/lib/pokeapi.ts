@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v4_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v5_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -101,7 +101,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   
   // Ensure base names are clean
   let cleanBaseZhName = baseZhName.replace(/（.*?）/g, '').replace(/\(.*?\)/g, '');
-  const baseEnName = capitalize(speciesName);
+  let baseEnName = capitalize(speciesName);
+
+  // Fix Mr. Mime, Mr. Rime, Mime Jr.
+  if (baseEnName === 'Mr Mime') baseEnName = 'Mr. Mime';
+  if (baseEnName === 'Mr Rime') baseEnName = 'Mr. Rime';
+  if (baseEnName === 'Mime Jr') baseEnName = 'Mime Jr.';
 
   // Hardcoded fix for Venusaur (ID 3)
   if (speciesName === 'venusaur' || englishName.includes('venusaur')) {
@@ -229,6 +234,33 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 如果是繁體中文名稱，轉換為 ID
   let searchTerm = nameOrId;
   if (typeof nameOrId === 'string') {
+    // Handle Mr. Mime / Mr. Rime / Mime Jr. search
+    const lowerName = nameOrId.toLowerCase();
+    if (lowerName === 'mr. mime' || lowerName === 'mr mime') searchTerm = 'mr-mime';
+    else if (lowerName === 'mr. rime' || lowerName === 'mr rime') searchTerm = 'mr-rime';
+    else if (lowerName === 'mime jr.' || lowerName === 'mime jr') searchTerm = 'mime-jr';
+    else if (lowerName === 'type: null' || lowerName === 'type null') searchTerm = 'type-null';
+    else if (lowerName === 'tapu koko') searchTerm = 'tapu-koko';
+    else if (lowerName === 'tapu lele') searchTerm = 'tapu-lele';
+    else if (lowerName === 'tapu bulu') searchTerm = 'tapu-bulu';
+    else if (lowerName === 'tapu fini') searchTerm = 'tapu-fini';
+    else if (lowerName === 'great tusk') searchTerm = 'great-tusk';
+    else if (lowerName === 'scream tail') searchTerm = 'scream-tail';
+    else if (lowerName === 'brute bonnet') searchTerm = 'brute-bonnet';
+    else if (lowerName === 'flutter mane') searchTerm = 'flutter-mane';
+    else if (lowerName === 'slither wing') searchTerm = 'slither-wing';
+    else if (lowerName === 'sandy shocks') searchTerm = 'sandy-shocks';
+    else if (lowerName === 'iron treads') searchTerm = 'iron-treads';
+    else if (lowerName === 'iron bundle') searchTerm = 'iron-bundle';
+    else if (lowerName === 'iron hands') searchTerm = 'iron-hands';
+    else if (lowerName === 'iron jugulis') searchTerm = 'iron-jugulis';
+    else if (lowerName === 'iron moth') searchTerm = 'iron-moth';
+    else if (lowerName === 'iron thorns') searchTerm = 'iron-thorns';
+    else if (lowerName === 'roaring moon') searchTerm = 'roaring-moon';
+    else if (lowerName === 'iron valiant') searchTerm = 'iron-valiant';
+    else if (lowerName === 'walking wake') searchTerm = 'walking-wake';
+    else if (lowerName === 'iron leaves') searchTerm = 'iron-leaves';
+
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
     
