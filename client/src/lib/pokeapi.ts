@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v3_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v4_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -123,12 +123,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Mega ${baseEnName}`;
   } else if (englishName.includes('-gmax')) {
     zhName = `超極巨${cleanBaseZhName}`;
-    // 皮卡丘超極巨化特別顯示全名 Gigantamax
-    if (speciesName === 'pikachu' || englishName.includes('pikachu')) {
-      enName = `Gigantamax ${baseEnName}`;
-    } else {
-      enName = `Gmax ${baseEnName}`;
-    }
+    enName = `Gigantamax ${baseEnName}`;
   } else if (englishName.includes('-eternamax')) {
     zhName = `無極巨${cleanBaseZhName}`;
     enName = `Eternamax ${baseEnName}`;
