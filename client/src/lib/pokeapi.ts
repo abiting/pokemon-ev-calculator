@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v10_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v11_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -217,6 +217,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     } else if (englishName.includes('zamazenta-crowned')) {
       zhName = `${baseZhName}（盾之王）`;
       enName = `Zamazenta (Crowned Shield)`;
+    } else if (englishName.includes('morpeko-full-belly')) {
+      zhName = `${baseZhName}（滿腹花紋）`;
+      enName = `Morpeko Full Belly`;
+    } else if (englishName.includes('morpeko-hangry')) {
+      zhName = `${baseZhName}（空腹花紋）`;
+      enName = `Morpeko Hangry`;
     } else {
 	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
 	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
@@ -294,6 +300,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'walking wake') searchTerm = 'walking-wake';
     else if (lowerName === 'iron leaves') searchTerm = 'iron-leaves';
     else if (lowerName === 'oricorio') searchTerm = 'oricorio-baile'; // Oricorio default form
+    else if (lowerName === 'morpeko') searchTerm = 'morpeko-full-belly'; // Morpeko default form
 
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
