@@ -62,18 +62,20 @@ export default function Champions() {
   const totalSP = Object.values(sps).reduce((a, b) => a + b, 0);
   const remainingSP = MAX_TOTAL_SP - totalSP;
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (query: string, isVarietySelection = false) => {
     setIsLoading(true);
     setCandidates([]);
     setShowCandidates(false);
-    setVarieties([]);
-    setShowVarieties(false);
+    if (!isVarietySelection) {
+       setVarieties([]);
+       setShowVarieties(false);
+    }
 
     try {
       const data = await fetchPokemon(query);
       
-      // Check for varieties if it's a base form
-      if (data.varieties && data.varieties.length > 1) {
+      // Check for varieties if it's a base form and not already selecting a variety
+      if (!isVarietySelection && data.varieties && data.varieties.length > 1) {
          setVarieties(data.varieties);
          setShowVarieties(true);
       }
@@ -104,7 +106,7 @@ export default function Champions() {
      const id = url.split('/').filter(Boolean).pop();
      if (id) {
         setShowVarieties(false);
-        await handleSearch(id);
+        await handleSearch(id, true);
      }
   };
 

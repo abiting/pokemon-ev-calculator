@@ -26,18 +26,20 @@ export default function Home() {
     document.title = APP_TITLE;
   }, []);
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (query: string, isVarietySelection = false) => {
     setIsLoading(true);
     setCandidates([]);
     setShowCandidates(false);
-    setVarieties([]);
-    setShowVarieties(false);
+    if (!isVarietySelection) {
+       setVarieties([]);
+       setShowVarieties(false);
+    }
 
     try {
       const data = await fetchPokemon(query);
       
-      // Check for varieties if it's a base form
-      if (data.varieties && data.varieties.length > 1) {
+      // Check for varieties if it's a base form and not already selecting a variety
+      if (!isVarietySelection && data.varieties && data.varieties.length > 1) {
          setVarieties(data.varieties);
          setShowVarieties(true);
       }
@@ -67,7 +69,7 @@ export default function Home() {
      const id = url.split('/').filter(Boolean).pop();
      if (id) {
         setShowVarieties(false);
-        await handleSearch(id);
+        await handleSearch(id, true);
      }
   };
 
