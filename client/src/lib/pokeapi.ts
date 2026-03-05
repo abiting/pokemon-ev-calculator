@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v18_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v19_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -188,6 +188,19 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
        zhName = baseZhName;
        enName = 'Tatsugiri';
     }
+  } else if (englishName.startsWith('toxtricity-')) {
+    // 顫弦蠑螈 (Toxtricity) 形態處理
+    const form = englishName.replace('toxtricity-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Toxtricity (${formCapitalized})`;
+    
+    if (form === 'amped') zhName = `${baseZhName}（高調）`;
+    else if (form === 'low-key') zhName = `${baseZhName}（低調）`;
+    else if (form === 'gmax') {
+       zhName = `超極巨${baseZhName}`;
+       enName = `Toxtricity (Gmax)`;
+    }
+    else zhName = `${baseZhName}（${formCapitalized}）`;
   } else if (englishName.startsWith('dudunsparce-')) {
     // 土龍節節 (Dudunsparce) 節數處理
     const form = englishName.replace('dudunsparce-', '');
@@ -303,6 +316,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'oricorio') searchTerm = 'oricorio-baile'; // Oricorio default form
     else if (lowerName === 'morpeko') searchTerm = 'morpeko-full-belly'; // Morpeko default form
     else if (lowerName === 'tatsugiri') searchTerm = 'tatsugiri-curly'; // Tatsugiri default form
+    else if (lowerName === 'toxtricity') searchTerm = 'toxtricity-amped'; // Toxtricity default form
 
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
