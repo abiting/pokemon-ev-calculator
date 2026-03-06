@@ -359,7 +359,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('pumpkaboo-average') || englishName === 'pumpkaboo') {
     zhName = `${cleanBaseZhName}（普通尺寸）`;
     enName = `Pumpkaboo (Average)`;
-  } else if (englishName.includes('pumpkaboo-small')) {
+  } else if (englishName.includes('pumpkaboo-large')) {
     zhName = `${cleanBaseZhName}（大尺寸）`;
     enName = `Pumpkaboo (Large)`;
   } else if (englishName.includes('pumpkaboo-super')) {
@@ -371,14 +371,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('gourgeist-average') || englishName === 'gourgeist') {
     zhName = `${cleanBaseZhName}（普通尺寸）`;
     enName = `Gourgeist (Average)`;
-  } else if (englishName.includes('gourgeist-small')) {
+  } else if (englishName.includes('gourgeist-large')) {
     zhName = `${cleanBaseZhName}（大尺寸）`;
     enName = `Gourgeist (Large)`;
   } else if (englishName.includes('gourgeist-super')) {
     zhName = `${cleanBaseZhName}（特大尺寸）`;
     enName = `Gourgeist (Super)`;
-  } else if (englishName.includes('-origin')) {zhName = `超極巨${cleanBaseZhName}`;
-    enName = `Gigantamax ${baseEnName}`;
   } else if (englishName.includes('-eternamax')) {
     zhName = `無極巨${cleanBaseZhName}`;
     enName = `Eternamax ${baseEnName}`;
