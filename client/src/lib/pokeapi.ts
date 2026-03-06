@@ -326,6 +326,18 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       enName: 'Toxtricity (Amped Form)'
     };
   }
+  if (englishName.includes('calyrex-ice')) {
+    return {
+      zhName: '蕾冠王（騎白馬的樣子）',
+      enName: 'Calyrex (Ice Rider)'
+    };
+  }
+  if (englishName.includes('calyrex-shadow')) {
+    return {
+      zhName: '蕾冠王（騎黑馬的樣子）',
+      enName: 'Calyrex (Shadow Rider)'
+    };
+  }
 
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
