@@ -48,6 +48,7 @@ export interface Pokemon {
   name: string;
   enName?: string;
   zhName?: string;
+  formLabel?: string;
   stats: PokemonStat[];
   types: PokemonType[];
   sprites: PokemonSprites;

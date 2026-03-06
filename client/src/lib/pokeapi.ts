@@ -130,16 +130,20 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          
          if (v.pokemon.name === 'darmanitan-standard' || v.pokemon.name === 'darmanitan') {
             formatted.enName = 'Darmanitan (Standard)';
-            formatted.zhName = '達摩狒狒（普通模式）';
+            formatted.zhName = '達摩狒狒';
+            formatted.formLabel = '普通模式';
          } else if (v.pokemon.name.includes('zen') && !v.pokemon.name.includes('galar')) {
             formatted.enName = 'Darmanitan (Zen)';
-            formatted.zhName = '達摩狒狒（達摩模式）';
+            formatted.zhName = '達摩狒狒';
+            formatted.formLabel = '達摩模式';
          } else if (v.pokemon.name.includes('galar') && !v.pokemon.name.includes('zen')) {
             formatted.enName = 'Darmanitan (Galarian)';
-            formatted.zhName = '達摩狒狒（伽勒爾的樣子）';
+            formatted.zhName = '達摩狒狒';
+            formatted.formLabel = '伽勒爾的樣子';
          } else if (v.pokemon.name.includes('galar') && v.pokemon.name.includes('zen')) {
             formatted.enName = 'Darmanitan (Galarian Zen)';
-            formatted.zhName = '達摩狒狒（伽勒爾達摩模式）';
+            formatted.zhName = '達摩狒狒';
+            formatted.formLabel = '伽勒爾達摩模式';
          }
       }
 
@@ -149,13 +153,16 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          
          if (v.pokemon.name === 'lycanroc-midday' || v.pokemon.name === 'lycanroc') {
             formatted.enName = 'Lycanroc (Midday)';
-            formatted.zhName = '鬃岩狼人（白晝的樣子）';
+            formatted.zhName = '鬃岩狼人';
+            formatted.formLabel = '白晝的樣子';
          } else if (v.pokemon.name.includes('midnight')) {
             formatted.enName = 'Lycanroc (Midnight)';
-            formatted.zhName = '鬃岩狼人（黑夜的樣子）';
+            formatted.zhName = '鬃岩狼人';
+            formatted.formLabel = '黑夜的樣子';
          } else if (v.pokemon.name.includes('dusk')) {
             formatted.enName = 'Lycanroc (Dusk)';
-            formatted.zhName = '鬃岩狼人（黃昏的樣子）';
+            formatted.zhName = '鬃岩狼人';
+            formatted.formLabel = '黃昏的樣子';
          }
       }
 
@@ -176,10 +183,12 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
       if (v.pokemon.name.includes('minior')) {
          if (v.pokemon.name === 'minior-red-meteor') {
             formatted.enName = 'Minior (Meteor)';
-            formatted.zhName = '小隕星（流星）';
+            formatted.zhName = '小隕星';
+            formatted.formLabel = '流星';
          } else if (v.pokemon.name === 'minior-red') {
             formatted.enName = 'Minior (Core)';
-            formatted.zhName = '小隕星（核心）';
+            formatted.zhName = '小隕星';
+            formatted.formLabel = '核心';
          } else {
             // 過濾掉其他顏色的重複形態
             return null;
@@ -195,10 +204,12 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
             formatted.zhName = '奈克洛茲瑪';
          } else if (v.pokemon.name.includes('dusk')) {
             formatted.enName = 'Necrozma (Dusk Mane)';
-            formatted.zhName = '奈克洛茲瑪（黃昏之鬃）';
+            formatted.zhName = '奈克洛茲瑪';
+            formatted.formLabel = '黃昏之鬃';
          } else if (v.pokemon.name.includes('dawn')) {
             formatted.enName = 'Necrozma (Dawn Wings)';
-            formatted.zhName = '奈克洛茲瑪（拂曉之翼）';
+            formatted.zhName = '奈克洛茲瑪';
+            formatted.formLabel = '拂曉之翼';
          } else if (v.pokemon.name.includes('ultra')) {
             formatted.enName = 'Ultra Necrozma';
             formatted.zhName = '究極奈克洛茲瑪';
@@ -209,6 +220,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
         id,
         name: formatted.enName, // 使用格式化後的英文名稱
         zhName: formatted.zhName,
+        formLabel: formatted.formLabel,
         isDefault: v.is_default
       };
     }));
@@ -220,7 +232,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
   }
 }
 
-export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string } {
+export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string, formLabel?: string } {
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
   
@@ -238,8 +250,9 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     cleanBaseZhName = '妙蛙花';
   }
   
-  let zhName = '';
-  let enName = '';
+  let zhName = cleanBaseZhName;
+  let enName = capitalize(englishName);
+  let formLabel: string | undefined = undefined;
 
   // Handle Special Forms (Mega, Gmax, Regional)
   if (englishName.includes('-mega-x')) {
@@ -362,7 +375,8 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('gourgeist-super')) {
     zhName = `${cleanBaseZhName}（特大尺寸）`;
     enName = `Gourgeist (Super)`;
-  } else if (englishName.includes('-origin')) {zhName = `超極巨${cleanBaseZhName}`;
+  } else if (englishName.includes('-gmax')) {
+    zhName = `超極巨${cleanBaseZhName}`;
     enName = `Gigantamax ${baseEnName}`;
   } else if (englishName.includes('-eternamax')) {
     zhName = `無極巨${cleanBaseZhName}`;
@@ -473,18 +487,34 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     zhName = `${baseZhName}（空腹花紋）`;
     enName = `Morpeko (Hangry)`;
   } else {
-	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
-	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
-	      // 嘗試翻譯常見後綴
+      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
+      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
+      // 嘗試翻譯常見後綴
       let zhSuffix = suffix;
-      if (suffix === 'gmax') zhSuffix = '超極巨';
-      else if (suffix === 'mega') zhSuffix = '超級進化';
-	      else if (suffix === 'alola') zhSuffix = '阿羅拉樣子';
-	      else if (suffix === 'galar') zhSuffix = '伽勒爾樣子';
-	      else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
-	      else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
-	      
-      zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
+      let isPrefix = false;
+
+      if (suffix === 'gmax') {
+        zhSuffix = '超極巨';
+        isPrefix = true;
+      } else if (suffix === 'mega') {
+        zhSuffix = '超級';
+        isPrefix = true;
+      } else if (suffix === 'alola') {
+        zhSuffix = '阿羅拉的樣子';
+      } else if (suffix === 'galar') {
+        zhSuffix = '伽勒爾的樣子';
+      } else if (suffix === 'hisui') {
+        zhSuffix = '洗翠的樣子';
+      } else if (suffix === 'paldea') {
+        zhSuffix = '帕底亞的樣子';
+      }
+      
+      if (isPrefix) {
+        zhName = `${zhSuffix}${baseZhName}`;
+      } else {
+        zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
+      }
+      
       // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
       enName = capitalize(englishName);
     }
@@ -902,6 +932,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         const formatted = formatPokemonName(englishName, baseName, data.species.name);
         data.zhName = formatted.zhName;
         data.enName = formatted.enName;
+        data.formLabel = formatted.formLabel;
         data.name = data.zhName;
       } else {
         // 如果 species fetch 失敗，嘗試從 URL 解析 ID 並查表
@@ -917,12 +948,14 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
            const formatted = formatPokemonName(englishName, baseName, data.species.name);
            data.zhName = formatted.zhName;
            data.enName = formatted.enName;
+           data.formLabel = formatted.formLabel;
            data.name = data.zhName;
         } else {
            // 即使沒有 ID，也嘗試格式化英文名稱
            const formatted = formatPokemonName(englishName, englishName, data.species.name);
            data.zhName = formatted.zhName;
            data.enName = formatted.enName;
+           data.formLabel = formatted.formLabel;
            data.name = data.zhName;
         }
       }
