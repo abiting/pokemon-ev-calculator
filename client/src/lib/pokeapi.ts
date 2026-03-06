@@ -555,8 +555,9 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
 	      else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
 	      
       zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
-      // 英文名稱也嘗試格式化，將後綴移到前面或保留原樣但首字母大寫
-      enName = capitalize(englishName);
+      // 英文名稱格式化：將後綴用括號包起來
+      const suffixCapitalized = suffix.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+      enName = `${baseEnName} (${suffixCapitalized})`;
     }
 
   // Final fix for special names that might have been overwritten
@@ -850,20 +851,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      data.enName = 'Toxtricity (Amped)';
   }
 
-  // 特別處理 Darmanitan (使用 ID 強制修正)
-  if (data.id === 555) {
-     data.enName = 'Darmanitan (Standard)';
-     data.zhName = '達摩狒狒';
-  } else if (data.id === 10017) {
-     data.enName = 'Darmanitan (Zen)';
-     data.zhName = '達摩狒狒（達摩模式）';
-  } else if (data.id === 10177) {
-     data.enName = 'Darmanitan (Galar)';
-     data.zhName = '達摩狒狒（伽勒爾的樣子）';
-  } else if (data.id === 10178) {
-     data.enName = 'Darmanitan (Galar Zen)';
-     data.zhName = '達摩狒狒（伽勒爾達摩模式）';
-  }
+
 
   // 特別處理 Lycanroc
   if (englishName.startsWith('lycanroc-') || englishName === 'lycanroc') {
@@ -1085,6 +1073,25 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
       data.zhName = englishName;
       data.name = englishName;
     }
+  }
+
+  // 特別處理 Darmanitan (使用 ID 強制修正) - 移至最後以避免被覆蓋
+  if (data.id === 555) {
+     data.enName = 'Darmanitan (Standard)';
+     data.zhName = '達摩狒狒';
+     data.name = data.zhName;
+  } else if (data.id === 10017) {
+     data.enName = 'Darmanitan (Zen)';
+     data.zhName = '達摩狒狒（達摩模式）';
+     data.name = data.zhName;
+  } else if (data.id === 10177) {
+     data.enName = 'Darmanitan (Galar)';
+     data.zhName = '達摩狒狒（伽勒爾的樣子）';
+     data.name = data.zhName;
+  } else if (data.id === 10178) {
+     data.enName = 'Darmanitan (Galar Zen)';
+     data.zhName = '達摩狒狒（伽勒爾達摩模式）';
+     data.name = data.zhName;
   }
 
   // 儲存到快取

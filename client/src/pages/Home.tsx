@@ -180,6 +180,11 @@ export default function Home() {
                               const formatted = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
                               displayName = formatted.zhName || formatted.enName;
                            }
+
+                           // 特別處理 Darmanitan 的英文顯示名稱
+                           if (v.pokemon.name === 'darmanitan-galar-zen') {
+                              displayName = 'Darmanitan (Galar Zen)';
+                           }
                            
                            // Final fix for special names in variety list
                            if (displayName === 'Mr Mime' || displayName === 'Mr-mime') displayName = 'Mr. Mime';

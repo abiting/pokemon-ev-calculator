@@ -78,8 +78,53 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
 	                return speciesId.padStart(4, '0');
 	             }
 	             return pokemon.id.toString().padStart(4, '0');
-	          })()} {language === 'zh' ? (pokemon.zhName || pokemon.name) : (() => {
+	          })()} {language === 'zh' ? (() => {
+            // 強制修正特定寶可夢的顯示名稱
+            // 優先檢查英文名稱，因為 ID 可能被標準化為 Species ID (555)
+            const enName = pokemon.enName || pokemon.name;
+            
+            // 達摩狒狒特殊處理：使用屬性判斷形態
+            if (enName.includes('Darmanitan') || enName.includes('darmanitan') || pokemon.id === 555) {
+              const types = pokemon.types.map(t => t.type.name);
+              const hasIce = types.includes('ice');
+              const hasFire = types.includes('fire');
+              const hasPsychic = types.includes('psychic');
+              
+              if (hasIce && hasFire) return '達摩狒狒（伽勒爾達摩模式）';
+              if (hasIce) return '達摩狒狒（伽勒爾的樣子）';
+              if (hasFire && hasPsychic) return '達摩狒狒（達摩模式）';
+              if (hasFire) return '達摩狒狒';
+            }
+            
+            if (enName.includes('Darmanitan (Galar Zen)') || enName.includes('galar-zen')) return '達摩狒狒（伽勒爾達摩模式）';
+            if (enName.includes('Darmanitan (Galarian)') || enName.includes('galar-standard')) return '達摩狒狒（伽勒爾的樣子）';
+            if (enName.includes('Darmanitan (Zen)') || enName.includes('zen-mode')) return '達摩狒狒（達摩模式）';
+            if (enName.includes('Darmanitan') || enName.includes('darmanitan')) return '達摩狒狒';
+            
+            // 如果英文名檢查失敗，再嘗試 ID 檢查（作為備用）
+            if (pokemon.id === 10178) return '達摩狒狒（伽勒爾達摩模式）';
+            if (pokemon.id === 10177) return '達摩狒狒（伽勒爾的樣子）';
+            if (pokemon.id === 10017) return '達摩狒狒（達摩模式）';
+            if (pokemon.id === 555) return '達摩狒狒';
+
+            return pokemon.zhName || pokemon.name;
+          })() : (() => {
             const name = (pokemon.enName || pokemon.name).split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            
+            // 達摩狒狒英文名特殊處理：使用屬性判斷形態
+            if (name.includes('Darmanitan') || pokemon.id === 555) {
+              const types = pokemon.types.map(t => t.type.name);
+              const hasIce = types.includes('ice');
+              const hasFire = types.includes('fire');
+              const hasPsychic = types.includes('psychic');
+              
+              if (hasIce && hasFire) return 'Darmanitan (Galar Zen)';
+              if (hasIce) return 'Darmanitan (Galar)';
+              if (hasFire && hasPsychic) return 'Darmanitan (Zen)';
+              if (hasFire) return 'Darmanitan (Standard)';
+            }
+            
+            // 特殊名稱處理
             if (name === 'Mr Mime' || name === 'Mr-mime') return 'Mr. Mime';
             if (name === 'Mr Rime' || name === 'Mr-rime') return 'Mr. Rime';
             if (name === 'Mime Jr' || name === 'Mime-jr') return 'Mime Jr.';
@@ -104,6 +149,7 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             if (name === 'Iron Valiant' || name === 'Iron-valiant') return 'Iron Valiant';
             if (name === 'Walking Wake' || name === 'Walking-wake') return 'Walking Wake';
             if (name === 'Iron Leaves' || name === 'Iron-leaves') return 'Iron Leaves';
+            
             return name;
           })()}
 	        </CardTitle>
