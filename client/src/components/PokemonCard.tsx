@@ -109,6 +109,14 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
 
             return pokemon.zhName || pokemon.name;
           })() : (() => {
+            // Hardcoded fix for Treasures of Ruin (Wo-Chien, Chien-Pao, Ting-Lu, Chi-Yu)
+            // This must be done here because formatPokemonName might be bypassed or overridden
+            const lowerName = (pokemon.enName || pokemon.name).toLowerCase();
+            if (lowerName === 'wo-chien' || lowerName === 'wo chien') return 'Wo-Chien';
+            if (lowerName === 'chien-pao' || lowerName === 'chien pao') return 'Chien-Pao';
+            if (lowerName === 'ting-lu' || lowerName === 'ting lu') return 'Ting-Lu';
+            if (lowerName === 'chi-yu' || lowerName === 'chi yu') return 'Chi-Yu';
+
             // 優先使用後端已經格式化好的 enName（包含括號），如果沒有才手動格式化 name
             let name = pokemon.enName;
             if (!name) {

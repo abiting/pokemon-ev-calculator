@@ -155,6 +155,23 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          }
       }
 
+      // 特別處理 Ogerpon 的變體名稱
+      if (v.pokemon.name.includes('ogerpon')) {
+         if (v.pokemon.name === 'ogerpon') {
+            formatted.enName = 'Ogerpon (Teal Mask)';
+            formatted.zhName = '厄鬼椪（碧草面具）';
+         } else if (v.pokemon.name.includes('wellspring')) {
+            formatted.enName = 'Ogerpon (Wellspring Mask)';
+            formatted.zhName = '厄鬼椪（水井面具）';
+         } else if (v.pokemon.name.includes('hearthflame')) {
+            formatted.enName = 'Ogerpon (Hearthflame Mask)';
+            formatted.zhName = '厄鬼椪（火灶面具）';
+         } else if (v.pokemon.name.includes('cornerstone')) {
+            formatted.enName = 'Ogerpon (Cornerstone Mask)';
+            formatted.zhName = '厄鬼椪（礎石面具）';
+         }
+      }
+
       // 特別處理 Lycanroc 的變體名稱
       if (v.pokemon.name.includes('lycanroc')) {
          console.log('Processing Lycanroc variety:', v.pokemon.name); // Debug log
@@ -217,6 +234,23 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          }
       }
 
+      // 特別處理 Ogerpon 的變體名稱
+      if (v.pokemon.name.includes('ogerpon')) {
+         if (v.pokemon.name === 'ogerpon') {
+            formatted.enName = 'Ogerpon (Teal Mask)';
+            formatted.zhName = '厄鬼椪（碧草面具）';
+         } else if (v.pokemon.name.includes('wellspring')) {
+            formatted.enName = 'Ogerpon (Wellspring Mask)';
+            formatted.zhName = '厄鬼椪（水井面具）';
+         } else if (v.pokemon.name.includes('hearthflame')) {
+            formatted.enName = 'Ogerpon (Hearthflame Mask)';
+            formatted.zhName = '厄鬼椪（火灶面具）';
+         } else if (v.pokemon.name.includes('cornerstone')) {
+            formatted.enName = 'Ogerpon (Cornerstone Mask)';
+            formatted.zhName = '厄鬼椪（礎石面具）';
+         }
+      }
+
       // 特別處理 Zygarde 的變體名稱
       if (v.pokemon.name.includes('zygarde')) {
          if (v.pokemon.name.includes('zygarde-10')) {
@@ -259,6 +293,22 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   }
   if (englishName === 'chi-yu') {
     return { zhName: '古玉魚', enName: 'Chi-Yu' };
+  }
+
+  // Hardcoded fix for Ogerpon forms
+  if (englishName.includes('ogerpon')) {
+    if (englishName === 'ogerpon') {
+      return { zhName: '厄鬼椪（碧草面具）', enName: 'Ogerpon (Teal Mask)' };
+    }
+    if (englishName.includes('wellspring')) {
+      return { zhName: '厄鬼椪（水井面具）', enName: 'Ogerpon (Wellspring Mask)' };
+    }
+    if (englishName.includes('hearthflame')) {
+      return { zhName: '厄鬼椪（火灶面具）', enName: 'Ogerpon (Hearthflame Mask)' };
+    }
+    if (englishName.includes('cornerstone')) {
+      return { zhName: '厄鬼椪（礎石面具）', enName: 'Ogerpon (Cornerstone Mask)' };
+    }
   }
 
   // Hardcoded overrides for specific Pokemon forms to ensure correct display
