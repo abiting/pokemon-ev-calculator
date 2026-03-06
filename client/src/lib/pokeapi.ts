@@ -246,6 +246,20 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 }
 
 export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string } {
+  // Hardcoded overrides for specific Pokemon forms to ensure correct display
+  if (englishName.includes('lycanroc-midnight')) {
+    return {
+      zhName: '鬃岩狼人（黑夜的樣子）',
+      enName: 'Lycanroc (Midnight Form)'
+    };
+  }
+  if (englishName.includes('lycanroc-dusk')) {
+    return {
+      zhName: '鬃岩狼人（黃昏的樣子）',
+      enName: 'Lycanroc (Dusk Form)'
+    };
+  }
+
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
   
