@@ -7,7 +7,7 @@ import { calculateStat } from '@/lib/statCalculator';
 import { NATURES, type Nature } from '@/data/natures';
 import type { EVDistribution, Pokemon } from '@/types/pokemon';
 import { STAT_NAMES } from '@/types/pokemon';
-import { AlertCircle, RotateCcw } from 'lucide-react';
+import { AlertCircle, RotateCcw, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
 
 const MAX_TOTAL_EV = 510;
@@ -38,6 +38,7 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
   });
 
   const [selectedNature, setSelectedNature] = useState<Nature>(NATURES[0]);
+  const [copied, setCopied] = useState(false);
 
   const totalEV = getTotalEV(evs);
   const remainingEV = MAX_TOTAL_EV - totalEV;
@@ -60,6 +61,23 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
       ...prev,
       [stat]: clampedValue,
     }));
+  };
+
+  const handleCopyConfig = () => {
+    if (!pokemon) return;
+    
+    const lines = [
+      `${pokemon.name} @ ${selectedNature.name}性格`,
+      `特性: ${pokemon.abilities?.[0]?.ability?.name || '未知'}`,
+      `IVs: ${ivs.hp} HP / ${ivs.attack} Atk / ${ivs.defense} Def / ${ivs['special-attack']} SpA / ${ivs['special-defense']} SpD / ${ivs.speed} Spe`,
+      `EVs: ${evs.hp} HP / ${evs.attack} Atk / ${evs.defense} Def / ${evs['special-attack']} SpA / ${evs['special-defense']} SpD / ${evs.speed} Spe`,
+    ];
+    
+    const text = lines.join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
   const handleReset = () => {
@@ -239,11 +257,17 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
             ))}
           </div>
 
-          {/* 重置按鈕 */}
-          <Button onClick={handleReset} variant="outline" className="w-full">
-            <RotateCcw className="w-4 h-4 mr-2" />
-            重置所有設定
-          </Button>
+          {/* 操作按鈕群組 */}
+          <div className="flex gap-2">
+            <Button onClick={handleCopyConfig} className="flex-1" disabled={!pokemon}>
+              {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
+              {copied ? '已複製！' : '複製配置'}
+            </Button>
+            <Button onClick={handleReset} variant="outline" className="flex-1">
+              <RotateCcw className="w-4 h-4 mr-2" />
+              重置
+            </Button>
+          </div>
 
           {/* 說明 */}
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm">
