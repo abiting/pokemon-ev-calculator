@@ -257,6 +257,15 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('-primal')) {
     zhName = `原始${cleanBaseZhName}`;
     enName = `Primal ${baseEnName}`;
+  } else if (englishName.includes('wormadam-plant')) {
+    zhName = `${cleanBaseZhName}（草木蓑衣）`;
+    enName = `Wormadam (Plant Cloak)`;
+  } else if (englishName.includes('wormadam-sandy')) {
+    zhName = `${cleanBaseZhName}（砂土蓑衣）`;
+    enName = `Wormadam (Sandy Cloak)`;
+  } else if (englishName.includes('wormadam-trash')) {
+    zhName = `${cleanBaseZhName}（垃圾蓑衣）`;
+    enName = `Wormadam (Trash Cloak)`;
   } else if (englishName.includes('deoxys-normal')) {
     zhName = `${cleanBaseZhName}（普通形態）`;
     enName = `Deoxys (Normal)`;
