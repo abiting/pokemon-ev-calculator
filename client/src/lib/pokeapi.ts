@@ -41,6 +41,9 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
   const normalize = (str: string) => {
     return str
       .replace(/[\uff01-\uff5e]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0)) // Full-width to half-width
+      .replace(/Ⅱ/g, '2') // Handle Roman Numeral II
+      .replace(/II/g, '2') // Handle ASCII II
+      .replace(/２/g, '2') // Handle Full-width 2 explicitly if not covered by range
       .toLowerCase();
   };
 
@@ -607,7 +610,10 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     // Normalize function to handle full-width/half-width and case sensitivity
     const normalize = (str: string) => {
       return str
-        .replace(/[\uff01-\uff5e]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0)) // Full-width to half-width
+        .replace(/[\uff01-\uff5e]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
+        .replace(/Ⅱ/g, '2') // Handle Roman Numeral II
+        .replace(/II/g, '2') // Handle ASCII II
+        .replace(/２/g, '2') // Handle Full-width 2 explicitly if not covered by range
         .toLowerCase();
     };
 
