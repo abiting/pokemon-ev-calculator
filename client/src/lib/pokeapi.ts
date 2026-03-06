@@ -249,7 +249,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     zhName = `超級${cleanBaseZhName} Y`;
     enName = `Mega ${baseEnName} Y`;
   } else if (englishName.includes('-primal')) {
-    zhName = `${cleanBaseZhName}（原始回歸）`;
+    zhName = `原始${cleanBaseZhName}`;
     enName = `Primal ${baseEnName}`;
   } else if (englishName.includes('deoxys-normal')) {
     zhName = `${cleanBaseZhName}（普通形態）`;
