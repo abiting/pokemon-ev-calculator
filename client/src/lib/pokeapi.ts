@@ -1173,7 +1173,10 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 	  
 	  // 強制格式化英文名稱，確保去連接號且首字母大寫
 	  const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
-	  data.enName = capitalize(englishName);
+	  // 只有當 enName 尚未設定時，才執行預設的 capitalize 邏輯
+	  if (!data.enName) {
+	    data.enName = capitalize(englishName);
+	  }
 	  
   // 特別處理 Oricorio Baile
   if (englishName === 'oricorio-baile' || englishName === 'oricorio') {
@@ -1407,14 +1410,22 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           data.name = englishName;
         }
       }
-    } catch (error) {
-      console.warn('無法獲取繁體中文名稱:', error);
-      data.zhName = englishName;
-      data.name = englishName;
-    }
-  }
-
-  // 特別處理 Darmanitan (使用 ID 強制修正) - 移至最後以避免被覆蓋
+	    } catch (error) {
+	      console.warn('無法獲取繁體中文名稱:', error);
+	      data.zhName = englishName;
+	      data.name = englishName;
+	    }
+	  }
+	
+	  // 統一格式化英文名稱 (確保所有寶可夢都經過標準化處理)
+	  if (!data.enName || !data.enName.includes('(')) {
+	    const formatted = formatPokemonName(englishName, data.zhName || englishName, data.species.name);
+	    if (formatted.enName && formatted.enName !== englishName) {
+	      data.enName = formatted.enName;
+	    }
+	  }
+	
+	  // 特別處理 Darmanitan (使用 ID 強制修正) - 移至最後以避免被覆蓋
   if (data.id === 555) {
      data.enName = 'Darmanitan (Standard)';
      data.zhName = '達摩狒狒';
