@@ -943,6 +943,27 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'chien pao') searchTerm = 'chien-pao';
     else if (lowerName === 'ting lu') searchTerm = 'ting-lu';
     else if (lowerName === 'chi yu') searchTerm = 'chi-yu';
+    else if (lowerName === 'gouging fire') searchTerm = 'gouging-fire';
+    else if (lowerName === 'raging bolt') searchTerm = 'raging-bolt';
+    else if (lowerName === 'iron boulder') searchTerm = 'iron-boulder';
+    else if (lowerName === 'iron crown') searchTerm = 'iron-crown';
+    else if (lowerName === 'archaludon') searchTerm = 'archaludon';
+    else if (lowerName === 'hydrapple') searchTerm = 'hydrapple';
+    else if (lowerName === 'dipplin') searchTerm = 'dipplin';
+    else if (lowerName === 'poltchageist') searchTerm = 'poltchageist';
+    else if (lowerName === 'sinistcha') searchTerm = 'sinistcha';
+    else if (lowerName === 'okidogi') searchTerm = 'okidogi';
+    else if (lowerName === 'munkidori') searchTerm = 'munkidori';
+    else if (lowerName === 'fezandipiti') searchTerm = 'fezandipiti';
+    else if (lowerName === 'ogerpon') searchTerm = 'ogerpon';
+    else if (lowerName === 'terapagos') searchTerm = 'terapagos';
+    else if (lowerName === 'pecharunt') searchTerm = 'pecharunt';
+
+    // 0. 如果是數字字串，直接轉換為數字 ID
+    const numericId = parseInt(nameOrId);
+    if (!isNaN(numericId) && numericId.toString() === nameOrId) {
+       searchTerm = numericId;
+    } else {
 
     // Normalize function to handle full-width/half-width and case sensitivity
     const normalize = (str: string) => {
@@ -989,6 +1010,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     if (pokemonId) {
       searchTerm = pokemonId;
     }
+    } // End of else block for non-numeric string
   } else if (typeof nameOrId === 'number' && nameOrId > 10000) {
     // 直接支援 ID > 10000 的特殊形態（如 Mega 進化）
     searchTerm = nameOrId;
@@ -1024,15 +1046,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     if (speciesResponse.ok) {
       const speciesData = await speciesResponse.json();
       
-      // Manual injection for Ogerpon
-      if (speciesData.name === 'ogerpon') {
-         speciesData.varieties = [
-            { is_default: true, pokemon: { name: 'ogerpon', url: 'https://pokeapi.co/api/v2/pokemon/1017' } },
-            { is_default: false, pokemon: { name: 'ogerpon-wellspring-mask', url: 'https://pokeapi.co/api/v2/pokemon/10174' } },
-            { is_default: false, pokemon: { name: 'ogerpon-hearthflame-mask', url: 'https://pokeapi.co/api/v2/pokemon/10175' } },
-            { is_default: false, pokemon: { name: 'ogerpon-cornerstone-mask', url: 'https://pokeapi.co/api/v2/pokemon/10176' } }
-         ];
-      }
+
       
       // Manual injection for Terapagos
       if (speciesData.name === 'terapagos') {
