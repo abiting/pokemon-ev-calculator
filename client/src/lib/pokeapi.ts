@@ -481,8 +481,8 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
     enName = `Darmanitan (${formCapitalized})`;
     
-    if (form === 'zen') zhName = `${baseZhName}（達摩模式）`;
-    else if (form === 'galar-zen') zhName = `${baseZhName}（伽勒爾達摩模式）`;
+    if (form === 'zen' || form === 'zen-mode') zhName = `${baseZhName}（達摩模式）`;
+    else if (form === 'galar-zen' || form === 'galar-zen-mode') zhName = `${baseZhName}（伽勒爾達摩模式）`;
     else if (form === 'galar-standard') zhName = `${baseZhName}（伽勒爾的樣子）`;
     else zhName = `${baseZhName}（${formCapitalized}）`;
   } else if (englishName.startsWith('basculin-')) {
@@ -856,13 +856,13 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      if (englishName === 'darmanitan' || form === 'standard') {
         data.enName = 'Darmanitan (Standard)';
         data.zhName = '達摩狒狒';
-     } else if (form === 'zen') {
+     } else if (form === 'zen' || form === 'zen-mode') {
         data.enName = 'Darmanitan (Zen)';
         data.zhName = '達摩狒狒（達摩模式）';
      } else if (form === 'galar-standard') {
         data.enName = 'Darmanitan (Galar)';
         data.zhName = '達摩狒狒（伽勒爾的樣子）';
-     } else if (form === 'galar-zen') {
+     } else if (form === 'galar-zen' || form === 'galar-zen-mode') {
         data.enName = 'Darmanitan (Galar Zen)';
         data.zhName = '達摩狒狒（伽勒爾達摩模式）';
      }
