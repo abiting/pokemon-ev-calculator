@@ -338,6 +338,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       enName: 'Calyrex (Shadow Rider)'
     };
   }
+  if (englishName.includes('ursaluna-bloodmoon')) {
+    return {
+      zhName: '月月熊（赫月）',
+      enName: 'Ursaluna (Bloodmoon)'
+    };
+  }
 
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
@@ -919,7 +925,8 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
               name.includes('-ice') || // Eiscue Noice
               name.includes('-hangry') || // Morpeko
               name.includes('-shadow') || // Calyrex
-              name.includes('-ice') // Calyrex
+              name.includes('-ice') || // Calyrex
+              name.includes('-bloodmoon') // Ursaluna Bloodmoon
              ) return true;
 
           // 6. 排除純外觀形態 (如花舞鳥風格、米立龍姿勢、怒鸚哥羽色等，除非使用者特別要求，否則預設隱藏以簡化列表)
