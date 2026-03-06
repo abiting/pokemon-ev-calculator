@@ -109,7 +109,11 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
 
             return pokemon.zhName || pokemon.name;
           })() : (() => {
-            const name = (pokemon.enName || pokemon.name).split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            // 優先使用後端已經格式化好的 enName（包含括號），如果沒有才手動格式化 name
+            let name = pokemon.enName;
+            if (!name) {
+               name = pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            }
             
             // 達摩狒狒英文名特殊處理：使用屬性判斷形態
             if (name.includes('Darmanitan') || pokemon.id === 555) {
