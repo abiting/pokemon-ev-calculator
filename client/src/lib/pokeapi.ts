@@ -247,6 +247,20 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 }
 
 export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string } {
+  // Hardcoded fix for Treasures of Ruin (Wo-Chien, Chien-Pao, Ting-Lu, Chi-Yu)
+  if (englishName === 'wo-chien') {
+    return { zhName: '古簡蝸', enName: 'Wo-Chien' };
+  }
+  if (englishName === 'chien-pao') {
+    return { zhName: '古劍豹', enName: 'Chien-Pao' };
+  }
+  if (englishName === 'ting-lu') {
+    return { zhName: '古鼎鹿', enName: 'Ting-Lu' };
+  }
+  if (englishName === 'chi-yu') {
+    return { zhName: '古玉魚', enName: 'Chi-Yu' };
+  }
+
   // Hardcoded overrides for specific Pokemon forms to ensure correct display
   if (englishName.includes('lycanroc-midnight')) {
     return {
@@ -344,18 +358,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       enName: 'Ursaluna (Bloodmoon)'
     };
   }
-  if (englishName === 'wo-chien') {
-    return { zhName: '古簡蝸', enName: 'Wo-Chien' };
-  }
-  if (englishName === 'chien-pao') {
-    return { zhName: '古劍豹', enName: 'Chien-Pao' };
-  }
-  if (englishName === 'ting-lu') {
-    return { zhName: '古鼎鹿', enName: 'Ting-Lu' };
-  }
-  if (englishName === 'chi-yu') {
-    return { zhName: '古玉魚', enName: 'Chi-Yu' };
-  }
+
 
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
