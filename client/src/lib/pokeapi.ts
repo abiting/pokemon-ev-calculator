@@ -499,6 +499,17 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('zamazenta-crowned')) {
     zhName = `${baseZhName}（盾之王）`;
     enName = `Zamazenta (Crowned Shield)`;
+  } else if (englishName.startsWith('rotom-')) {
+    const form = englishName.replace('rotom-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Rotom (${formCapitalized})`;
+    
+    if (form === 'heat') zhName = '加熱洛託姆';
+    else if (form === 'wash') zhName = '清洗洛託姆';
+    else if (form === 'frost') zhName = '結冰洛託姆';
+    else if (form === 'fan') zhName = '旋轉洛託姆';
+    else if (form === 'mow') zhName = '切割洛託姆';
+    else zhName = `${baseZhName}（${formCapitalized}）`;
   } else if (englishName.includes('morpeko-full-belly') || englishName === 'morpeko') {
     zhName = `${baseZhName}（滿腹花紋）`;
     enName = `Morpeko (Full Belly)`;
@@ -866,6 +877,27 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      } else if (form === 'ultra') {
         data.enName = 'Ultra Necrozma';
         if (idToZhMapping[data.id]) data.zhName = `究極${idToZhMapping[data.id]}`;
+     }
+  }
+
+  // 特別處理 Rotom
+  if (englishName.startsWith('rotom-')) {
+     const form = englishName.replace('rotom-', '');
+     if (form === 'heat') {
+        data.enName = 'Rotom (Heat)';
+        data.zhName = '加熱洛託姆';
+     } else if (form === 'wash') {
+        data.enName = 'Rotom (Wash)';
+        data.zhName = '清洗洛託姆';
+     } else if (form === 'frost') {
+        data.enName = 'Rotom (Frost)';
+        data.zhName = '結冰洛託姆';
+     } else if (form === 'fan') {
+        data.enName = 'Rotom (Fan)';
+        data.zhName = '旋轉洛託姆';
+     } else if (form === 'mow') {
+        data.enName = 'Rotom (Mow)';
+        data.zhName = '切割洛託姆';
      }
   }
 
