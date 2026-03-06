@@ -475,6 +475,16 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
        enName = `Toxtricity (Gmax)`;
     }
     else zhName = `${baseZhName}（${formCapitalized}）`;
+  } else if (englishName.startsWith('darmanitan-')) {
+    // 達摩狒狒 (Darmanitan) 形態處理
+    const form = englishName.replace('darmanitan-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Darmanitan (${formCapitalized})`;
+    
+    if (form === 'zen') zhName = `${baseZhName}（達摩模式）`;
+    else if (form === 'galar-zen') zhName = `${baseZhName}（伽勒爾達摩模式）`;
+    else if (form === 'galar-standard') zhName = `${baseZhName}（伽勒爾的樣子）`;
+    else zhName = `${baseZhName}（${formCapitalized}）`;
   } else if (englishName.startsWith('basculin-')) {
     // 野蠻鱸魚 (Basculin) 形態處理
     const form = englishName.replace('basculin-', '');
@@ -840,9 +850,22 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      data.enName = 'Toxtricity (Amped)';
   }
 
-  // 特別處理 Darmanitan Standard
-  if (englishName === 'darmanitan-standard' || englishName === 'darmanitan') {
-     data.enName = 'Darmanitan (Standard)';
+  // 特別處理 Darmanitan
+  if (englishName.startsWith('darmanitan-') || englishName === 'darmanitan') {
+     const form = englishName.replace('darmanitan-', '');
+     if (englishName === 'darmanitan' || form === 'standard') {
+        data.enName = 'Darmanitan (Standard)';
+        data.zhName = '達摩狒狒';
+     } else if (form === 'zen') {
+        data.enName = 'Darmanitan (Zen)';
+        data.zhName = '達摩狒狒（達摩模式）';
+     } else if (form === 'galar-standard') {
+        data.enName = 'Darmanitan (Galar)';
+        data.zhName = '達摩狒狒（伽勒爾的樣子）';
+     } else if (form === 'galar-zen') {
+        data.enName = 'Darmanitan (Galar Zen)';
+        data.zhName = '達摩狒狒（伽勒爾達摩模式）';
+     }
   }
 
   // 特別處理 Lycanroc
