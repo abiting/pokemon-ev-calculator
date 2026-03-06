@@ -553,6 +553,25 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'tatsugiri') searchTerm = 'tatsugiri-curly'; // Tatsugiri default form
     else if (lowerName === 'toxtricity') searchTerm = 'toxtricity-amped'; // Toxtricity default form
     else if (lowerName === 'darmanitan') searchTerm = 'darmanitan-standard'; // Darmanitan default form
+    else if (lowerName === 'deoxys') searchTerm = 'deoxys-normal';
+    else if (lowerName === 'wormadam') searchTerm = 'wormadam-plant';
+    else if (lowerName === 'giratina') searchTerm = 'giratina-altered';
+    else if (lowerName === 'shaymin') searchTerm = 'shaymin-land';
+    else if (lowerName === 'basculin') searchTerm = 'basculin-red-striped';
+    else if (lowerName === 'tornadus') searchTerm = 'tornadus-incarnate';
+    else if (lowerName === 'thundurus') searchTerm = 'thundurus-incarnate';
+    else if (lowerName === 'landorus') searchTerm = 'landorus-incarnate';
+    else if (lowerName === 'keldeo') searchTerm = 'keldeo-ordinary';
+    else if (lowerName === 'meloetta') searchTerm = 'meloetta-aria';
+    else if (lowerName === 'meowstic') searchTerm = 'meowstic-male';
+    else if (lowerName === 'aegislash') searchTerm = 'aegislash-shield';
+    else if (lowerName === 'pumpkaboo') searchTerm = 'pumpkaboo-average';
+    else if (lowerName === 'gourgeist') searchTerm = 'gourgeist-average';
+    else if (lowerName === 'zygarde') searchTerm = 'zygarde-50';
+    else if (lowerName === 'lycanroc') searchTerm = 'lycanroc-midday';
+    else if (lowerName === 'minior') searchTerm = 'minior-red-meteor';
+    else if (lowerName === 'mimikyu') searchTerm = 'mimikyu-disguised';
+    else if (lowerName === 'wishiwashi') searchTerm = 'wishiwashi-solo';
 
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
