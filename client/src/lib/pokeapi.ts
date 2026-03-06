@@ -248,6 +248,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('-mega-y')) {
     zhName = `超級${cleanBaseZhName} Y`;
     enName = `Mega ${baseEnName} Y`;
+  } else if (englishName.includes('-mega')) {
+    zhName = `超級${cleanBaseZhName}`;
+    enName = `Mega ${baseEnName}`;
+  } else if (englishName.includes('-gmax')) {
+    zhName = `超極巨${cleanBaseZhName}`;
+    enName = `Gigantamax ${baseEnName}`;
   } else if (englishName.includes('-primal')) {
     zhName = `原始${cleanBaseZhName}`;
     enName = `Primal ${baseEnName}`;
