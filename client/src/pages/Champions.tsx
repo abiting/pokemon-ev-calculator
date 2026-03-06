@@ -237,7 +237,7 @@ export default function Champions() {
                               displayName = '達摩狒狒（伽勒爾達摩模式）';
                            } else if (v.pokemon.name.includes('zygarde-10')) {
                               displayName = '基格爾德（10%形態）';
-                           } else if (v.pokemon.name === 'minior-red') {
+                           } else if (v.pokemon.name === 'minior-red' || v.pokemon.name === 'minior-red-core') {
                               displayName = '小隕星（紅色核心）';
                            } else if (v.pokemon.name === 'minior-red-meteor') {
                               displayName = '小隕星（流星的樣子）';

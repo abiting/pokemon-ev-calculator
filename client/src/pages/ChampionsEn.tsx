@@ -237,7 +237,7 @@ export default function ChampionsEn() {
                               displayName = 'Darmanitan (Galarian Zen)';
                            } else if (v.pokemon.name.includes('zygarde-10')) {
                               displayName = 'Zygarde (10% Forme)';
-                           } else if (v.pokemon.name === 'minior-red') {
+                           } else if (v.pokemon.name === 'minior-red' || v.pokemon.name === 'minior-red-core') {
                               displayName = 'Minior (Red Core)';
                            } else if (v.pokemon.name === 'minior-red-meteor') {
                               displayName = 'Minior (Meteor)';

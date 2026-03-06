@@ -95,7 +95,7 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             if (pokemon.name === 'zygarde-complete') return '基格爾德（完全體形態）';
 
             // 小隕星特殊處理
-            if (pokemon.name === 'minior-red') return '小隕星（紅色核心）';
+            if (pokemon.name === 'minior-red' || pokemon.name === 'minior-red-core') return '小隕星（紅色核心）';
             if (pokemon.name === 'minior-red-meteor') return '小隕星（流星的樣子）';
 
             // 備用：使用屬性判斷形態 (僅當 name 判斷失敗時)
@@ -139,7 +139,7 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             if (pokemon.name === 'zygarde-complete') return 'Zygarde (Complete Forme)';
 
             // 小隕星特殊處理
-            if (pokemon.name === 'minior-red') return 'Minior (Red Core)';
+            if (pokemon.name === 'minior-red' || pokemon.name === 'minior-red-core') return 'Minior (Red Core)';
             if (pokemon.name === 'minior-red-meteor') return 'Minior (Meteor)';
 
             // 備用：使用屬性判斷形態

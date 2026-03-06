@@ -305,7 +305,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          if (v.pokemon.name === 'minior-red-meteor') {
             formatted.enName = 'Minior (Meteor)';
             formatted.zhName = '小隕星（流星的樣子）';
-         } else if (v.pokemon.name === 'minior-red') {
+         } else if (v.pokemon.name === 'minior-red' || v.pokemon.name === 'minior-red-core') {
             formatted.enName = 'Minior (Red Core)';
             formatted.zhName = '小隕星（紅色核心）';
          } else {
@@ -566,7 +566,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('minior-red-meteor')) {
     zhName = `${cleanBaseZhName}（流星的樣子）`;
     enName = `Minior (Meteor)`;
-  } else if (englishName.includes('minior-red')) {
+  } else if (englishName.includes('minior-red') || englishName.includes('minior-red-core')) {
     zhName = `${cleanBaseZhName}（紅色核心）`;
     enName = `Minior (Red Core)`;
   } else if (englishName.includes('deoxys-normal') || englishName === 'deoxys') {
