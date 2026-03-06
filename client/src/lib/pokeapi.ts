@@ -248,6 +248,15 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('-mega-y')) {
     zhName = `超級${cleanBaseZhName} Y`;
     enName = `Mega ${baseEnName} Y`;
+  } else if (englishName.includes('lucario-mega')) {
+    // Special handling for Mega Lucario Z
+    if (englishName.includes('-z') || englishName === 'lucario-mega-z') {
+      zhName = '超級路卡利歐 Z';
+      enName = 'Mega Lucario Z';
+    } else {
+      zhName = '超級路卡利歐';
+      enName = 'Mega Lucario';
+    }
   } else if (englishName.includes('-mega')) {
     zhName = `超級${cleanBaseZhName}`;
     enName = `Mega ${baseEnName}`;
