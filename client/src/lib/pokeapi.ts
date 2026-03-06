@@ -850,22 +850,19 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      data.enName = 'Toxtricity (Amped)';
   }
 
-  // 特別處理 Darmanitan
-  if (englishName.startsWith('darmanitan-') || englishName === 'darmanitan') {
-     const form = englishName.replace('darmanitan-', '');
-     if (englishName === 'darmanitan' || form === 'standard') {
-        data.enName = 'Darmanitan (Standard)';
-        data.zhName = '達摩狒狒';
-     } else if (form === 'zen' || form === 'zen-mode') {
-        data.enName = 'Darmanitan (Zen)';
-        data.zhName = '達摩狒狒（達摩模式）';
-     } else if (form === 'galar-standard') {
-        data.enName = 'Darmanitan (Galar)';
-        data.zhName = '達摩狒狒（伽勒爾的樣子）';
-     } else if (form === 'galar-zen' || form === 'galar-zen-mode') {
-        data.enName = 'Darmanitan (Galar Zen)';
-        data.zhName = '達摩狒狒（伽勒爾達摩模式）';
-     }
+  // 特別處理 Darmanitan (使用 ID 強制修正)
+  if (data.id === 555) {
+     data.enName = 'Darmanitan (Standard)';
+     data.zhName = '達摩狒狒';
+  } else if (data.id === 10017) {
+     data.enName = 'Darmanitan (Zen)';
+     data.zhName = '達摩狒狒（達摩模式）';
+  } else if (data.id === 10177) {
+     data.enName = 'Darmanitan (Galar)';
+     data.zhName = '達摩狒狒（伽勒爾的樣子）';
+  } else if (data.id === 10178) {
+     data.enName = 'Darmanitan (Galar Zen)';
+     data.zhName = '達摩狒狒（伽勒爾達摩模式）';
   }
 
   // 特別處理 Lycanroc
