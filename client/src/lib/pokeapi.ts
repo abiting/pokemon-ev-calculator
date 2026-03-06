@@ -37,8 +37,16 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
   }
 
   // 2. 搜尋本地中文對應表
+  // Normalize function to handle full-width/half-width and case sensitivity
+  const normalize = (str: string) => {
+    return str
+      .replace(/[\uff01-\uff5e]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0)) // Full-width to half-width
+      .toLowerCase();
+  };
+
+  const normalizedQuery = normalize(query);
   const matchingNames = Object.keys(pokemonZhMapping as Record<string, number>)
-    .filter(name => name.includes(query));
+    .filter(name => normalize(name).includes(normalizedQuery));
 
   if (matchingNames.length === 0) {
     // 特殊處理英文搜尋映射
