@@ -241,6 +241,18 @@ export default function Champions() {
                               displayName = '小隕星（紅色核心）';
                            } else if (v.pokemon.name === 'minior-red-meteor') {
                               displayName = '小隕星（流星的樣子）';
+                           } else if (v.pokemon.name.includes('rotom-heat')) {
+                              displayName = '洛托姆（加熱）';
+                           } else if (v.pokemon.name.includes('rotom-wash')) {
+                              displayName = '洛托姆（清洗）';
+                           } else if (v.pokemon.name.includes('rotom-frost')) {
+                              displayName = '洛托姆（結冰）';
+                           } else if (v.pokemon.name.includes('rotom-fan')) {
+                              displayName = '洛托姆（旋轉）';
+                           } else if (v.pokemon.name.includes('rotom-mow')) {
+                              displayName = '洛托姆（切割）';
+                           } else if (v.pokemon.name === 'rotom') {
+                              displayName = '洛托姆';
                            } else if (v.is_default) {
 	                              // If default form, show base name (e.g., "妙蛙花")
 	                              displayName = baseZhName;

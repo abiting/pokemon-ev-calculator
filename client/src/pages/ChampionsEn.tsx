@@ -241,6 +241,18 @@ export default function ChampionsEn() {
                               displayName = 'Minior (Red Core)';
                            } else if (v.pokemon.name === 'minior-red-meteor') {
                               displayName = 'Minior (Meteor)';
+                           } else if (v.pokemon.name.includes('rotom-heat')) {
+                              displayName = 'Rotom (Heat)';
+                           } else if (v.pokemon.name.includes('rotom-wash')) {
+                              displayName = 'Rotom (Wash)';
+                           } else if (v.pokemon.name.includes('rotom-frost')) {
+                              displayName = 'Rotom (Frost)';
+                           } else if (v.pokemon.name.includes('rotom-fan')) {
+                              displayName = 'Rotom (Fan)';
+                           } else if (v.pokemon.name.includes('rotom-mow')) {
+                              displayName = 'Rotom (Mow)';
+                           } else if (v.pokemon.name === 'rotom') {
+                              displayName = 'Rotom';
                            } else if (v.is_default) {
                               // If default form, show base name (e.g., "Venusaur")
                               displayName = baseEnName;

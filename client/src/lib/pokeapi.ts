@@ -483,6 +483,25 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       enName: 'Toxtricity (Low Key Form)'
     };
   }
+  // Rotom forms special handling
+  if (englishName.includes('rotom-heat')) {
+    return { zhName: '洛托姆（加熱）', enName: 'Rotom (Heat)' };
+  }
+  if (englishName.includes('rotom-wash')) {
+    return { zhName: '洛托姆（清洗）', enName: 'Rotom (Wash)' };
+  }
+  if (englishName.includes('rotom-frost')) {
+    return { zhName: '洛托姆（結冰）', enName: 'Rotom (Frost)' };
+  }
+  if (englishName.includes('rotom-fan')) {
+    return { zhName: '洛托姆（旋轉）', enName: 'Rotom (Fan)' };
+  }
+  if (englishName.includes('rotom-mow')) {
+    return { zhName: '洛托姆（切割）', enName: 'Rotom (Mow)' };
+  }
+  if (englishName === 'rotom') {
+    return { zhName: '洛托姆', enName: 'Rotom' };
+  }
   if (englishName === 'toxtricity-amped' || englishName === 'toxtricity') {
     return {
       zhName: '顫弦蠑螈（高調的樣子）',
