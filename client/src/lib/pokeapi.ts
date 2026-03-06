@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v29_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v28_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -26,70 +26,62 @@ export interface SearchResult {
   isDefault: boolean;
 }
 
-// 繁體中文名稱映射
-// const pokemonZhMapping = zhMapping; // Already imported as pokemonZhMapping
-
-// 全域搜尋映射表 (Centralized Search Mapping)
-const SEARCH_MAPPING: Record<string, string> = {
-  // Gen 7
-  'morpeko': 'morpeko-full-belly',
-  'oricorio': 'oricorio-baile',
-  'tatsugiri': 'tatsugiri-curly',
-  'toxtricity': 'toxtricity-amped',
-  'darmanitan': 'darmanitan-standard',
-  'necrozma': 'necrozma', // Necrozma base form is just 'necrozma' in species, but let's be safe
-  'lycanroc': 'lycanroc-midday',
-  'minior': 'minior-red-meteor',
-  'mimikyu': 'mimikyu-disguised',
-  'wishiwashi': 'wishiwashi-solo',
-  
-  // Gen 4
-  'wormadam': 'wormadam-plant',
-  'giratina': 'giratina-altered',
-  'shaymin': 'shaymin-land',
-  
-  // Gen 5
-  'basculin': 'basculin-red-striped',
-  'tornadus': 'tornadus-incarnate',
-  'thundurus': 'thundurus-incarnate',
-  'landorus': 'landorus-incarnate',
-  'keldeo': 'keldeo-ordinary',
-  'meloetta': 'meloetta-aria',
-  
-  // Gen 6
-  'meowstic': 'meowstic-male',
-  'aegislash': 'aegislash-shield',
-  'pumpkaboo': 'pumpkaboo-average',
-  'gourgeist': 'gourgeist-average',
-  'zygarde': 'zygarde-50',
-  
-  // Gen 3
-  'deoxys': 'deoxys-normal',
-};
-
 export async function searchPokemon(query: string): Promise<SearchResult[]> {
-  if (!query) return [];
-
-  // 1. 嘗試解析為數字 ID
+  // 1. 嘗試解析為 ID
   const id = parseInt(query);
   if (!isNaN(id)) {
-    return [{
-      id,
-      name: `#${id}`,
-      zhName: `#${id}`,
-      isDefault: true
-    }];
+    // 如果是 ID，直接返回單一結果（這裡簡化處理，實際可能需要 fetch 確認）
+    // 但為了保持一致性，我們還是走 fetchPokemon 流程，或者這裡先返回一個預測結果
+    // 為了準確，我們這裡先只處理名稱搜尋，ID 搜尋直接交給 fetchPokemon
+    return [];
   }
 
-  // 2. 嘗試中文名稱模糊搜尋
+  // 2. 搜尋本地中文對應表
   const matchingNames = Object.keys(pokemonZhMapping as Record<string, number>)
     .filter(name => name.includes(query));
 
   if (matchingNames.length === 0) {
-    // 如果中文搜尋沒有結果，檢查英文映射
-    const lowerQuery = query.toLowerCase();
-    const mappedQuery = SEARCH_MAPPING[lowerQuery] || lowerQuery;
+    // 特殊處理英文搜尋映射
+    const searchMap: Record<string, string> = {
+      // Gen 7
+      'morpeko': 'morpeko-full-belly',
+      'oricorio': 'oricorio-baile',
+      'tatsugiri': 'tatsugiri-curly',
+      'toxtricity': 'toxtricity-amped',
+      'darmanitan': 'darmanitan-standard',
+      'necrozma': 'necrozma',
+      'lycanroc': 'lycanroc-midday',
+      'minior': 'minior-red-meteor',
+      'mimikyu': 'mimikyu-disguised',
+      'wishiwashi': 'wishiwashi-solo',
+      
+      // Gen 4
+      'wormadam': 'wormadam-plant',
+      'giratina': 'giratina-altered',
+      'shaymin': 'shaymin-land',
+      
+      // Gen 5
+      'basculin': 'basculin-red-striped',
+      'tornadus': 'tornadus-incarnate',
+      'thundurus': 'thundurus-incarnate',
+      'landorus': 'landorus-incarnate',
+      'keldeo': 'keldeo-ordinary',
+      'meloetta': 'meloetta-aria',
+      
+      // Gen 6
+      'meowstic': 'meowstic-male',
+      'aegislash': 'aegislash-shield',
+      'pumpkaboo': 'pumpkaboo-average',
+      'gourgeist': 'gourgeist-average',
+      'zygarde': 'zygarde-50',
+      
+      // Gen 3
+      'deoxys': 'deoxys-normal',
+    };
 
+    const mappedQuery = searchMap[query.toLowerCase()] || query;
+
+    // 如果中文搜尋沒有結果，允許使用者直接搜尋英文
     // 回傳一個特殊的結果，讓 UI 知道這是一個直接搜尋的建議
     return [{
       id: 0, // 0 表示這是一個搜尋建議，不是具體的 ID
@@ -97,7 +89,9 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
       zhName: `搜尋 "${query}"`,
       isDefault: true
     }];
-  } // 3. 構建結果列表
+  }
+
+  // 3. 構建結果列表
   const results: SearchResult[] = matchingNames.map(name => ({
     id: (pokemonZhMapping as Record<string, number>)[name],
     name: name, // 這裡暫時用中文名當 name，後續 fetchPokemon 會處理
@@ -418,14 +412,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 如果是繁體中文名稱，轉換為 ID
   let searchTerm = nameOrId;
   if (typeof nameOrId === 'string') {
+    // Handle Mr. Mime / Mr. Rime / Mime Jr. search
     const lowerName = nameOrId.toLowerCase();
-    
-    // 1. Check centralized SEARCH_MAPPING first
-    if (SEARCH_MAPPING[lowerName]) {
-      searchTerm = SEARCH_MAPPING[lowerName];
-    } 
-    // 2. Handle special cases with spaces/punctuation
-    else if (lowerName === 'mr. mime' || lowerName === 'mr mime') searchTerm = 'mr-mime';
+    if (lowerName === 'mr. mime' || lowerName === 'mr mime') searchTerm = 'mr-mime';
     else if (lowerName === 'mr. rime' || lowerName === 'mr rime') searchTerm = 'mr-rime';
     else if (lowerName === 'mime jr.' || lowerName === 'mime jr') searchTerm = 'mime-jr';
     else if (lowerName === 'type: null' || lowerName === 'type null') searchTerm = 'type-null';
@@ -449,6 +438,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'iron valiant') searchTerm = 'iron-valiant';
     else if (lowerName === 'walking wake') searchTerm = 'walking-wake';
     else if (lowerName === 'iron leaves') searchTerm = 'iron-leaves';
+    else if (lowerName === 'oricorio') searchTerm = 'oricorio-baile'; // Oricorio default form
     else if (lowerName === 'morpeko') searchTerm = 'morpeko-full-belly'; // Morpeko default form
     else if (lowerName === 'tatsugiri') searchTerm = 'tatsugiri-curly'; // Tatsugiri default form
     else if (lowerName === 'toxtricity') searchTerm = 'toxtricity-amped'; // Toxtricity default form
