@@ -119,7 +119,7 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             }
             
             // 達摩狒狒英文名特殊處理：優先使用 name 判斷
-            if (pokemon.name === 'darmanitan-galar-zen') return 'Darmanitan (Galar Zen)';
+            if (pokemon.name === 'darmanitan-galar-zen') return 'Darmanitan (Galarian Zen)';
             if (pokemon.name === 'darmanitan-galar-standard') return 'Darmanitan (Galarian)';
             if (pokemon.name === 'darmanitan-zen') return 'Darmanitan (Zen)';
             if (pokemon.name === 'darmanitan-standard') return 'Darmanitan';
@@ -131,8 +131,8 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
               const hasFire = types.includes('fire');
               const hasPsychic = types.includes('psychic');
               
-              if (hasIce && hasFire) return 'Darmanitan (Galar Zen)';
-              if (hasIce) return 'Darmanitan (Galar)';
+              if (hasIce && hasFire) return 'Darmanitan (Galarian Zen)';
+              if (hasIce) return 'Darmanitan (Galarian)';
               if (hasFire && hasPsychic) return 'Darmanitan (Zen)';
               if (hasFire) return 'Darmanitan (Standard)';
             }

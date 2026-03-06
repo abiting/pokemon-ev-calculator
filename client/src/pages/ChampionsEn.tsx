@@ -234,7 +234,7 @@ export default function ChampionsEn() {
                            const baseEnName = pokemon.enName?.split(' (')[0].replace('Mega ', '').replace('Gigantamax ', '').replace('Gmax ', '') || pokemon.name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
                            
                            if (v.pokemon.name === 'darmanitan-galar-zen') {
-                              displayName = 'Darmanitan (Galar Zen)';
+                              displayName = 'Darmanitan (Galarian Zen)';
                            } else if (v.is_default) {
                               // If default form, show base name (e.g., "Venusaur")
                               displayName = baseEnName;
