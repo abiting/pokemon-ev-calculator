@@ -140,7 +140,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          console.log('Processing Darmanitan variety:', v.pokemon.name); // Debug log
          
          if (v.pokemon.name === 'darmanitan-standard' || v.pokemon.name === 'darmanitan') {
-            formatted.enName = 'Darmanitan (Standard)';
+            formatted.enName = 'Darmanitan';
             formatted.zhName = '達摩狒狒（普通模式）';
          } else if (v.pokemon.name.includes('zen') && !v.pokemon.name.includes('galar')) {
             formatted.enName = 'Darmanitan (Zen)';
@@ -159,7 +159,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          console.log('Processing Lycanroc variety:', v.pokemon.name); // Debug log
          
          if (v.pokemon.name === 'lycanroc-midday' || v.pokemon.name === 'lycanroc') {
-            formatted.enName = 'Lycanroc (Midday)';
+            formatted.enName = 'Lycanroc';
             formatted.zhName = '鬃岩狼人（白晝的樣子）';
          } else if (v.pokemon.name.includes('midnight')) {
             formatted.enName = 'Lycanroc (Midnight)';
