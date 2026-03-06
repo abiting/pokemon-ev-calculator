@@ -235,6 +235,8 @@ export default function ChampionsEn() {
                            
                            if (v.pokemon.name === 'darmanitan-galar-zen') {
                               displayName = 'Darmanitan (Galarian Zen)';
+                           } else if (v.pokemon.name.includes('zygarde-10')) {
+                              displayName = 'Zygarde (10% Forme)';
                            } else if (v.is_default) {
                               // If default form, show base name (e.g., "Venusaur")
                               displayName = baseEnName;

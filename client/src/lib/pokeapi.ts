@@ -352,7 +352,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 
       // 特別處理 Zygarde 的變體名稱
       if (v.pokemon.name.includes('zygarde')) {
-         if (v.pokemon.name.includes('zygarde-10')) {
+         if (v.pokemon.name.includes('zygarde-10') || v.pokemon.name.includes('zygarde-10-power-construct')) {
             formatted.enName = 'Zygarde (10% Forme)';
             formatted.zhName = '基格爾德（10%形態）';
          } else if (v.pokemon.name === 'zygarde-50' || v.pokemon.name === 'zygarde') {
@@ -575,7 +575,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('deoxys-speed')) {
     zhName = `${cleanBaseZhName}（速度形態）`;
     enName = `Deoxys (Speed)`;
-  } else if (englishName.includes('zygarde-10')) {
+  } else if (englishName.includes('zygarde-10') || englishName.includes('zygarde-10-power-construct')) {
     zhName = `${cleanBaseZhName}（10%形態）`;
     enName = `Zygarde (10% Forme)`;
   } else if (englishName.includes('zygarde-50') || englishName === 'zygarde') {

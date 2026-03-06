@@ -89,6 +89,11 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             if (pokemon.name === 'darmanitan-zen') return '達摩狒狒（達摩模式）';
             if (pokemon.name === 'darmanitan-standard') return '達摩狒狒';
 
+            // 基格爾德特殊處理
+            if (pokemon.name.includes('zygarde-10')) return '基格爾德（10%形態）';
+            if (pokemon.name === 'zygarde-50' || pokemon.name === 'zygarde') return '基格爾德（50%形態）';
+            if (pokemon.name === 'zygarde-complete') return '基格爾德（完全體形態）';
+
             // 備用：使用屬性判斷形態 (僅當 name 判斷失敗時)
             if (enName.includes('Darmanitan') || enName.includes('darmanitan') || pokemon.id === 555) {
               const types = pokemon.types.map(t => t.type.name);
@@ -123,6 +128,11 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             if (pokemon.name === 'darmanitan-galar-standard') return 'Darmanitan (Galarian)';
             if (pokemon.name === 'darmanitan-zen') return 'Darmanitan (Zen)';
             if (pokemon.name === 'darmanitan-standard') return 'Darmanitan';
+
+            // 基格爾德特殊處理
+            if (pokemon.name.includes('zygarde-10')) return 'Zygarde (10% Forme)';
+            if (pokemon.name === 'zygarde-50' || pokemon.name === 'zygarde') return 'Zygarde (50% Forme)';
+            if (pokemon.name === 'zygarde-complete') return 'Zygarde (Complete Forme)';
 
             // 備用：使用屬性判斷形態
             if (name.includes('Darmanitan') || pokemon.id === 555) {
