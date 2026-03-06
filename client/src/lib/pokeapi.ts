@@ -59,6 +59,7 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
       'oricorio': 'oricorio-baile',
       'tatsugiri': 'tatsugiri-curly',
       'toxtricity': 'toxtricity-amped',
+      'urshifu': 'urshifu-single-strike',
       'darmanitan': 'darmanitan-standard',
       'necrozma': 'necrozma',
       'lycanroc': 'lycanroc-midday',
