@@ -124,6 +124,43 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
     const zhHantName = data.names.find((n: any) => n.language.name === 'zh-Hant');
     const baseZhName = zhHantName ? zhHantName.name : data.name;
 
+    // Hardcoded injection for Ogerpon forms if they are missing or incomplete
+    if (data.name === 'ogerpon') {
+       const ogerponForms = [
+          { name: 'ogerpon', url: 'https://pokeapi.co/api/v2/pokemon/1017' },
+          { name: 'ogerpon-wellspring-mask', url: 'https://pokeapi.co/api/v2/pokemon/10174' },
+          { name: 'ogerpon-hearthflame-mask', url: 'https://pokeapi.co/api/v2/pokemon/10175' },
+          { name: 'ogerpon-cornerstone-mask', url: 'https://pokeapi.co/api/v2/pokemon/10176' }
+       ];
+       
+       // Merge with existing varieties, prioritizing our hardcoded list to ensure order and existence
+       // But actually, we can just use our list if we are sure about IDs.
+       // Let's just map our list to the format we need.
+       return ogerponForms.map(form => {
+          const id = parseInt(form.url.split('/').filter(Boolean).pop() || '0');
+          let enName = 'Ogerpon (Teal Mask)';
+          let zhName = '厄鬼椪（碧草面具）';
+          
+          if (form.name.includes('wellspring')) {
+             enName = 'Ogerpon (Wellspring Mask)';
+             zhName = '厄鬼椪（水井面具）';
+          } else if (form.name.includes('hearthflame')) {
+             enName = 'Ogerpon (Hearthflame Mask)';
+             zhName = '厄鬼椪（火灶面具）';
+          } else if (form.name.includes('cornerstone')) {
+             enName = 'Ogerpon (Cornerstone Mask)';
+             zhName = '厄鬼椪（礎石面具）';
+          }
+          
+          return {
+             id,
+             name: enName,
+             zhName: zhName,
+             isDefault: form.name === 'ogerpon'
+          };
+       });
+    }
+
     const varieties = await Promise.all(data.varieties.map(async (v: any) => {
       const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
       // 這裡我們需要一個簡單的方式來獲取變體的中文名，
