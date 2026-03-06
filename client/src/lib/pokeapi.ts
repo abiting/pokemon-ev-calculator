@@ -277,6 +277,54 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       enName: 'Ultra Necrozma'
     };
   }
+  if (englishName.includes('urshifu-rapid-strike-gmax')) {
+    return {
+      zhName: '超極巨武道熊師（連擊流）',
+      enName: 'Gigantamax Urshifu (Rapid Strike)'
+    };
+  }
+  if (englishName.includes('urshifu-single-strike-gmax')) {
+    return {
+      zhName: '超極巨武道熊師（一擊流）',
+      enName: 'Gigantamax Urshifu (Single Strike)'
+    };
+  }
+  if (englishName.includes('urshifu-rapid-strike')) {
+    return {
+      zhName: '武道熊師（連擊流）',
+      enName: 'Urshifu (Rapid Strike)'
+    };
+  }
+  if (englishName === 'urshifu-single-strike' || englishName === 'urshifu') {
+    return {
+      zhName: '武道熊師（一擊流）',
+      enName: 'Urshifu (Single Strike)'
+    };
+  }
+  if (englishName.includes('toxtricity-amped-gmax')) {
+    return {
+      zhName: '超極巨顫弦蠑螈（高調的樣子）',
+      enName: 'Gigantamax Toxtricity (Amped Form)'
+    };
+  }
+  if (englishName.includes('toxtricity-low-key-gmax')) {
+    return {
+      zhName: '超極巨顫弦蠑螈（低調的樣子）',
+      enName: 'Gigantamax Toxtricity (Low Key Form)'
+    };
+  }
+  if (englishName.includes('toxtricity-low-key')) {
+    return {
+      zhName: '顫弦蠑螈（低調的樣子）',
+      enName: 'Toxtricity (Low Key Form)'
+    };
+  }
+  if (englishName === 'toxtricity-amped' || englishName === 'toxtricity') {
+    return {
+      zhName: '顫弦蠑螈（高調的樣子）',
+      enName: 'Toxtricity (Amped Form)'
+    };
+  }
 
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
