@@ -216,6 +216,20 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          }
       }
 
+      // 特別處理 Zygarde 的變體名稱
+      if (v.pokemon.name.includes('zygarde')) {
+         if (v.pokemon.name === 'zygarde-10') {
+            formatted.enName = 'Zygarde (10% Forme)';
+            formatted.zhName = '基格爾德（10%形態）';
+         } else if (v.pokemon.name === 'zygarde-50' || v.pokemon.name === 'zygarde') {
+            formatted.enName = 'Zygarde';
+            formatted.zhName = '基格爾德（50%形態）';
+         } else if (v.pokemon.name === 'zygarde-complete') {
+            formatted.enName = 'Zygarde (Complete Forme)';
+            formatted.zhName = '基格爾德（完全體形態）';
+         }
+      }
+
       return {
         id,
         name: formatted.enName, // 使用格式化後的英文名稱
