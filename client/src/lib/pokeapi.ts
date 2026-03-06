@@ -218,7 +218,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 
       // 特別處理 Zygarde 的變體名稱
       if (v.pokemon.name.includes('zygarde')) {
-         if (v.pokemon.name === 'zygarde-10') {
+         if (v.pokemon.name.includes('zygarde-10')) {
             formatted.enName = 'Zygarde (10% Forme)';
             formatted.zhName = '基格爾德（10%形態）';
          } else if (v.pokemon.name === 'zygarde-50' || v.pokemon.name === 'zygarde') {
