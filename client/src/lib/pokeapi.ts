@@ -344,6 +344,18 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       enName: 'Ursaluna (Bloodmoon)'
     };
   }
+  if (englishName === 'wo-chien') {
+    return { zhName: '古簡蝸', enName: 'Wo-Chien' };
+  }
+  if (englishName === 'chien-pao') {
+    return { zhName: '古劍豹', enName: 'Chien-Pao' };
+  }
+  if (englishName === 'ting-lu') {
+    return { zhName: '古鼎鹿', enName: 'Ting-Lu' };
+  }
+  if (englishName === 'chi-yu') {
+    return { zhName: '古玉魚', enName: 'Chi-Yu' };
+  }
 
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
@@ -775,6 +787,10 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'mimikyu') searchTerm = 'mimikyu-disguised';
     else if (lowerName === 'wishiwashi') searchTerm = 'wishiwashi-solo';
     else if (lowerName === 'urshifu') searchTerm = 'urshifu-single-strike';
+    else if (lowerName === 'wo chien') searchTerm = 'wo-chien';
+    else if (lowerName === 'chien pao') searchTerm = 'chien-pao';
+    else if (lowerName === 'ting lu') searchTerm = 'ting-lu';
+    else if (lowerName === 'chi yu') searchTerm = 'chi-yu';
 
     // Normalize function to handle full-width/half-width and case sensitivity
     const normalize = (str: string) => {
