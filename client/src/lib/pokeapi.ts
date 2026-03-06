@@ -524,7 +524,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   if (enName === 'Mr Rime' || enName === 'Mr-rime') enName = 'Mr. Rime';
   if (enName === 'Mime Jr' || enName === 'Mime-jr') enName = 'Mime Jr.';
   if (enName === 'Type Null' || enName === 'Type-null') enName = 'Type: Null';
-  if (zhName.includes('謎擬Q') || zhName.includes('謎擬 Q')) zhName = zhName.replace(/謎擬\s*Q/g, '謎擬Ｑ');
+  if (zhName.includes('謎擬Q') || zhName.includes('謎擬 Q') || zhName.includes('謎擬　Ｑ')) zhName = zhName.replace(/謎擬[\s　]*[QＱ]/g, '謎擬Ｑ');
   if (enName === 'Tapu Koko' || enName === 'Tapu-koko') enName = 'Tapu Koko'; // Ensure space
   if (enName === 'Tapu Lele' || enName === 'Tapu-lele') enName = 'Tapu Lele';
   if (enName === 'Tapu Bulu' || enName === 'Tapu-bulu') enName = 'Tapu Bulu';
