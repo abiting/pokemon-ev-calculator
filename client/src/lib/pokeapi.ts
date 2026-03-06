@@ -756,6 +756,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'minior') searchTerm = 'minior-red-meteor';
     else if (lowerName === 'mimikyu') searchTerm = 'mimikyu-disguised';
     else if (lowerName === 'wishiwashi') searchTerm = 'wishiwashi-solo';
+    else if (lowerName === 'urshifu') searchTerm = 'urshifu-single-strike';
 
     // Normalize function to handle full-width/half-width and case sensitivity
     const normalize = (str: string) => {
