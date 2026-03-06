@@ -880,6 +880,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   if (enName === 'Iron Valiant' || enName === 'Iron-valiant') enName = 'Iron Valiant';
   if (enName === 'Walking Wake' || enName === 'Walking-wake') enName = 'Walking Wake';
   if (enName === 'Iron Leaves' || enName === 'Iron-leaves') enName = 'Iron Leaves';
+  if (enName === 'Porygon2') enName = 'Porygon２';
 
   return { zhName, enName };
 }
