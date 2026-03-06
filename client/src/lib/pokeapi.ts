@@ -89,9 +89,34 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
       
       // Gen 3
       'deoxys': 'deoxys-normal',
+
+      // Gen 9 DLC
+      'gouging fire': 'gouging-fire',
+      'raging bolt': 'raging-bolt',
+      'iron boulder': 'iron-boulder',
+      'iron crown': 'iron-crown',
+      'walking wake': 'walking-wake',
+      'iron leaves': 'iron-leaves',
+      'archaludon': 'archaludon',
+      'hydrapple': 'hydrapple',
+      'dipplin': 'dipplin',
+      'poltchageist': 'poltchageist',
+      'sinistcha': 'sinistcha',
+      'okidogi': 'okidogi',
+      'munkidori': 'munkidori',
+      'fezandipiti': 'fezandipiti',
+      'ogerpon': 'ogerpon',
+      'terapagos': 'terapagos',
+      'pecharunt': 'pecharunt',
     };
 
-    const mappedQuery = searchMap[query.toLowerCase()] || query;
+    // Try to map from searchMap first
+    let mappedQuery = searchMap[query.toLowerCase()];
+    
+    // If not found in map, try replacing spaces with hyphens for English names
+    if (!mappedQuery) {
+       mappedQuery = query.toLowerCase().replace(/\s+/g, '-');
+    }
 
     // 如果中文搜尋沒有結果，允許使用者直接搜尋英文
     // 回傳一個特殊的結果，讓 UI 知道這是一個直接搜尋的建議
@@ -988,6 +1013,26 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     const speciesResponse = await fetch(data.species.url);
     if (speciesResponse.ok) {
       const speciesData = await speciesResponse.json();
+      
+      // Manual injection for Ogerpon
+      if (speciesData.name === 'ogerpon') {
+         speciesData.varieties = [
+            { is_default: true, pokemon: { name: 'ogerpon', url: 'https://pokeapi.co/api/v2/pokemon/1017' } },
+            { is_default: false, pokemon: { name: 'ogerpon-wellspring-mask', url: 'https://pokeapi.co/api/v2/pokemon/10174' } },
+            { is_default: false, pokemon: { name: 'ogerpon-hearthflame-mask', url: 'https://pokeapi.co/api/v2/pokemon/10175' } },
+            { is_default: false, pokemon: { name: 'ogerpon-cornerstone-mask', url: 'https://pokeapi.co/api/v2/pokemon/10176' } }
+         ];
+      }
+      
+      // Manual injection for Terapagos
+      if (speciesData.name === 'terapagos') {
+         speciesData.varieties = [
+            { is_default: true, pokemon: { name: 'terapagos', url: 'https://pokeapi.co/api/v2/pokemon/1024' } },
+            { is_default: false, pokemon: { name: 'terapagos-terastal', url: 'https://pokeapi.co/api/v2/pokemon/10276' } },
+            { is_default: false, pokemon: { name: 'terapagos-stellar', url: 'https://pokeapi.co/api/v2/pokemon/10277' } }
+         ];
+      }
+
       data.varieties = speciesData.varieties
         .filter((v: any) => {
           const name = v.pokemon.name;
@@ -1059,7 +1104,12 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
               name.includes('-hangry') || // Morpeko
               name.includes('-shadow') || // Calyrex
               name.includes('-ice') || // Calyrex
-              name.includes('-bloodmoon') // Ursaluna Bloodmoon
+              name.includes('-bloodmoon') || // Ursaluna Bloodmoon
+              name.includes('-wellspring') || // Ogerpon
+              name.includes('-hearthflame') || // Ogerpon
+              name.includes('-cornerstone') || // Ogerpon
+              name.includes('-terastal') || // Terapagos
+              name.includes('-stellar') // Terapagos
              ) return true;
 
           // 6. 排除純外觀形態 (如花舞鳥風格、米立龍姿勢、怒鸚哥羽色等，除非使用者特別要求，否則預設隱藏以簡化列表)
