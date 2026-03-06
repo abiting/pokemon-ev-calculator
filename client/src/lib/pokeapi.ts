@@ -313,6 +313,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('giratina-origin')) {
     zhName = `${cleanBaseZhName}（起源形態）`;
     enName = `Giratina (Origin)`;
+  } else if (englishName.includes('dialga-origin')) {
+    zhName = `${cleanBaseZhName}（起源形態）`;
+    enName = `Dialga (Origin)`;
+  } else if (englishName.includes('palkia-origin')) {
+    zhName = `${cleanBaseZhName}（起源形態）`;
+    enName = `Palkia (Origin)`;
   } else if (englishName.includes('shaymin-land') || englishName === 'shaymin') {
     zhName = `${cleanBaseZhName}（陸上形態）`;
     enName = `Shaymin (Land)`;
@@ -878,6 +884,18 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
         data.enName = 'Ultra Necrozma';
         if (idToZhMapping[data.id]) data.zhName = `究極${idToZhMapping[data.id]}`;
      }
+  }
+
+  // 特別處理 Dialga Origin
+  if (englishName.includes('dialga-origin')) {
+     data.enName = 'Dialga (Origin)';
+     data.zhName = '帝牙盧卡（起源形態）';
+  }
+  
+  // 特別處理 Palkia Origin
+  if (englishName.includes('palkia-origin')) {
+     data.enName = 'Palkia (Origin)';
+     data.zhName = '帕路奇亞（起源形態）';
   }
 
   // 特別處理 Rotom
