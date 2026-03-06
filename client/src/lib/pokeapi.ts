@@ -162,10 +162,10 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
             formatted.enName = 'Lycanroc';
             formatted.zhName = '鬃岩狼人（白晝的樣子）';
          } else if (v.pokemon.name.includes('midnight')) {
-            formatted.enName = 'Lycanroc (Midnight)';
+            formatted.enName = 'Lycanroc (Midnight Form)';
             formatted.zhName = '鬃岩狼人（黑夜的樣子）';
          } else if (v.pokemon.name.includes('dusk')) {
-            formatted.enName = 'Lycanroc (Dusk)';
+            formatted.enName = 'Lycanroc (Dusk Form)';
             formatted.zhName = '鬃岩狼人（黃昏的樣子）';
          }
       }
@@ -385,7 +385,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     zhName = `${cleanBaseZhName}（懲戒胡帕）`;
     enName = `Hoopa (Confined)`;
   } else if (englishName.includes('hoopa-unbound')) {
-    zhName = `${cleanBaseZhName}（解放胡帕）`;
+    zhName = `${cleanBaseZhName}（解放形態）`;
     enName = `Hoopa (Unbound)`;
   } else if (englishName.includes('aegislash-shield') || englishName === 'aegislash') {
     zhName = `${cleanBaseZhName}（盾牌形態）`;
@@ -398,7 +398,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Wishiwashi`;
   } else if (englishName.includes('wishiwashi-school')) {
     zhName = `${cleanBaseZhName}（魚群樣子）`;
-    enName = `Wishiwashi (School)`;
+    enName = `Wishiwashi (School Form)`;
   } else if (englishName.includes('pumpkaboo-small')) {
     zhName = `${cleanBaseZhName}（小尺寸）`;
     enName = `Pumpkaboo (Small)`;
