@@ -248,11 +248,121 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   } else if (englishName.includes('-mega-y')) {
     zhName = `超級${cleanBaseZhName} Y`;
     enName = `Mega ${baseEnName} Y`;
-  } else if (englishName.includes('-mega')) {
-    zhName = `超級${cleanBaseZhName}`;
-    enName = `Mega ${baseEnName}`;
-  } else if (englishName.includes('-gmax')) {
-    zhName = `超極巨${cleanBaseZhName}`;
+  } else if (englishName.includes('-primal')) {
+    zhName = `${cleanBaseZhName}（原始回歸）`;
+    enName = `Primal ${baseEnName}`;
+  } else if (englishName.includes('deoxys-normal')) {
+    zhName = `${cleanBaseZhName}（普通形態）`;
+    enName = `Deoxys (Normal)`;
+  } else if (englishName.includes('deoxys-attack')) {
+    zhName = `${cleanBaseZhName}（攻擊形態）`;
+    enName = `Deoxys (Attack)`;
+  } else if (englishName.includes('deoxys-defense')) {
+    zhName = `${cleanBaseZhName}（防禦形態）`;
+    enName = `Deoxys (Defense)`;
+  } else if (englishName.includes('deoxys-speed')) {
+    zhName = `${cleanBaseZhName}（速度形態）`;
+    enName = `Deoxys (Speed)`;
+  } else if (englishName.includes('zygarde-10')) {
+    zhName = `${cleanBaseZhName}（10%形態）`;
+    enName = `Zygarde (10% Forme)`;
+  } else if (englishName.includes('zygarde-50')) {
+    zhName = `${cleanBaseZhName}（50%形態）`;
+    enName = `Zygarde (50% Forme)`;
+  } else if (englishName.includes('zygarde-complete')) {
+    zhName = `${cleanBaseZhName}（完全體形態）`;
+    enName = `Zygarde (Complete Forme)`;
+  } else if (englishName.includes('giratina-altered')) {
+    zhName = `${cleanBaseZhName}（別種形態）`;
+    enName = `Giratina (Altered)`;
+  } else if (englishName.includes('giratina-origin')) {
+    zhName = `${cleanBaseZhName}（起源形態）`;
+    enName = `Giratina (Origin)`;
+  } else if (englishName.includes('shaymin-land')) {
+    zhName = `${cleanBaseZhName}（陸上形態）`;
+    enName = `Shaymin (Land)`;
+  } else if (englishName.includes('shaymin-sky')) {
+    zhName = `${cleanBaseZhName}（天空形態）`;
+    enName = `Shaymin (Sky)`;
+  } else if (englishName.includes('tornadus-incarnate')) {
+    zhName = `${cleanBaseZhName}（化身形態）`;
+    enName = `Tornadus (Incarnate)`;
+  } else if (englishName.includes('tornadus-therian')) {
+    zhName = `${cleanBaseZhName}（靈獸形態）`;
+    enName = `Tornadus (Therian)`;
+  } else if (englishName.includes('thundurus-incarnate')) {
+    zhName = `${cleanBaseZhName}（化身形態）`;
+    enName = `Thundurus (Incarnate)`;
+  } else if (englishName.includes('thundurus-therian')) {
+    zhName = `${cleanBaseZhName}（靈獸形態）`;
+    enName = `Thundurus (Therian)`;
+  } else if (englishName.includes('landorus-incarnate')) {
+    zhName = `${cleanBaseZhName}（化身形態）`;
+    enName = `Landorus (Incarnate)`;
+  } else if (englishName.includes('landorus-therian')) {
+    zhName = `${cleanBaseZhName}（靈獸形態）`;
+    enName = `Landorus (Therian)`;
+  } else if (englishName.includes('enamorus-incarnate')) {
+    zhName = `${cleanBaseZhName}（化身形態）`;
+    enName = `Enamorus (Incarnate)`;
+  } else if (englishName.includes('enamorus-therian')) {
+    zhName = `${cleanBaseZhName}（靈獸形態）`;
+    enName = `Enamorus (Therian)`;
+  } else if (englishName.includes('kyurem-black')) {
+    zhName = `闇黑${cleanBaseZhName}`;
+    enName = `Black Kyurem`;
+  } else if (englishName.includes('kyurem-white')) {
+    zhName = `焰白${cleanBaseZhName}`;
+    enName = `White Kyurem`;
+  } else if (englishName.includes('keldeo-ordinary')) {
+    zhName = `${cleanBaseZhName}（平常的樣子）`;
+    enName = `Keldeo (Ordinary)`;
+  } else if (englishName.includes('keldeo-resolute')) {
+    zhName = `${cleanBaseZhName}（覺悟的樣子）`;
+    enName = `Keldeo (Resolute)`;
+  } else if (englishName.includes('meloetta-aria')) {
+    zhName = `${cleanBaseZhName}（歌聲形態）`;
+    enName = `Meloetta (Aria)`;
+  } else if (englishName.includes('meloetta-pirouette')) {
+    zhName = `${cleanBaseZhName}（舞步形態）`;
+    enName = `Meloetta (Pirouette)`;
+  } else if (englishName.includes('hoopa-confined')) {
+    zhName = `${cleanBaseZhName}（懲戒胡帕）`;
+    enName = `Hoopa (Confined)`;
+  } else if (englishName.includes('hoopa-unbound')) {
+    zhName = `${cleanBaseZhName}（解放胡帕）`;
+    enName = `Hoopa (Unbound)`;
+  } else if (englishName.includes('aegislash-shield')) {
+    zhName = `${cleanBaseZhName}（盾牌形態）`;
+    enName = `Aegislash (Shield)`;
+  } else if (englishName.includes('aegislash-blade')) {
+    zhName = `${cleanBaseZhName}（刀劍形態）`;
+    enName = `Aegislash (Blade)`;
+  } else if (englishName.includes('pumpkaboo-small')) {
+    zhName = `${cleanBaseZhName}（小尺寸）`;
+    enName = `Pumpkaboo (Small)`;
+  } else if (englishName.includes('pumpkaboo-average')) {
+    zhName = `${cleanBaseZhName}（普通尺寸）`;
+    enName = `Pumpkaboo (Average)`;
+  } else if (englishName.includes('pumpkaboo-large')) {
+    zhName = `${cleanBaseZhName}（大尺寸）`;
+    enName = `Pumpkaboo (Large)`;
+  } else if (englishName.includes('pumpkaboo-super')) {
+    zhName = `${cleanBaseZhName}（特大尺寸）`;
+    enName = `Pumpkaboo (Super)`;
+  } else if (englishName.includes('gourgeist-small')) {
+    zhName = `${cleanBaseZhName}（小尺寸）`;
+    enName = `Gourgeist (Small)`;
+  } else if (englishName.includes('gourgeist-average')) {
+    zhName = `${cleanBaseZhName}（普通尺寸）`;
+    enName = `Gourgeist (Average)`;
+  } else if (englishName.includes('gourgeist-large')) {
+    zhName = `${cleanBaseZhName}（大尺寸）`;
+    enName = `Gourgeist (Large)`;
+  } else if (englishName.includes('gourgeist-super')) {
+    zhName = `${cleanBaseZhName}（特大尺寸）`;
+    enName = `Gourgeist (Super)`;
+  } else if (englishName.includes('-origin')) {zhName = `超極巨${cleanBaseZhName}`;
     enName = `Gigantamax ${baseEnName}`;
   } else if (englishName.includes('-eternamax')) {
     zhName = `無極巨${cleanBaseZhName}`;
