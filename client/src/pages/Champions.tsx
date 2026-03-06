@@ -222,10 +222,8 @@ export default function Champions() {
               </DialogHeader>
               <div className="grid gap-2 py-4 max-h-[60vh] overflow-y-auto">
                  <p className="text-sm text-muted-foreground mb-2">此寶可夢有多種型態，請選擇：</p>
-		                 {varieties.map((v) => {
-		                    let displayName = v.pokemon.name;
-                        let formLabel = '';
-                        
+	                 {varieties.map((v) => {
+	                    let displayName = v.pokemon.name;
                         // Use pokemon object to format name
                         if (pokemon) {
                            // Get base Chinese name (remove brackets and prefixes)
@@ -237,9 +235,8 @@ export default function Champions() {
                            } else {
                               // If special form, format name (e.g., "超級妙蛙花")
                               // Note: formatPokemonName handles Gmax simplification now
-                              const formatted: { zhName: string; enName: string; formLabel?: string } = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
+                              const formatted = formatPokemonName(v.pokemon.name, baseZhName, pokemon.species.name);
                               displayName = formatted.zhName || formatted.enName;
-                              formLabel = formatted.formLabel || '';
                            }
                         } else if (v.is_default) {
                            // Fallback
@@ -250,18 +247,13 @@ export default function Champions() {
 		                    <Button
 	                       key={v.pokemon.name}
 	                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
-	                       className="justify-start text-left h-auto py-3 flex items-center gap-2"
+	                       className="justify-start text-left h-auto py-3"
 	                       onClick={() => {
 	                          selectVariety(v.pokemon.url);
 	                          setShowVarieties(false);
 	                       }}
 	                    >
-	                       <span>{displayName}</span>
-                         {formLabel && (
-                           <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200">
-                             {formLabel}
-                           </span>
-                         )}
+	                       {displayName}
 	                    </Button>
 	                 );
 	                 })}

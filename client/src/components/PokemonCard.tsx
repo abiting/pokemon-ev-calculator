@@ -106,13 +106,8 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             if (name === 'Iron Leaves' || name === 'Iron-leaves') return 'Iron Leaves';
             return name;
           })()}
-          {pokemon.formLabel && (
-            <span className="ml-2 text-sm bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200 align-middle">
-              {pokemon.formLabel}
-            </span>
-          )}
-        </CardTitle>
-      </CardHeader>
+	        </CardTitle>
+	      </CardHeader>
       <CardContent>
         <div className="flex flex-col items-center gap-4">
           {/* 桌面版：圖片和特性並排 */}
