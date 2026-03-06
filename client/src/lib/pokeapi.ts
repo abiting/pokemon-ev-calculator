@@ -1149,9 +1149,21 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
           // 獲取顯示名稱
           let displayName = v.pokemon.name;
+          
+          // 使用 formatPokemonName 格式化名稱
+          // 注意：這裡我們暫時無法獲取準確的中文名稱，所以傳入 speciesData.name 作為佔位符
+          // 這不會影響 enName 的生成
+          const formatted = formatPokemonName(v.pokemon.name, speciesData.name, speciesData.name);
+          if (formatted.enName) {
+             displayName = formatted.enName;
+          }
+
           if (v.is_default) {
-             // 如果是預設型態，直接使用基礎名稱 (稍後會被替換為正確的中文/英文名稱)
-             displayName = 'default-form-placeholder'; 
+             // 如果是預設型態，且格式化後的名稱與物種名稱相同（沒有特殊後綴），則使用 default-form-placeholder
+             // 但如果像 Urshifu (Single Strike) 這樣有特殊後綴，則保留顯示名稱
+             if (displayName.toLowerCase() === speciesData.name.toLowerCase()) {
+                displayName = 'default-form-placeholder';
+             }
           }
 
           return {
