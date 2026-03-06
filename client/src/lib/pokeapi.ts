@@ -475,6 +475,16 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
        enName = `Toxtricity (Gmax)`;
     }
     else zhName = `${baseZhName}（${formCapitalized}）`;
+  } else if (englishName.startsWith('basculin-')) {
+    // 野蠻鱸魚 (Basculin) 形態處理
+    const form = englishName.replace('basculin-', '');
+    const formCapitalized = form.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    enName = `Basculin (${formCapitalized})`;
+    
+    if (form === 'white-striped') zhName = `${baseZhName}（白條紋的樣子）`;
+    else if (form === 'blue-striped') zhName = `${baseZhName}（藍條紋的樣子）`;
+    else if (form === 'red-striped') zhName = `${baseZhName}（紅條紋的樣子）`;
+    else zhName = `${baseZhName}（${formCapitalized}）`;
   } else if (englishName.startsWith('dudunsparce-')) {
     // 土龍節節 (Dudunsparce) 節數處理
     const form = englishName.replace('dudunsparce-', '');
@@ -883,6 +893,21 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      } else if (form === 'ultra') {
         data.enName = 'Ultra Necrozma';
         if (idToZhMapping[data.id]) data.zhName = `究極${idToZhMapping[data.id]}`;
+     }
+  }
+
+  // 特別處理 Basculin
+  if (englishName.startsWith('basculin-')) {
+     const form = englishName.replace('basculin-', '');
+     if (form === 'white-striped') {
+        data.enName = 'Basculin (White-Striped)';
+        data.zhName = '野蠻鱸魚（白條紋的樣子）';
+     } else if (form === 'blue-striped') {
+        data.enName = 'Basculin (Blue-Striped)';
+        data.zhName = '野蠻鱸魚（藍條紋的樣子）';
+     } else if (form === 'red-striped') {
+        data.enName = 'Basculin (Red-Striped)';
+        data.zhName = '野蠻鱸魚（紅條紋的樣子）';
      }
   }
 
