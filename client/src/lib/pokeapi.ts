@@ -846,7 +846,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
         'red-striped', 'male', 'female'
       ];
 
-      if (defaultSuffixes.includes(suffix) || suffix === 'male' || suffix === 'female') {
+      if (!suffix || defaultSuffixes.includes(suffix) || suffix === 'male' || suffix === 'female') {
          enName = baseEnName;
       } else {
          const suffixCapitalized = suffix.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
