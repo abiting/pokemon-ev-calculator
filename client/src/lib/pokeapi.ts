@@ -118,6 +118,16 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
        mappedQuery = query.toLowerCase().replace(/\s+/g, '-');
     }
 
+    // Force fix for Ogerpon
+    if (mappedQuery === 'ogerpon') {
+       return [{
+          id: 1017,
+          name: 'ogerpon',
+          zhName: '厄鬼椪',
+          isDefault: true
+       }];
+    }
+
     // 如果中文搜尋沒有結果，允許使用者直接搜尋英文
     // 回傳一個特殊的結果，讓 UI 知道這是一個直接搜尋的建議
     return [{
