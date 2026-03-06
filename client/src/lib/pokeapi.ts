@@ -133,9 +133,6 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
           { name: 'ogerpon-cornerstone-mask', url: 'https://pokeapi.co/api/v2/pokemon/10176' }
        ];
        
-       // Merge with existing varieties, prioritizing our hardcoded list to ensure order and existence
-       // But actually, we can just use our list if we are sure about IDs.
-       // Let's just map our list to the format we need.
        return ogerponForms.map(form => {
           const id = parseInt(form.url.split('/').filter(Boolean).pop() || '0');
           let enName = 'Ogerpon (Teal Mask)';
@@ -157,6 +154,36 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
              name: enName,
              zhName: zhName,
              isDefault: form.name === 'ogerpon'
+          };
+       });
+    }
+
+    // Hardcoded injection for Terapagos forms
+    if (data.name === 'terapagos') {
+       const terapagosForms = [
+          { name: 'terapagos', url: 'https://pokeapi.co/api/v2/pokemon/1024' },
+          { name: 'terapagos-terastal', url: 'https://pokeapi.co/api/v2/pokemon/10276' },
+          { name: 'terapagos-stellar', url: 'https://pokeapi.co/api/v2/pokemon/10277' }
+       ];
+       
+       return terapagosForms.map(form => {
+          const id = parseInt(form.url.split('/').filter(Boolean).pop() || '0');
+          let enName = 'Terapagos (Normal Form)';
+          let zhName = '太樂巴戈斯（普通形態）';
+          
+          if (form.name.includes('terastal')) {
+             enName = 'Terapagos (Terastal Form)';
+             zhName = '太樂巴戈斯（太晶形態）';
+          } else if (form.name.includes('stellar')) {
+             enName = 'Terapagos (Stellar Form)';
+             zhName = '太樂巴戈斯（星晶形態）';
+          }
+          
+          return {
+             id,
+             name: enName,
+             zhName: zhName,
+             isDefault: form.name === 'terapagos'
           };
        });
     }
