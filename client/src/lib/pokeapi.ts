@@ -832,34 +832,16 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
      const form = englishName.replace('mimikyu-', '');
      if (englishName === 'mimikyu' || form === 'disguised') {
         data.enName = 'Mimikyu';
-        data.zhName = '謎擬 Ｑ';
+        data.zhName = '謎擬Ｑ';
      } else if (form === 'busted') {
         data.enName = 'Mimikyu (Busted)';
-        data.zhName = '謎擬 Ｑ（現形）';
+        data.zhName = '謎擬Ｑ（現形）';
      } else if (form === 'totem-disguised') {
         data.enName = 'Mimikyu (Totem)';
-        data.zhName = '謎擬 Ｑ（霸主）';
+        data.zhName = '謎擬Ｑ（霸主）';
      } else if (form === 'totem-busted') {
         data.enName = 'Mimikyu (Totem Busted)';
-        data.zhName = '謎擬 Ｑ（霸主現形）';
-     }
-  }
-  
-  // 特別處理 Mimikyu
-  if (englishName.startsWith('mimikyu-') || englishName === 'mimikyu') {
-     const form = englishName.replace('mimikyu-', '');
-     if (englishName === 'mimikyu' || form === 'disguised') {
-        data.enName = 'Mimikyu';
-        data.zhName = '謎擬 Ｑ';
-     } else if (form === 'busted') {
-        data.enName = 'Mimikyu (Busted)';
-        data.zhName = '謎擬 Ｑ（現形）';
-     } else if (form === 'totem-disguised') {
-        data.enName = 'Mimikyu (Totem)';
-        data.zhName = '謎擬 Ｑ（霸主）';
-     } else if (form === 'totem-busted') {
-        data.enName = 'Mimikyu (Totem Busted)';
-        data.zhName = '謎擬 Ｑ（霸主現形）';
+        data.zhName = '謎擬Ｑ（霸主現形）';
      }
   }
 
