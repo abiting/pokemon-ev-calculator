@@ -524,6 +524,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   if (enName === 'Mr Rime' || enName === 'Mr-rime') enName = 'Mr. Rime';
   if (enName === 'Mime Jr' || enName === 'Mime-jr') enName = 'Mime Jr.';
   if (enName === 'Type Null' || enName === 'Type-null') enName = 'Type: Null';
+  if (zhName.includes('謎擬Q') || zhName.includes('謎擬 Q')) zhName = zhName.replace(/謎擬\s*Q/g, '謎擬Ｑ');
   if (enName === 'Tapu Koko' || enName === 'Tapu-koko') enName = 'Tapu Koko'; // Ensure space
   if (enName === 'Tapu Lele' || enName === 'Tapu-lele') enName = 'Tapu Lele';
   if (enName === 'Tapu Bulu' || enName === 'Tapu-bulu') enName = 'Tapu Bulu';
@@ -603,13 +604,30 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'mimikyu') searchTerm = 'mimikyu-disguised';
     else if (lowerName === 'wishiwashi') searchTerm = 'wishiwashi-solo';
 
+    // Normalize function to handle full-width/half-width and case sensitivity
+    const normalize = (str: string) => {
+      return str
+        .replace(/[\uff01-\uff5e]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0)) // Full-width to half-width
+        .toLowerCase();
+    };
+
     // 先嘗試完全匹配
     let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
-    
-    // 如果沒有完全匹配，嘗試模糊搜尋
+
+    // 如果沒有完全匹配，嘗試標準化匹配
     if (!pokemonId) {
+      const normalizedInput = normalize(nameOrId);
+      const match = Object.keys(pokemonZhMapping as Record<string, number>).find(key => normalize(key) === normalizedInput);
+      if (match) {
+        pokemonId = (pokemonZhMapping as Record<string, number>)[match];
+      }
+    }
+    
+    // 如果還是沒有匹配，嘗試模糊搜尋（使用標準化後的字串）
+    if (!pokemonId) {
+      const normalizedInput = normalize(nameOrId);
       const matchingNames = Object.keys(pokemonZhMapping as Record<string, number>)
-        .filter(name => name.includes(nameOrId));
+        .filter(name => normalize(name).includes(normalizedInput));
       
       if (matchingNames.length === 1) {
         // 只有一個匹配結果，直接使用
