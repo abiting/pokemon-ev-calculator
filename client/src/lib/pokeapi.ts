@@ -288,7 +288,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Wormadam (Trash Cloak)`;
   } else if (englishName.includes('deoxys-normal') || englishName === 'deoxys') {
     zhName = `${cleanBaseZhName}（普通形態）`;
-    enName = `Deoxys (Normal)`;
+    enName = `Deoxys`;
   } else if (englishName.includes('deoxys-attack')) {
     zhName = `${cleanBaseZhName}（攻擊形態）`;
     enName = `Deoxys (Attack)`;
@@ -303,13 +303,13 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Zygarde (10% Forme)`;
   } else if (englishName.includes('zygarde-50') || englishName === 'zygarde') {
     zhName = `${cleanBaseZhName}（50%形態）`;
-    enName = `Zygarde (50%)`;
+    enName = `Zygarde`;
   } else if (englishName.includes('zygarde-complete')) {
     zhName = `${cleanBaseZhName}（完全體形態）`;
     enName = `Zygarde (Complete Forme)`;
   } else if (englishName.includes('giratina-altered') || englishName === 'giratina') {
     zhName = `${cleanBaseZhName}（別種形態）`;
-    enName = `Giratina (Altered)`;
+    enName = `Giratina`;
   } else if (englishName.includes('giratina-origin')) {
     zhName = `${cleanBaseZhName}（起源形態）`;
     enName = `Giratina (Origin)`;
@@ -321,25 +321,25 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Palkia (Origin)`;
   } else if (englishName.includes('shaymin-land') || englishName === 'shaymin') {
     zhName = `${cleanBaseZhName}（陸上形態）`;
-    enName = `Shaymin (Land)`;
+    enName = `Shaymin`;
   } else if (englishName.includes('shaymin-sky')) {
     zhName = `${cleanBaseZhName}（天空形態）`;
     enName = `Shaymin (Sky)`;
   } else if (englishName.includes('tornadus-incarnate') || englishName === 'tornadus') {
     zhName = `${cleanBaseZhName}（化身形態）`;
-    enName = `Tornadus (Incarnate)`;
+    enName = `Tornadus`;
   } else if (englishName.includes('tornadus-therian')) {
     zhName = `${cleanBaseZhName}（靈獸形態）`;
     enName = `Tornadus (Therian)`;
   } else if (englishName.includes('thundurus-incarnate') || englishName === 'thundurus') {
     zhName = `${cleanBaseZhName}（化身形態）`;
-    enName = `Thundurus (Incarnate)`;
+    enName = `Thundurus`;
   } else if (englishName.includes('thundurus-therian')) {
     zhName = `${cleanBaseZhName}（靈獸形態）`;
     enName = `Thundurus (Therian)`;
   } else if (englishName.includes('landorus-incarnate') || englishName === 'landorus') {
     zhName = `${cleanBaseZhName}（化身形態）`;
-    enName = `Landorus (Incarnate)`;
+    enName = `Landorus`;
   } else if (englishName.includes('landorus-therian')) {
     zhName = `${cleanBaseZhName}（靈獸形態）`;
     enName = `Landorus (Therian)`;
@@ -357,13 +357,13 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `White Kyurem`;
   } else if (englishName.includes('keldeo-ordinary') || englishName === 'keldeo') {
     zhName = `${cleanBaseZhName}（平常樣子）`;
-    enName = `Keldeo (Ordinary)`;
+    enName = `Keldeo`;
   } else if (englishName.includes('keldeo-resolute')) {
     zhName = `${cleanBaseZhName}（覺悟的樣子）`;
     enName = `Keldeo (Resolute)`;
   } else if (englishName.includes('meloetta-aria') || englishName === 'meloetta') {
     zhName = `${cleanBaseZhName}（歌聲形態）`;
-    enName = `Meloetta (Aria)`;
+    enName = `Meloetta`;
   } else if (englishName.includes('meloetta-pirouette')) {
     zhName = `${cleanBaseZhName}（舞步形態）`;
     enName = `Meloetta (Pirouette)`;
@@ -375,16 +375,22 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Hoopa (Unbound)`;
   } else if (englishName.includes('aegislash-shield') || englishName === 'aegislash') {
     zhName = `${cleanBaseZhName}（盾牌形態）`;
-    enName = `Aegislash (Shield)`;
+    enName = `Aegislash`;
   } else if (englishName.includes('aegislash-blade')) {
     zhName = `${cleanBaseZhName}（刀劍形態）`;
     enName = `Aegislash (Blade)`;
+  } else if (englishName.includes('wishiwashi-solo') || englishName === 'wishiwashi') {
+    zhName = `${cleanBaseZhName}（單獨樣子）`;
+    enName = `Wishiwashi`;
+  } else if (englishName.includes('wishiwashi-school')) {
+    zhName = `${cleanBaseZhName}（魚群樣子）`;
+    enName = `Wishiwashi (School)`;
   } else if (englishName.includes('pumpkaboo-small')) {
     zhName = `${cleanBaseZhName}（小尺寸）`;
     enName = `Pumpkaboo (Small)`;
   } else if (englishName.includes('pumpkaboo-average') || englishName === 'pumpkaboo') {
     zhName = `${cleanBaseZhName}（普通尺寸）`;
-    enName = `Pumpkaboo (Average)`;
+    enName = `Pumpkaboo`;
   } else if (englishName.includes('pumpkaboo-large')) {
     zhName = `${cleanBaseZhName}（大尺寸）`;
     enName = `Pumpkaboo (Large)`;
@@ -396,7 +402,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     enName = `Gourgeist (Small)`;
   } else if (englishName.includes('gourgeist-average') || englishName === 'gourgeist') {
     zhName = `${cleanBaseZhName}（普通尺寸）`;
-    enName = `Gourgeist (Average)`;
+    enName = `Gourgeist`;
   } else if (englishName.includes('gourgeist-large')) {
     zhName = `${cleanBaseZhName}（大尺寸）`;
     enName = `Gourgeist (Large)`;
@@ -543,21 +549,32 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     zhName = `${baseZhName}（空腹花紋）`;
     enName = `Morpeko (Hangry)`;
   } else {
-	      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
-	      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
-	      // 嘗試翻譯常見後綴
+      // 其他特殊形態，保留英文後綴但使用中文基礎名稱
+      const suffix = englishName.replace(speciesName, '').replace(/^-/, '');
+      // 嘗試翻譯常見後綴
       let zhSuffix = suffix;
       if (suffix === 'gmax') zhSuffix = '超極巨';
       else if (suffix === 'mega') zhSuffix = '超級進化';
-	      else if (suffix === 'alola') zhSuffix = '阿羅拉樣子';
-	      else if (suffix === 'galar') zhSuffix = '伽勒爾樣子';
-	      else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
-	      else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
-	      
+      else if (suffix === 'alola') zhSuffix = '阿羅拉樣子';
+      else if (suffix === 'galar') zhSuffix = '伽勒爾樣子';
+      else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
+      else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
+      
       zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
-      // 英文名稱格式化：將後綴用括號包起來
-      const suffixCapitalized = suffix.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-      enName = `${baseEnName} (${suffixCapitalized})`;
+      
+      // 英文名稱格式化：將後綴用括號包起來，但隱藏預設形態後綴
+      const defaultSuffixes = [
+        'normal', 'standard', 'incarnate', 'ordinary', 'aria', 'shield', 'average', 'small', 'large', 'super', 
+        'solo', 'red-meteor', 'disguised', 'full-belly', '50', 'baile', 'midday', 'plant', 'altered', 'land', 
+        'red-striped', 'male', 'female'
+      ];
+
+      if (defaultSuffixes.includes(suffix) || suffix === 'male' || suffix === 'female') {
+         enName = baseEnName;
+      } else {
+         const suffixCapitalized = suffix.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+         enName = `${baseEnName} (${suffixCapitalized})`;
+      }
     }
 
   // Final fix for special names that might have been overwritten
