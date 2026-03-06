@@ -1084,6 +1084,14 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
              if (name !== 'tatsugiri-curly') return false;
           }
 
+          // 排除肯泰羅 (Tauros) 的其他帕底亞形態，只保留鬥戰種 (Combat Breed)
+          if (name.startsWith('tauros-paldea')) {
+             // 如果是鬥戰種，保留
+             if (name === 'tauros-paldea-combat-breed') return true;
+             // 其他帕底亞形態 (Blaze, Aqua) 排除
+             return false;
+          }
+
           // 1. Mega 進化
           if (name.includes('-mega')) return true;
           // 2. 極巨化 (Gmax)
