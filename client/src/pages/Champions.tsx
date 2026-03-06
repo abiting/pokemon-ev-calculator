@@ -232,10 +232,10 @@ export default function Champions() {
 	                           // Get ID from URL
 	                           const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop() || '0');
 	                           
-	                           // Force fix for Darmanitan Galar Zen
-	                           if (id === 10178) {
-	                              displayName = '達摩狒狒（伽勒爾達摩模式）';
-	                           } else if (v.is_default) {
+                           // Force fix for Darmanitan Galar Zen
+                           if (v.pokemon.name === 'darmanitan-galar-zen') {
+                              displayName = '達摩狒狒（伽勒爾達摩模式）';
+                           } else if (v.is_default) {
 	                              // If default form, show base name (e.g., "妙蛙花")
 	                              displayName = baseZhName;
 	                           } else {

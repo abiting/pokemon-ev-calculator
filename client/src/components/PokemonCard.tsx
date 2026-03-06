@@ -83,7 +83,13 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             // 優先檢查英文名稱，因為 ID 可能被標準化為 Species ID (555)
             const enName = pokemon.enName || pokemon.name;
             
-            // 達摩狒狒特殊處理：使用屬性判斷形態
+            // 達摩狒狒特殊處理：優先使用 name 判斷
+            if (pokemon.name === 'darmanitan-galar-zen') return '達摩狒狒（伽勒爾達摩模式）';
+            if (pokemon.name === 'darmanitan-galar-standard') return '達摩狒狒（伽勒爾的樣子）';
+            if (pokemon.name === 'darmanitan-zen') return '達摩狒狒（達摩模式）';
+            if (pokemon.name === 'darmanitan-standard') return '達摩狒狒';
+
+            // 備用：使用屬性判斷形態 (僅當 name 判斷失敗時)
             if (enName.includes('Darmanitan') || enName.includes('darmanitan') || pokemon.id === 555) {
               const types = pokemon.types.map(t => t.type.name);
               const hasIce = types.includes('ice');
@@ -95,17 +101,6 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
               if (hasFire && hasPsychic) return '達摩狒狒（達摩模式）';
               if (hasFire) return '達摩狒狒';
             }
-            
-            if (enName.includes('Darmanitan (Galar Zen)') || enName.includes('galar-zen')) return '達摩狒狒（伽勒爾達摩模式）';
-            if (enName.includes('Darmanitan (Galarian)') || enName.includes('galar-standard')) return '達摩狒狒（伽勒爾的樣子）';
-            if (enName.includes('Darmanitan (Zen)') || enName.includes('zen-mode')) return '達摩狒狒（達摩模式）';
-            if (enName.includes('Darmanitan') || enName.includes('darmanitan')) return '達摩狒狒';
-            
-            // 如果英文名檢查失敗，再嘗試 ID 檢查（作為備用）
-            if (pokemon.id === 10178) return '達摩狒狒（伽勒爾達摩模式）';
-            if (pokemon.id === 10177) return '達摩狒狒（伽勒爾的樣子）';
-            if (pokemon.id === 10017) return '達摩狒狒（達摩模式）';
-            if (pokemon.id === 555) return '達摩狒狒';
 
             return pokemon.zhName || pokemon.name;
           })() : (() => {
@@ -123,7 +118,13 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
                name = pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
             }
             
-            // 達摩狒狒英文名特殊處理：使用屬性判斷形態
+            // 達摩狒狒英文名特殊處理：優先使用 name 判斷
+            if (pokemon.name === 'darmanitan-galar-zen') return 'Darmanitan (Galar Zen)';
+            if (pokemon.name === 'darmanitan-galar-standard') return 'Darmanitan (Galarian)';
+            if (pokemon.name === 'darmanitan-zen') return 'Darmanitan (Zen)';
+            if (pokemon.name === 'darmanitan-standard') return 'Darmanitan';
+
+            // 備用：使用屬性判斷形態
             if (name.includes('Darmanitan') || pokemon.id === 555) {
               const types = pokemon.types.map(t => t.type.name);
               const hasIce = types.includes('ice');
