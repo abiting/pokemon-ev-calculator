@@ -259,6 +259,24 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       enName: 'Lycanroc (Dusk Form)'
     };
   }
+  if (englishName.includes('necrozma-dusk')) {
+    return {
+      zhName: '奈克洛茲瑪（黃昏之鬃）',
+      enName: 'Necrozma (Dusk Mane)'
+    };
+  }
+  if (englishName.includes('necrozma-dawn')) {
+    return {
+      zhName: '奈克洛茲瑪（拂曉之翼）',
+      enName: 'Necrozma (Dawn Wings)'
+    };
+  }
+  if (englishName.includes('necrozma-ultra')) {
+    return {
+      zhName: '究極奈克洛茲瑪',
+      enName: 'Ultra Necrozma'
+    };
+  }
 
   // Helper to capitalize words
   const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
