@@ -92,7 +92,7 @@ export default function Home() {
             寶可夢能力值計算器
           </h1>
           <p className="text-white/90 text-lg drop-shadow">
-            專為舊時代「寶可夢對戰」設計的 IV、EV 計算工具
+            專為「舊時代寶可夢對戰」設計的 IV、EV 計算工具
           </p>
         </div>
 

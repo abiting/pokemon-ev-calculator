@@ -309,7 +309,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
             formatted.enName = 'Minior (Red Core)';
             formatted.zhName = '小隕星（紅色核心）';
          } else {
-            // 過濾掉其他顏色的重複形態
+            // 過濾掉其他顏色的重複形態，只保留紅色核心和流星作為代表
             return null;
          }
       }
