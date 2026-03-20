@@ -276,3 +276,12 @@
 - [ ] 修改 `client/src/components/PokemonCard.tsx`，加入特性名稱格式化邏輯（將 `lightning-rod` 轉為 `Lightning Rod`）
 - [ ] 修改 `client/src/data/natures.ts`，擴充資料結構以包含英文性格名稱
 - [ ] 修改 `client/src/pages/ChampionsEn.tsx`，確保使用英文性格名稱
+
+## Nidoran 命名與搜尋修正
+- [ ] 將 Nidoran F 的英文名稱更新為 'Nidoran (Female)'
+- [ ] 將 Nidoran M 的英文名稱更新為 'Nidoran (Male)'
+- [ ] 支援使用 'Nidoran' 搜尋時，能同時找到 Nidoran F 和 Nidoran M
+
+## Nidoran 搜尋列表名稱修正
+- [ ] 在搜尋候選列表中，將 nidoran-f 顯示為 'Nidoran (Female)' 或 '尼多蘭'
+- [ ] 在搜尋候選列表中，將 nidoran-m 顯示為 'Nidoran (Male)' 或 '尼多朗'

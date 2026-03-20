@@ -207,7 +207,7 @@ export default function Champions() {
                   onClick={() => selectCandidate(candidate.name)}
                 >
                   {candidate.id > 0 && <span className="font-bold mr-2">#{candidate.id}</span>}
-                  {candidate.id === 0 ? `直接搜尋 "${candidate.name}"` : candidate.name}
+                  {candidate.id === 0 ? `直接搜尋 "${candidate.name}"` : (candidate.name === 'nidoran-f' ? '尼多蘭' : candidate.name === 'nidoran-m' ? '尼多朗' : candidate.name)}
                 </Button>
               ))}
             </div>

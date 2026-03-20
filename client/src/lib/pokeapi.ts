@@ -36,6 +36,14 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
     return [];
   }
 
+  // Special handling for Nidoran search
+  if (query.toLowerCase() === 'nidoran') {
+    return [
+      { id: 29, name: 'nidoran-f', zhName: '尼多蘭', isDefault: true },
+      { id: 32, name: 'nidoran-m', zhName: '尼多朗', isDefault: true }
+    ];
+  }
+
   // 2. 搜尋本地中文對應表
   // Normalize function to handle full-width/half-width and case sensitivity
   const normalize = (str: string) => {
@@ -109,6 +117,8 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
       'terapagos': 'terapagos',
       'pecharunt': 'pecharunt',
     };
+
+
 
     // Try to map from searchMap first
     let mappedQuery = searchMap[query.toLowerCase()];
@@ -380,6 +390,14 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
 }
 
 export function formatPokemonName(englishName: string, baseZhName: string, speciesName: string): { zhName: string, enName: string } {
+  // Hardcoded fix for Nidoran F and M
+  if (englishName === 'nidoran-f') {
+    return { zhName: '尼多蘭', enName: 'Nidoran (Female)' };
+  }
+  if (englishName === 'nidoran-m') {
+    return { zhName: '尼多朗', enName: 'Nidoran (Male)' };
+  }
+
   // Hardcoded fix for Treasures of Ruin (Wo-Chien, Chien-Pao, Ting-Lu, Chi-Yu)
   if (englishName === 'wo-chien') {
     return { zhName: '古簡蝸', enName: 'Wo-Chien' };
@@ -534,6 +552,16 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   // Ensure base names are clean
   let cleanBaseZhName = baseZhName.replace(/（.*?）/g, '').replace(/\(.*?\)/g, '');
   let baseEnName = capitalize(speciesName);
+
+  // Fix Nidoran base names
+  if (speciesName === 'nidoran-f') {
+    baseEnName = 'Nidoran (Female)';
+    cleanBaseZhName = '尼多蘭';
+  }
+  if (speciesName === 'nidoran-m') {
+    baseEnName = 'Nidoran (Male)';
+    cleanBaseZhName = '尼多朗';
+  }
 
   // Fix Mr. Mime, Mr. Rime, Mime Jr.
   if (baseEnName === 'Mr Mime') baseEnName = 'Mr. Mime';
@@ -916,6 +944,18 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   if (typeof nameOrId === 'string') {
     // Handle Mr. Mime / Mr. Rime / Mime Jr. search
     const lowerName = nameOrId.toLowerCase();
+    if (lowerName === 'nidoran') {
+      // If they just search 'nidoran', we default to female (or throw ambiguous error)
+      // Since searchPokemon already handles 'nidoran' and returns both, this is just a fallback
+      // if they somehow bypass the search suggestions.
+      const error = new Error('Ambiguous search') as any;
+      error.isAmbiguous = true;
+      error.candidates = [
+        { id: 29, name: 'nidoran-f', zhName: '尼多蘭' },
+        { id: 32, name: 'nidoran-m', zhName: '尼多朗' }
+      ];
+      throw error;
+    }
     if (lowerName === 'mr. mime' || lowerName === 'mr mime') searchTerm = 'mr-mime';
     else if (lowerName === 'mr. rime' || lowerName === 'mr rime') searchTerm = 'mr-rime';
     else if (lowerName === 'mime jr.' || lowerName === 'mime jr') searchTerm = 'mime-jr';
