@@ -290,3 +290,6 @@
 - [ ] 將 Home.tsx 的 placeholder 改為「輸入寶可夢名稱或編號」
 - [ ] 將 Champions.tsx 的 placeholder 改為「輸入寶可夢名稱或編號」
 - [ ] 將 ChampionsEn.tsx 的 placeholder 改為「Enter Pokémon name or ID」
+
+## 英文版範例文字修改
+- [ ] 將 ChampionsEn.tsx 中的範例 `Enter "Charizard" or "6"` 修改為 `Enter "噴火龍" or "6"`

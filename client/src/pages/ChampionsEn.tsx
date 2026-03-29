@@ -447,7 +447,7 @@ export default function ChampionsEn() {
                 <p className="font-semibold mb-2 text-slate-700">Examples:</p>
                 <ul className="space-y-1 text-slate-600">
                   <li>• Enter "Pikachu" or "25"</li>
-                  <li>• Enter "Charizard" or "6"</li>
+                  <li>• Enter "噴火龍" or "6"</li>
                 </ul>
               </div>
             </div>
