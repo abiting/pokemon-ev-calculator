@@ -86,12 +86,12 @@ export default function Home() {
         {/* 標題區 */}
         <div className="text-center mb-8">
           <h1 
-            className="text-3xl md:text-4xl font-bold text-white mb-3 drop-shadow-lg cursor-pointer hover:opacity-80 transition-opacity"
+            className="text-3xl md:text-4xl font-bold text-slate-800 mb-3 drop-shadow-sm cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => window.location.reload()}
           >
             寶可夢能力值計算器
           </h1>
-          <p className="text-white/90 text-lg drop-shadow">
+          <p className="text-slate-600 text-lg drop-shadow-sm">
             專為「舊時代寶可夢對戰」設計的 IV、EV 計算工具
           </p>
         </div>
@@ -237,8 +237,8 @@ export default function Home() {
         {/* 載入中 */}
         {isLoading && (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
-            <p className="text-white mt-4">載入中...</p>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-800 border-t-transparent"></div>
+            <p className="text-slate-600 mt-4">載入中...</p>
           </div>
         )}
 
@@ -271,9 +271,9 @@ export default function Home() {
         )}
 
         {/* 頁尾 */}
-        <footer className="mt-12 text-center text-white/80 text-sm">
-          <p>資料來源：<a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">PokéAPI</a></p>
-          <p className="mt-2">Copyright © <a href="https://scrabby.abiting.cc" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">Scrabby</a></p>
+        <footer className="mt-12 text-center text-slate-500 text-sm">
+          <p>資料來源：<a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">PokéAPI</a></p>
+          <p className="mt-2">Copyright © <a href="https://scrabby.abiting.cc" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">Scrabby</a></p>
         </footer>
       </div>
     </div>
