@@ -13,7 +13,7 @@ interface PokemonSearchProps {
 export default function PokemonSearch({ 
   onSearch, 
   isLoading, 
-  placeholder = "輸入寶可夢名稱或編號（例如：皮卡丘 或 25）",
+  placeholder = "輸入寶可夢名稱或編號",
   buttonText = "搜尋"
 }: PokemonSearchProps) {
   const [query, setQuery] = useState('');

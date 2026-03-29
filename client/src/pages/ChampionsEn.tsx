@@ -193,7 +193,7 @@ export default function ChampionsEn() {
 
         {/* Search Section */}
         <div className="mb-8">
-          <PokemonSearch onSearch={handleSearch} isLoading={isLoading} placeholder="Enter Pokemon name or ID (e.g., Pikachu or 25)" buttonText="Search" />
+          <PokemonSearch onSearch={handleSearch} isLoading={isLoading} placeholder="Enter Pokémon name or ID" buttonText="Search" />
         </div>
 
         {/* Multiple Results Dialog */}
