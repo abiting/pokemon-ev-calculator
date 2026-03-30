@@ -128,7 +128,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   const displayName = pokemon.enName || pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg relative flex flex-col h-full">
+    <Card className="bg-gradient-to-br from-white to-slate-50/90 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg relative flex flex-col h-full">
       <Button 
         variant="ghost" 
         size="icon" 
@@ -151,7 +151,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
               disabled={isLoadingForm}
             >
               {varieties.map(v => (
-                <option key={v.name} value={v.name}>
+                <option key={v.apiName || v.name} value={v.apiName || v.name}>
                   {v.name}
                 </option>
               ))}
@@ -162,7 +162,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
 
       <CardContent className="p-4 flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-4 gap-2">
-          <div className="relative w-28 h-28 flex-shrink-0 flex flex-col items-center">
+          <div className="relative w-36 h-36 flex-shrink-0 flex flex-col items-center">
             <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" />
             
             {/* Item Input & Icon */}
@@ -181,7 +181,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                     }}
                   />
                 )}
-                <div className="pl-5 w-full">
+                <div className="pl-6 w-[110%] -ml-[5%]">
                   <Combobox
                     options={itemOptions}
                     value={item}
@@ -208,9 +208,9 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
             </div>
 
             {/* Ability */}
-            <div className="bg-purple-50 p-2 rounded-lg border border-purple-100">
+            <div className="bg-purple-50 p-1.5 rounded-lg border border-purple-100">
               <select 
-                className="w-full bg-transparent text-sm text-purple-900 font-medium focus:outline-none cursor-pointer"
+                className="w-full bg-transparent text-xs text-purple-900 font-medium focus:outline-none cursor-pointer"
                 value={ability}
                 onChange={(e) => setAbility(e.target.value)}
               >

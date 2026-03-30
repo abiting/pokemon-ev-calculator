@@ -15,3 +15,8 @@
 - [ ] Allow users to select Ability, Item, up to 4 Moves (sorted alphabetically), and EVs for each Pokémon
 - [ ] Display the team in a grid of cards similar to the provided screenshot
 - [ ] Add routing and navigation for the new Team Builder page
+
+## Team Builder Enhancements
+- [ ] Fix form selection update issue in TeamSlot component
+- [ ] Optimize TeamSlot UI (larger image, smaller ability, gradient background, wider item dropdown)
+- [ ] Add download team image feature in TeamBuilder

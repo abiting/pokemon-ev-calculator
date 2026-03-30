@@ -202,7 +202,8 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
              id,
              name: enName,
              zhName: zhName,
-             isDefault: form.name === 'ogerpon'
+             isDefault: form.name === 'ogerpon',
+             apiName: form.name
           };
        });
     }
@@ -232,7 +233,8 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
              id,
              name: enName,
              zhName: zhName,
-             isDefault: form.name === 'terapagos'
+             isDefault: form.name === 'terapagos',
+             apiName: form.name
           };
        });
     }
@@ -382,7 +384,8 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
         id,
         name: formatted.enName, // 使用格式化後的英文名稱
         zhName: formatted.zhName,
-        isDefault: v.is_default
+        isDefault: v.is_default,
+        apiName: v.pokemon.name
       };
     }));
     
