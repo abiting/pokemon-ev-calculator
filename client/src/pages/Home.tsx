@@ -95,13 +95,7 @@ export default function Home() {
           <p className="text-slate-600 text-lg drop-shadow-sm">
             專為「舊時代寶可夢對戰」設計的 IV、EV 計算工具
           </p>
-          <div className="mt-4 flex justify-center gap-4">
-            <Link href="/team-builder">
-              <Button variant="outline" className="bg-white/80 hover:bg-white">
-                前往隊伍構築器 (Team Builder)
-              </Button>
-            </Link>
-          </div>
+
         </div>
 
         {/* 搜尋區 */}

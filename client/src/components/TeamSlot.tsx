@@ -8,11 +8,17 @@ import type { Pokemon } from '@/types/pokemon';
 import { TYPE_COLORS, TYPE_NAMES } from '@/types/pokemon';
 import { Combobox } from '@/components/ui/combobox';
 import itemsData from '@/data/items.json';
+import movesData from '@/data/moves.json';
 
 const itemOptions = itemsData.map(item => ({
   value: item,
   label: item.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 }));
+
+const moveOptions = movesData.map(move => ({
+  value: move,
+  label: move.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+})).sort((a, b) => a.label.localeCompare(b.label));
 
 interface TeamSlotProps {
   slotIndex: number;
@@ -86,7 +92,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
 
   if (!pokemon) {
     return (
-      <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg h-[500px] flex flex-col">
+      <Card className="bg-white/40 backdrop-blur-md border-2 border-dashed border-purple-300 shadow-lg h-[500px] flex flex-col hover:bg-white/50 transition-colors">
         <CardContent className="p-6 flex-1 flex flex-col justify-center items-center">
           <div className="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center mb-6 border-2 border-dashed border-slate-300">
             <Search className="w-8 h-8 text-slate-400" />
@@ -102,7 +108,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
               />
               <Button 
                 type="submit" 
-                className="w-full bg-cyan-600 hover:bg-cyan-700 text-white"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white shadow-md"
                 disabled={isSearching || !searchQuery.trim()}
               >
                 {isSearching ? 'Searching...' : 'Add to Team'}
@@ -128,7 +134,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   const displayName = pokemon.enName || pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
   return (
-    <Card className="bg-gradient-to-br from-white to-slate-50/90 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg relative flex flex-col h-full">
+    <Card className="bg-gradient-to-br from-white/95 to-purple-50/90 backdrop-blur-md border-2 border-purple-200 shadow-xl relative flex flex-col h-full">
       <Button 
         variant="ghost" 
         size="icon" 
@@ -145,7 +151,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
         {varieties.length > 1 && (
           <div className="mt-2">
             <select
-              className="w-full bg-slate-100 border border-slate-200 text-slate-700 text-xs rounded px-2 py-1.5 focus:outline-none focus:border-cyan-500 cursor-pointer"
+              className="w-full bg-white/80 border border-purple-200 text-purple-900 text-xs rounded px-2 py-1.5 focus:outline-none focus:border-purple-500 cursor-pointer shadow-sm"
               value={pokemon.name}
               onChange={(e) => handleFormChange(e.target.value)}
               disabled={isLoadingForm}
@@ -166,31 +172,29 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
             <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" />
             
             {/* Item Input & Icon */}
-            <div className="absolute -bottom-4 w-full px-1 z-20">
-              <div className="relative flex items-center justify-center">
-                {item && (
-                  <img 
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.toLowerCase().replace(/\s+/g, '-')}.png`}
-                    alt={item}
-                    className="absolute -left-2 w-6 h-6 z-10 drop-shadow-sm"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }}
-                    onLoad={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'block';
-                    }}
-                  />
-                )}
-                <div className="pl-6 w-[110%] -ml-[5%]">
-                  <Combobox
-                    options={itemOptions}
-                    value={item}
-                    onChange={setItem}
-                    placeholder="Item..."
-                    emptyText="No item found."
-                    className="h-7 text-xs bg-white border-slate-300 text-slate-800 shadow-sm w-full"
-                  />
-                </div>
+            <div className="absolute -bottom-3 w-full px-0 z-20">
+              <div className="relative flex items-center justify-center w-full">
+                <Combobox
+                  options={itemOptions}
+                  value={item}
+                  onChange={setItem}
+                  placeholder="Item..."
+                  emptyText="No item found."
+                  className="h-7 text-xs bg-white border-slate-300 text-slate-800 shadow-sm w-full px-2"
+                  icon={item ? (
+                    <img 
+                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.toLowerCase().replace(/\\s+/g, '-')}.png`}
+                      alt={item}
+                      className="w-4 h-4 drop-shadow-sm"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                      onLoad={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'block';
+                      }}
+                    />
+                  ) : undefined}
+                />
               </div>
             </div>
           </div>
@@ -232,14 +236,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
             {[0, 1, 2, 3].map((moveIndex) => (
               <div key={moveIndex} className="bg-slate-50 border border-slate-200 rounded-md p-1.5 shadow-sm">
                 <Combobox
-                  options={(pokemon.moves || [])
-                    .map(m => m.move.name)
-                    .sort()
-                    .map(moveName => ({
-                      value: moveName,
-                      label: moveName.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-                    }))
-                  }
+                  options={moveOptions}
                   value={moves[moveIndex]}
                   onChange={(val) => {
                     const newMoves = [...moves];
@@ -273,7 +270,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                   step="4"
                   value={evs[key as keyof typeof evs]}
                   onChange={(e) => setEvs({ ...evs, [key]: parseInt(e.target.value) || 0 })}
-                  className="w-full bg-white border border-slate-300 text-center text-xs py-1 text-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 rounded shadow-sm"
+                  className="w-full bg-white border border-slate-300 text-center text-xs py-1 text-slate-700 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded shadow-sm"
                 />
               </div>
             ))}

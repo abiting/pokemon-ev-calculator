@@ -20,3 +20,14 @@
 - [ ] Fix form selection update issue in TeamSlot component
 - [ ] Optimize TeamSlot UI (larger image, smaller ability, gradient background, wider item dropdown)
 - [ ] Add download team image feature in TeamBuilder
+- [ ] Widen item dropdown in TeamSlot component to show full names
+- [ ] Improve background color scheme for TeamBuilder and TeamSlot components
+- [ ] Fix item dropdown icon overlapping with text and going out of bounds
+- [ ] Change move list to show all existing moves instead of just the ones the Pokemon can learn
+- [ ] Remove Team Builder button from Home page
+- [ ] Sort moves alphabetically in TeamSlot
+- [ ] Fix item icon overlapping in TeamSlot (ensure it doesn't overlap text or go out of bounds)
+- [ ] Filter out special moves (Z-moves, Max moves, etc.) from the moves list
+- [ ] Fix item icon overlapping in TeamSlot (ensure it doesn't overlap text or go out of bounds)
+- [x] Fix the download team functionality
+- [ ] Save a checkpoint for the project

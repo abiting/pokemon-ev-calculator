@@ -26,6 +26,7 @@ interface ComboboxProps {
   placeholder?: string
   emptyText?: string
   className?: string
+  icon?: React.ReactNode
 }
 
 export function Combobox({
@@ -35,6 +36,7 @@ export function Combobox({
   placeholder = "Select an option...",
   emptyText = "No option found.",
   className,
+  icon,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
 
@@ -45,13 +47,16 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-full justify-between font-normal", className)}
+          className={cn("w-full justify-between font-normal px-3", className)}
         >
-          <span className="truncate">
-            {value
-              ? options.find((option) => option.value === value)?.label || value
-              : placeholder}
-          </span>
+          <div className="flex items-center truncate min-w-0">
+            {icon && <div className="mr-2 flex-shrink-0 flex items-center justify-center">{icon}</div>}
+            <span className="truncate">
+              {value
+                ? options.find((option) => option.value === value)?.label || value
+                : placeholder}
+            </span>
+          </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

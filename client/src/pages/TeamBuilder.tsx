@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import TeamSlot from '@/components/TeamSlot';
 import { Button } from '@/components/ui/button';
 import { Download, Loader2 } from 'lucide-react';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 export default function TeamBuilder() {
   const teamRef = useRef<HTMLDivElement>(null);
@@ -13,16 +13,18 @@ export default function TeamBuilder() {
     
     setIsDownloading(true);
     try {
-      const canvas = await html2canvas(teamRef.current, {
-        backgroundColor: '#0f172a', // slate-900 to match background
-        scale: 2, // Higher quality
-        useCORS: true, // Allow loading external images (sprites)
-        logging: false,
+      const dataUrl = await toPng(teamRef.current, {
+        backgroundColor: '#1e1b4b', // purple-900 to match background
+        pixelRatio: 2, // Higher quality
+        style: {
+          // Ensure the background is fully opaque
+          background: 'linear-gradient(to bottom right, #0f172a, #581c87, #0f172a)'
+        },
+        fontEmbedCSS: '', // Skip font embedding to avoid CORS issues with Google Fonts
       });
       
-      const image = canvas.toDataURL('image/png');
       const link = document.createElement('a');
-      link.href = image;
+      link.href = dataUrl;
       link.download = 'pokemon-team.png';
       link.click();
     } catch (error) {
@@ -33,14 +35,14 @@ export default function TeamBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-white">Team Builder</h1>
           <Button 
             onClick={handleDownload} 
             disabled={isDownloading}
-            className="bg-cyan-600 hover:bg-cyan-700 text-white"
+            className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg border border-purple-500/30"
           >
             {isDownloading ? (
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
