@@ -31,3 +31,6 @@
 - [ ] Fix item icon overlapping in TeamSlot (ensure it doesn't overlap text or go out of bounds)
 - [x] Fix the download team functionality
 - [ ] Save a checkpoint for the project
+- [x] Fix mobile download layout to use desktop grid ratio
+- [x] Remove /moves-en route and related files
+- [ ] Save a checkpoint for the project

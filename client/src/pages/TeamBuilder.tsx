@@ -16,9 +16,16 @@ export default function TeamBuilder() {
       const dataUrl = await toPng(teamRef.current, {
         backgroundColor: '#1e1b4b', // purple-900 to match background
         pixelRatio: 2, // Higher quality
+        width: 1200, // Force desktop width
         style: {
           // Ensure the background is fully opaque
-          background: 'linear-gradient(to bottom right, #0f172a, #581c87, #0f172a)'
+          background: 'linear-gradient(to bottom right, #0f172a, #581c87, #0f172a)',
+          // Force 3-column grid layout regardless of screen size
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+          gap: '1.5rem', // 24px (gap-6)
+          padding: '2rem', // Add some padding for the downloaded image
+          margin: '0', // Reset margin
         },
         fontEmbedCSS: '', // Skip font embedding to avoid CORS issues with Google Fonts
       });

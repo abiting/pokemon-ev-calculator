@@ -7,7 +7,6 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Champions from "./pages/Champions";
 import ChampionsEn from "./pages/ChampionsEn";
-import MovesEn from "./pages/MovesEn";
 import TeamBuilder from "./pages/TeamBuilder";
 
 function Router() {
@@ -16,7 +15,6 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/champions"} component={Champions} />
       <Route path={"/champions-en"} component={ChampionsEn} />
-      <Route path={"/moves-en"} component={MovesEn} />
       <Route path={"/team-builder"} component={TeamBuilder} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
