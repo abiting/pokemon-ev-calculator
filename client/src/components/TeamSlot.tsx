@@ -235,7 +235,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
         </div>
 
         {/* Bottom Section: Moves and EVs */}
-        <div className="mt-auto space-y-3">
+        <div className="mt-auto pt-4 space-y-3">
           {/* Moves */}
           <div className="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200">
             <div className="grid grid-cols-2 gap-2">
