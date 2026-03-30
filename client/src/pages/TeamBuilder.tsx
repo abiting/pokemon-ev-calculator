@@ -43,14 +43,15 @@ export default function TeamBuilder() {
             <Button
               onClick={handleDownload}
               disabled={isDownloading}
+              size="icon"
               className="bg-blue-600 hover:bg-blue-700 text-white"
+              title="下載隊伍圖片"
             >
               {isDownloading ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
-                <Download className="w-4 h-4 mr-2" />
+                <Download className="w-5 h-5" />
               )}
-              {isDownloading ? '處理中...' : '下載隊伍圖片'}
             </Button>
             <a 
               href="https://abitingpokedex.com" 

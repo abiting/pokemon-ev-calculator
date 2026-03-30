@@ -51,3 +51,4 @@
 - [ ] Redesign TeamSlot layout for better clarity and compactness
 - [ ] Increase the size of the Pokemon image in TeamSlot
 - [ ] Add spacing between the top section and bottom section in TeamSlot
+- [ ] Remove text from the download button, leaving only the icon
