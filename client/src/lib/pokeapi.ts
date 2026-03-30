@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v29_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v31_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -897,7 +897,11 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       else if (suffix === 'hisui') zhSuffix = '洗翠樣子';
       else if (suffix === 'paldea') zhSuffix = '帕底亞樣子';
       
-      zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
+      if (zhSuffix) {
+        zhName = `${baseZhName}（${zhSuffix}）`; // 使用全形括號
+      } else {
+        zhName = baseZhName;
+      }
       
       // 英文名稱格式化：將後綴用括號包起來，但隱藏預設形態後綴
       const defaultSuffixes = [
@@ -1097,7 +1101,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     if (cached) {
       const cacheData: CacheData = JSON.parse(cached);
       if (Date.now() - cacheData.timestamp < CACHE_DURATION) {
-        return cacheData.data;
+        if (cacheData.data.apiName) {
+          return cacheData.data;
+        }
       }
     }
   } catch (error) {
@@ -1347,9 +1353,10 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     console.warn('Failed to fetch species data', e);
   }
 	  
-	  const englishName = data.name; // Store original English name
-	  
-	  // 強制格式化英文名稱，確保去連接號且首字母大寫
+		  const englishName = data.name; // Store original English name
+		  data.apiName = englishName; // Store API name for form selection
+		  
+		  // 強制格式化英文名稱，確保去連接號且首字母大寫
 	  const capitalize = (s: string) => s.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
 	  // 只有當 enName 尚未設定時，才執行預設的 capitalize 邏輯
 	  if (!data.enName) {

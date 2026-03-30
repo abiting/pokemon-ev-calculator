@@ -34,3 +34,10 @@
 - [x] Fix mobile download layout to use desktop grid ratio
 - [x] Remove /moves-en route and related files
 - [ ] Save a checkpoint for the project
+- [ ] Fix Pokemon form selector not updating correctly and preventing switching back
+- [ ] Fix form selector English names and empty parentheses issue
+- [ ] Fix screenshot not capturing Pokemon images
+- [ ] Fix form selector switching and display issues
+- [ ] Fix screenshot not capturing Pokemon images
+- [ ] Remove '(Hidden)' from abilities
+- [ ] Save project checkpoint

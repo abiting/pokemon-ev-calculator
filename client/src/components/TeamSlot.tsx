@@ -65,7 +65,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   };
 
   const handleFormChange = async (formName: string) => {
-    if (!formName || formName === pokemon?.name) return;
+    if (!formName || formName === pokemon?.apiName || formName === pokemon?.name) return;
     
     setIsLoadingForm(true);
     try {
@@ -152,7 +152,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
           <div className="mt-2">
             <select
               className="w-full bg-white/80 border border-purple-200 text-purple-900 text-xs rounded px-2 py-1.5 focus:outline-none focus:border-purple-500 cursor-pointer shadow-sm"
-              value={pokemon.name}
+              value={pokemon.apiName || pokemon.name}
               onChange={(e) => handleFormChange(e.target.value)}
               disabled={isLoadingForm}
             >
@@ -169,7 +169,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       <CardContent className="p-4 flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-4 gap-2">
           <div className="relative w-36 h-36 flex-shrink-0 flex flex-col items-center">
-            <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" />
+            <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" crossOrigin="anonymous" />
             
             {/* Item Input & Icon */}
             <div className="absolute -bottom-3 w-full px-0 z-20">
@@ -222,7 +222,6 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                 {pokemon.abilities.map((a) => (
                   <option key={a.ability.name} value={a.ability.name}>
                     {a.ability.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-                    {a.is_hidden ? ' (Hidden)' : ''}
                   </option>
                 ))}
               </select>
