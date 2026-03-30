@@ -49,3 +49,4 @@
 - [ ] Enlarge Pokemon image in TeamSlot
 - [ ] Implement team download feature using modern-screenshot and image preloading
 - [ ] Redesign TeamSlot layout for better clarity and compactness
+- [ ] Increase the size of the Pokemon image in TeamSlot

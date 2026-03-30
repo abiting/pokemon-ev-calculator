@@ -183,8 +183,8 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
         {/* Middle Section: Image and Settings */}
         <div className="flex gap-4 items-center">
           {/* Left: Image */}
-          <div className="w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0 flex items-center justify-center bg-white/50 rounded-xl border border-purple-100 shadow-inner p-2">
-            <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" crossOrigin="anonymous" />
+          <div className="w-40 h-40 sm:w-48 sm:h-48 flex-shrink-0 flex items-center justify-center bg-white/50 rounded-xl border border-purple-100 shadow-inner p-1">
+            <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md scale-105" crossOrigin="anonymous" />
           </div>
 
           {/* Right: Item and Ability */}
