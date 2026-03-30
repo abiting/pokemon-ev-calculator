@@ -1106,6 +1106,26 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 
   const data: any = await response.json();
   
+  // 繼承基礎形態的招式 (Mega 和 Gmax 形態通常沒有完整的招式表)
+  if (data.name.includes('-mega') || data.name.includes('-gmax')) {
+    try {
+      const speciesResponse = await fetch(data.species.url);
+      if (speciesResponse.ok) {
+        const speciesData = await speciesResponse.json();
+        const defaultVariety = speciesData.varieties.find((v: any) => v.is_default);
+        if (defaultVariety && defaultVariety.pokemon.name !== data.name) {
+          const defaultResponse = await fetch(defaultVariety.pokemon.url);
+          if (defaultResponse.ok) {
+            const defaultData = await defaultResponse.json();
+            data.moves = defaultData.moves;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to fetch base form moves', e);
+    }
+  }
+  
   // 獲取變體資訊 (對所有寶可夢都嘗試獲取，以支援像 Oricorio 這種預設型態也是變體的情況)
   try {
     const speciesResponse = await fetch(data.species.url);

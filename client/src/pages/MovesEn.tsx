@@ -17,15 +17,15 @@ interface SearchCandidate {
 const TARGET_VERSIONS = ['sword-shield', 'scarlet-violet'];
 
 const VERSION_NAMES: Record<string, string> = {
-  'sword-shield': 'Sword & Shield',
+  'sword-shield': 'Champions',
   'scarlet-violet': 'Scarlet & Violet'
 };
 
 const LEARN_METHODS: Record<string, string> = {
-  'level-up': 'Level Up',
-  'machine': 'TM/TR',
+  'level-up': 'Level-Up',
+  'machine': 'TM',
   'tutor': 'Tutor',
-  'egg': 'Egg Move'
+  'egg': 'Egg'
 };
 
 export default function MovesEn() {
@@ -160,38 +160,61 @@ export default function MovesEn() {
                     
                     {TARGET_VERSIONS.map(version => {
                       const moves = getFilteredMoves(pokemon.moves, version);
+                      
+                      // Group moves by method
+                      const groupedMoves = moves.reduce((acc, move) => {
+                        const method = move.details.move_learn_method.name;
+                        if (!acc[method]) acc[method] = [];
+                        acc[method].push(move);
+                        return acc;
+                      }, {} as Record<string, typeof moves>);
+
+                      const methodOrder = ['level-up', 'machine', 'egg', 'tutor'];
+                      const sortedMethods = Object.keys(groupedMoves).sort((a, b) => {
+                        const indexA = methodOrder.indexOf(a);
+                        const indexB = methodOrder.indexOf(b);
+                        if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+                        if (indexA === -1) return 1;
+                        if (indexB === -1) return -1;
+                        return indexA - indexB;
+                      });
+
                       return (
                         <TabsContent key={version} value={version} className="mt-0 focus-visible:outline-none focus-visible:ring-0">
                           {moves.length > 0 ? (
-                            <div className="overflow-x-auto rounded-xl border border-slate-200">
-                              <table className="w-full text-sm text-left">
-                                <thead className="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
-                                  <tr>
-                                    <th className="px-4 py-3 font-semibold">Move</th>
-                                    <th className="px-4 py-3 font-semibold">Method</th>
-                                    <th className="px-4 py-3 font-semibold">Level</th>
-                                  </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100">
-                                  {moves.map((move, idx) => (
-                                    <tr key={idx} className="bg-white hover:bg-slate-50/80 transition-colors">
-                                      <td className="px-4 py-3 font-medium text-slate-800">{move.name}</td>
-                                      <td className="px-4 py-3 text-slate-600">
-                                        <Badge variant="outline" className="font-normal bg-slate-50">
-                                          {LEARN_METHODS[move.details.move_learn_method.name] || formatName(move.details.move_learn_method.name)}
-                                        </Badge>
-                                      </td>
-                                      <td className="px-4 py-3 text-slate-600">
-                                        {move.details.move_learn_method.name === 'level-up' ? (
-                                          <span className="font-semibold text-blue-600">Lv. {move.details.level_learned_at}</span>
-                                        ) : (
-                                          <span className="text-slate-400">-</span>
-                                        )}
-                                      </td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
+                            <div className="space-y-8">
+                              {sortedMethods.map(method => (
+                                <div key={method} className="space-y-3">
+                                  <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+                                    <div className="w-1.5 h-5 bg-blue-500 rounded-full"></div>
+                                    {LEARN_METHODS[method] || formatName(method)} Moves
+                                  </h3>
+                                  <div className="overflow-x-auto rounded-xl border border-slate-200">
+                                    <table className="w-full text-sm text-left">
+                                      <thead className="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                          <th className="px-4 py-3 font-semibold w-2/3">Move</th>
+                                          <th className="px-4 py-3 font-semibold w-1/3">Level</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody className="divide-y divide-slate-100">
+                                        {groupedMoves[method].map((move, idx) => (
+                                          <tr key={idx} className="bg-white hover:bg-slate-50/80 transition-colors">
+                                            <td className="px-4 py-3 font-medium text-slate-800">{move.name}</td>
+                                            <td className="px-4 py-3 text-slate-600">
+                                              {move.details.move_learn_method.name === 'level-up' ? (
+                                                <span className="font-semibold text-blue-600">Lv.{move.details.level_learned_at}</span>
+                                              ) : (
+                                                <span className="text-slate-400">-</span>
+                                              )}
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           ) : (
                             <div className="text-center py-12 bg-slate-50 rounded-xl border border-slate-100 border-dashed">
@@ -245,9 +268,9 @@ export default function MovesEn() {
                     className="flex items-center justify-between p-3 rounded-lg border border-slate-200 hover:bg-blue-50 hover:border-blue-200 transition-colors text-left"
                   >
                     <span className="font-medium text-slate-800">
-                      {variety.pokemon.name === 'default-form-placeholder' 
+                      {variety.pokemon.displayName === 'default-form-placeholder' || variety.pokemon.name === 'default-form-placeholder'
                         ? 'Default Form' 
-                        : formatName(variety.pokemon.name)}
+                        : (variety.pokemon.displayName || formatName(variety.pokemon.name))}
                     </span>
                     {variety.is_default && (
                       <Badge variant="secondary" className="bg-slate-100 text-slate-600">Default</Badge>
