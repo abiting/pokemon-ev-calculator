@@ -151,7 +151,7 @@ export default function Champions() {
     // 脫殼忍者特殊處理
     if (pokemon.id === 292 && statName === 'hp') return 1;
 
-    // 1. 計算基礎值 (Lv.50, IV=31, EV=0)
+    // 1. 計算基礎值 (Lv. 50, IV=31, EV=0)
     let val = 0;
     if (statName === 'hp') {
       val = Math.floor(((2 * base + DEFAULT_IV) * LEVEL) / 100) + LEVEL + 10;
@@ -421,7 +421,7 @@ export default function Champions() {
                         <li>• 1 點 SP = 1 點實際能力值</li>
                         <li>• 總共 66 點 SP 可供分配</li>
                         <li>• 每項能力最多分配 32 點 SP</li>
-                        <li>• 等級固定為 Lv.50</li>
+                        <li>• 等級固定為 Lv. 50</li>
                         <li>• 預設 IV 為 31</li>
                       </ul>
                     </div>

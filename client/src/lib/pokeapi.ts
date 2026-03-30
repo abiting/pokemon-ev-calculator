@@ -11,7 +11,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v28_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v29_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -1124,6 +1124,71 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     } catch (e) {
       console.warn('Failed to fetch base form moves', e);
     }
+  }
+
+  // 繼承最初階形態的蛋招式 (Egg Moves)
+  try {
+    const speciesResponse = await fetch(data.species.url);
+    if (speciesResponse.ok) {
+      const speciesData = await speciesResponse.json();
+      if (speciesData.evolution_chain) {
+        const evoResponse = await fetch(speciesData.evolution_chain.url);
+        if (evoResponse.ok) {
+          const evoData = await evoResponse.json();
+          const baseSpeciesUrl = evoData.chain.species.url;
+          
+          // 如果當前寶可夢不是最初階形態
+          if (baseSpeciesUrl !== data.species.url) {
+            const baseSpeciesResponse = await fetch(baseSpeciesUrl);
+            if (baseSpeciesResponse.ok) {
+              const baseSpeciesData = await baseSpeciesResponse.json();
+              const baseDefaultVariety = baseSpeciesData.varieties.find((v: any) => v.is_default);
+              
+              if (baseDefaultVariety) {
+                const basePokemonResponse = await fetch(baseDefaultVariety.pokemon.url);
+                if (basePokemonResponse.ok) {
+                  const basePokemonData = await basePokemonResponse.json();
+                  
+                  // 找出最初階形態的所有蛋招式
+                  const eggMoves = basePokemonData.moves.filter((m: any) => 
+                    m.version_group_details.some((d: any) => d.move_learn_method.name === 'egg')
+                  );
+                  
+                  // 將蛋招式加入到當前寶可夢的招式列表中（避免重複）
+                  const existingMoveNames = new Set(data.moves.map((m: any) => m.move.name));
+                  
+                  for (const eggMove of eggMoves) {
+                    if (!existingMoveNames.has(eggMove.move.name)) {
+                      // 如果當前寶可夢沒有這個招式，直接加入
+                      data.moves.push(eggMove);
+                    } else {
+                      // 如果當前寶可夢已經有這個招式，確保它包含 egg 的學習方式
+                      const existingMove = data.moves.find((m: any) => m.move.name === eggMove.move.name);
+                      if (existingMove) {
+                        // 檢查是否已經有 egg 學習方式
+                        const hasEggMethod = existingMove.version_group_details.some(
+                          (d: any) => d.move_learn_method.name === 'egg'
+                        );
+                        
+                        if (!hasEggMethod) {
+                          // 將最初階形態的 egg 學習方式細節加入
+                          const eggDetails = eggMove.version_group_details.filter(
+                            (d: any) => d.move_learn_method.name === 'egg'
+                          );
+                          existingMove.version_group_details.push(...eggDetails);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to fetch egg moves from base form', e);
   }
   
   // 獲取變體資訊 (對所有寶可夢都嘗試獲取，以支援像 Oricorio 這種預設型態也是變體的情況)

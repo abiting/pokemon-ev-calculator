@@ -155,7 +155,7 @@ export default function ChampionsEn() {
     // Shedinja special case
     if (pokemon.id === 292 && statName === 'hp') return 1;
 
-    // 1. Calculate base value (Lv.50, IV=31, EV=0)
+    // 1. Calculate base value (Lv. 50, IV=31, EV=0)
     let val = 0;
     if (statName === 'hp') {
       val = Math.floor(((2 * base + DEFAULT_IV) * LEVEL) / 100) + LEVEL + 10;
@@ -427,7 +427,7 @@ export default function ChampionsEn() {
                         <li>• 1 SP = 1 actual Stat</li>
                         <li>• Total 66 SP available for allocation</li>
                         <li>• Max 32 SP per Stat</li>
-                        <li>• Level fixed at Lv.50</li>
+                        <li>• Level fixed at Lv. 50</li>
                         <li>• Default IV is 31</li>
                       </ul>
                     </div>

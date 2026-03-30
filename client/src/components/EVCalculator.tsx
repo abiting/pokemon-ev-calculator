@@ -244,11 +244,11 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
                 {pokemon && (
                   <div className="bg-gray-50 rounded p-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Lv.50:</span>
+                      <span className="text-gray-600">Lv. 50:</span>
                       <span className="font-semibold">{calculateFinalStat(stat, 50)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Lv.100:</span>
+                      <span className="text-gray-600">Lv. 100:</span>
                       <span className="font-semibold">{calculateFinalStat(stat, 100)}</span>
                     </div>
                   </div>
@@ -273,6 +273,7 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm">
             <p className="font-semibold mb-1">💡 能力值計算說明</p>
             <ul className="space-y-1 text-gray-700">
+              <li>• 等級固定為 Lv. 50</li>
               <li>• IV（個體值）最高 31</li>
               <li>• EV（努力值）最多 510</li>
               <li>• 性格會影響特定能力值（1.1 或 0.9 倍）</li>

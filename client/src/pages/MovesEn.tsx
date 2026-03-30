@@ -203,7 +203,7 @@ export default function MovesEn() {
                                             <td className="px-4 py-3 font-medium text-slate-800">{move.name}</td>
                                             <td className="px-4 py-3 text-slate-600">
                                               {move.details.move_learn_method.name === 'level-up' ? (
-                                                <span className="font-semibold text-blue-600">Lv.{move.details.level_learned_at}</span>
+                                                <span className="font-semibold text-blue-600">Lv. {move.details.level_learned_at}</span>
                                               ) : (
                                                 <span className="text-slate-400">-</span>
                                               )}
