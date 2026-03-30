@@ -41,3 +41,9 @@
 - [ ] Fix screenshot not capturing Pokemon images
 - [ ] Remove '(Hidden)' from abilities
 - [ ] Save project checkpoint
+- [ ] Remove Download Team feature
+- [ ] Add SP Calculator link to navigation
+- [ ] Update grid layout in TeamBuilder.tsx to make slots wider
+- [ ] Change TeamBuilder layout to 2 columns
+- [ ] Make moves 2x2 grid in TeamSlot
+- [ ] Enlarge Pokemon image in TeamSlot

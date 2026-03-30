@@ -167,8 +167,8 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       </CardHeader>
 
       <CardContent className="p-4 flex-1 flex flex-col">
-        <div className="flex justify-between items-start mb-4 gap-2">
-          <div className="relative w-36 h-36 flex-shrink-0 flex flex-col items-center">
+        <div className="flex justify-between items-start mb-4 gap-4">
+          <div className="relative w-48 h-48 flex-shrink-0 flex flex-col items-center">
             <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" crossOrigin="anonymous" />
             
             {/* Item Input & Icon */}
@@ -231,7 +231,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
 
         <div className="mt-4 space-y-4 flex-1 flex flex-col justify-end">
           {/* Moves */}
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {[0, 1, 2, 3].map((moveIndex) => (
               <div key={moveIndex} className="bg-slate-50 border border-slate-200 rounded-md p-1.5 shadow-sm">
                 <Combobox
