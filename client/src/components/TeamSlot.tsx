@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
 import { searchPokemon, fetchPokemon, getHighQualitySprite, fetchPokemonVarieties, type SearchResult } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
-import { TYPE_COLORS, TYPE_NAMES } from '@/types/pokemon';
+import { TYPE_COLORS } from '@/types/pokemon';
 import { Combobox } from '@/components/ui/combobox';
 import itemsData from '@/data/items.json';
 import movesData from '@/data/moves.json';
@@ -145,11 +145,24 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       </Button>
       
       <CardHeader className="pb-2 pt-4 px-4">
-        <CardTitle className="text-xl font-bold text-center text-slate-800">
-          #{formattedId} {displayName}
-        </CardTitle>
-        {varieties.length > 1 && (
-          <div className="mt-2">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between pr-8">
+            <CardTitle className="text-xl font-bold text-slate-800 truncate">
+              #{formattedId} {displayName}
+            </CardTitle>
+            <div className="flex flex-wrap gap-1 justify-end shrink-0">
+              {pokemon.types.map((t) => (
+                <span 
+                  key={t.type.name} 
+                  className={`px-2 py-0.5 rounded-full text-white text-[10px] font-medium ${TYPE_COLORS[t.type.name] || 'bg-gray-400'}`}
+                >
+                  {t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)}
+                </span>
+              ))}
+            </div>
+          </div>
+          
+          {varieties.length > 1 && (
             <select
               className="w-full bg-white/80 border border-purple-200 text-purple-900 text-xs rounded px-2 py-1.5 focus:outline-none focus:border-purple-500 cursor-pointer shadow-sm"
               value={pokemon.apiName || pokemon.name}
@@ -162,117 +175,114 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                 </option>
               ))}
             </select>
-          </div>
-        )}
+          )}
+        </div>
       </CardHeader>
 
-      <CardContent className="p-4 flex-1 flex flex-col">
-        <div className="flex justify-between items-start mb-4 gap-4">
-          <div className="relative w-48 h-48 flex-shrink-0 flex flex-col items-center">
+      <CardContent className="p-4 flex-1 flex flex-col gap-4">
+        {/* Middle Section: Image and Settings */}
+        <div className="flex gap-4 items-center">
+          {/* Left: Image */}
+          <div className="w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0 flex items-center justify-center bg-white/50 rounded-xl border border-purple-100 shadow-inner p-2">
             <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" crossOrigin="anonymous" />
-            
-            {/* Item Input & Icon */}
-            <div className="absolute -bottom-3 w-full px-0 z-20">
-              <div className="relative flex items-center justify-center w-full">
-                <Combobox
-                  options={itemOptions}
-                  value={item}
-                  onChange={setItem}
-                  placeholder="Item..."
-                  emptyText="No item found."
-                  className="h-7 text-xs bg-white border-slate-300 text-slate-800 shadow-sm w-full px-2"
-                  icon={item ? (
-                    <img 
-                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.toLowerCase().replace(/\\s+/g, '-')}.png`}
-                      alt={item}
-                      className="w-4 h-4 drop-shadow-sm"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                      onLoad={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'block';
-                      }}
-                    />
-                  ) : undefined}
-                />
-              </div>
-            </div>
           </div>
 
-          <div className="flex-1 min-w-0 flex flex-col gap-3">
-            <div className="flex flex-wrap gap-1 justify-end">
-              {pokemon.types.map((t) => (
-                <span 
-                  key={t.type.name} 
-                  className={`px-2 py-0.5 rounded-full text-white text-[10px] font-medium ${TYPE_COLORS[t.type.name] || 'bg-gray-400'}`}
-                >
-                  {t.type.name.charAt(0).toUpperCase() + t.type.name.slice(1)}
-                </span>
-              ))}
+          {/* Right: Item and Ability */}
+          <div className="flex-1 flex flex-col gap-3 min-w-0">
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Item</label>
+              <Combobox
+                options={itemOptions}
+                value={item}
+                onChange={setItem}
+                placeholder="Select Item..."
+                emptyText="No item found."
+                className="h-9 text-sm bg-white border-slate-200 text-slate-800 shadow-sm w-full px-3"
+                icon={item ? (
+                  <img 
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.toLowerCase().replace(/\s+/g, '-')}.png`}
+                    alt={item}
+                    className="w-5 h-5 drop-shadow-sm"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                    onLoad={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'block';
+                    }}
+                  />
+                ) : undefined}
+              />
             </div>
 
-            {/* Ability */}
-            <div className="bg-purple-50 p-1.5 rounded-lg border border-purple-100">
-              <select 
-                className="w-full bg-transparent text-xs text-purple-900 font-medium focus:outline-none cursor-pointer"
-                value={ability}
-                onChange={(e) => setAbility(e.target.value)}
-              >
-                <option value="">Select Ability...</option>
-                {pokemon.abilities.map((a) => (
-                  <option key={a.ability.name} value={a.ability.name}>
-                    {a.ability.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-                  </option>
-                ))}
-              </select>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Ability</label>
+              <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
+                <select 
+                  className="w-full h-9 bg-transparent text-sm text-slate-800 font-medium focus:outline-none cursor-pointer px-3"
+                  value={ability}
+                  onChange={(e) => setAbility(e.target.value)}
+                >
+                  <option value="">Select Ability...</option>
+                  {pokemon.abilities.map((a) => (
+                    <option key={a.ability.name} value={a.ability.name}>
+                      {a.ability.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-4 space-y-4 flex-1 flex flex-col justify-end">
+        {/* Bottom Section: Moves and EVs */}
+        <div className="mt-auto space-y-3">
           {/* Moves */}
-          <div className="grid grid-cols-2 gap-2">
-            {[0, 1, 2, 3].map((moveIndex) => (
-              <div key={moveIndex} className="bg-slate-50 border border-slate-200 rounded-md p-1.5 shadow-sm">
-                <Combobox
-                  options={moveOptions}
-                  value={moves[moveIndex]}
-                  onChange={(val) => {
-                    const newMoves = [...moves];
-                    newMoves[moveIndex] = val;
-                    setMoves(newMoves);
-                  }}
-                  placeholder="- Select Move -"
-                  emptyText="No move found."
-                  className="w-full h-8 bg-transparent text-sm text-slate-700 border-none shadow-none justify-between px-2"
-                />
-              </div>
-            ))}
+          <div className="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200">
+            <div className="grid grid-cols-2 gap-2">
+              {[0, 1, 2, 3].map((moveIndex) => (
+                <div key={moveIndex} className="bg-white border border-slate-200 rounded-md shadow-sm">
+                  <Combobox
+                    options={moveOptions}
+                    value={moves[moveIndex]}
+                    onChange={(val) => {
+                      const newMoves = [...moves];
+                      newMoves[moveIndex] = val;
+                      setMoves(newMoves);
+                    }}
+                    placeholder={`Move ${moveIndex + 1}`}
+                    emptyText="No move found."
+                    className="w-full h-8 bg-transparent text-sm text-slate-700 border-none shadow-none justify-between px-2"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* EVs */}
-          <div className="grid grid-cols-6 gap-1 bg-slate-100 p-2 rounded-lg border border-slate-200">
-            {[
-              { key: 'hp', label: 'HP' },
-              { key: 'atk', label: 'Atk' },
-              { key: 'def', label: 'Def' },
-              { key: 'spa', label: 'SpA' },
-              { key: 'spd', label: 'SpD' },
-              { key: 'spe', label: 'Spe' }
-            ].map(({ key, label }) => (
-              <div key={key} className="flex flex-col items-center">
-                <span className="text-[10px] font-bold text-slate-500 mb-1">{label}</span>
-                <input
-                  type="number"
-                  min="0"
-                  max="252"
-                  step="4"
-                  value={evs[key as keyof typeof evs]}
-                  onChange={(e) => setEvs({ ...evs, [key]: parseInt(e.target.value) || 0 })}
-                  className="w-full bg-white border border-slate-300 text-center text-xs py-1 text-slate-700 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded shadow-sm"
-                />
-              </div>
-            ))}
+          <div className="bg-slate-100/80 p-2 rounded-xl border border-slate-200">
+            <div className="grid grid-cols-6 gap-1">
+              {[
+                { key: 'hp', label: 'HP' },
+                { key: 'atk', label: 'Atk' },
+                { key: 'def', label: 'Def' },
+                { key: 'spa', label: 'SpA' },
+                { key: 'spd', label: 'SpD' },
+                { key: 'spe', label: 'Spe' }
+              ].map(({ key, label }) => (
+                <div key={key} className="flex flex-col items-center">
+                  <span className="text-[10px] font-bold text-slate-500 mb-1">{label}</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="252"
+                    step="4"
+                    value={evs[key as keyof typeof evs]}
+                    onChange={(e) => setEvs({ ...evs, [key]: parseInt(e.target.value) || 0 })}
+                    className="w-full bg-white border border-slate-300 text-center text-xs py-1 text-slate-700 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded shadow-sm"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </CardContent>

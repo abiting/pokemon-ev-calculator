@@ -48,3 +48,4 @@
 - [ ] Make moves 2x2 grid in TeamSlot
 - [ ] Enlarge Pokemon image in TeamSlot
 - [ ] Implement team download feature using modern-screenshot and image preloading
+- [ ] Redesign TeamSlot layout for better clarity and compactness
