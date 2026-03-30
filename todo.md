@@ -8,3 +8,10 @@
 - [ ] Group moves by learn method
 - [ ] Fix variety naming (e.g., Venusaur Mega -> Mega Venusaur)
 - [ ] Add a custom Held Item selector (searchable list of items)
+
+## Team Builder Page
+- [ ] Create a new Team Builder page with 6 Pokémon slots
+- [ ] Allow users to search and select Pokémon for each slot
+- [ ] Allow users to select Ability, Item, up to 4 Moves (sorted alphabetically), and EVs for each Pokémon
+- [ ] Display the team in a grid of cards similar to the provided screenshot
+- [ ] Add routing and navigation for the new Team Builder page

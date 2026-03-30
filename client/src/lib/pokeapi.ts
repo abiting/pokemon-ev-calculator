@@ -30,10 +30,13 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
   // 1. 嘗試解析為 ID
   const id = parseInt(query);
   if (!isNaN(id)) {
-    // 如果是 ID，直接返回單一結果（這裡簡化處理，實際可能需要 fetch 確認）
-    // 但為了保持一致性，我們還是走 fetchPokemon 流程，或者這裡先返回一個預測結果
-    // 為了準確，我們這裡先只處理名稱搜尋，ID 搜尋直接交給 fetchPokemon
-    return [];
+    // 如果是 ID，直接返回單一結果
+    return [{
+      id: id,
+      name: id.toString(),
+      zhName: `ID: ${id}`,
+      isDefault: true
+    }];
   }
 
   // Special handling for Nidoran search
