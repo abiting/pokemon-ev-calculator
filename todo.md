@@ -293,3 +293,18 @@
 
 ## 英文版範例文字修改
 - [ ] 將 ChampionsEn.tsx 中的範例 `Enter "Charizard" or "6"` 修改為 `Enter "噴火龍" or "6"`
+
+## Moves and Items Page (English)
+- [x] Create `client/src/pages/MovesEn.tsx`
+- [x] Update `client/src/types/pokemon.ts` to include moves and held_items
+- [x] Update `client/src/lib/pokeapi.ts` to fetch moves and held_items data
+- [x] Filter moves by version group (Sword/Shield, Scarlet/Violet)
+- [x] Display held items (latest version)
+- [x] Add route `/moves-en` to `App.tsx`
+
+## MovesEn Page Adjustments
+- [x] Remove BDSP and Legends: Arceus from version tabs
+- [x] Remove Wild Held Items section
+
+- [x] Fix form selection dialog not closing
+- [x] Change title "Learnset (Recent Generations)" to "List of Moves"

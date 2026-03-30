@@ -65,6 +65,8 @@ export interface Pokemon {
     name: string;
     url: string;
   };
+  moves?: PokemonMove[];
+  held_items?: PokemonHeldItem[];
 }
 
 export interface EVDistribution {
@@ -127,3 +129,39 @@ export const TYPE_NAMES: Record<string, string> = {
   'steel': '鋼',
   'fairy': '妖精',
 };
+
+export interface PokemonMoveVersion {
+  move_learn_method: {
+    name: string;
+    url: string;
+  };
+  version_group: {
+    name: string;
+    url: string;
+  };
+  level_learned_at: number;
+}
+
+export interface PokemonMove {
+  move: {
+    name: string;
+    url: string;
+  };
+  version_group_details: PokemonMoveVersion[];
+}
+
+export interface PokemonHeldItemVersion {
+  version: {
+    name: string;
+    url: string;
+  };
+  rarity: number;
+}
+
+export interface PokemonHeldItem {
+  item: {
+    name: string;
+    url: string;
+  };
+  version_details: PokemonHeldItemVersion[];
+}

@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Champions from "./pages/Champions";
 import ChampionsEn from "./pages/ChampionsEn";
+import MovesEn from "./pages/MovesEn";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/champions"} component={Champions} />
       <Route path={"/champions-en"} component={ChampionsEn} />
+      <Route path={"/moves-en"} component={MovesEn} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
