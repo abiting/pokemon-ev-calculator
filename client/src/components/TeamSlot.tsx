@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
-import { searchPokemon, fetchPokemon, getHighQualitySprite } from '@/lib/pokeapi';
+import { searchPokemon, fetchPokemon, getHighQualitySprite, fetchPokemonVarieties, type SearchResult } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
 import { TYPE_COLORS, TYPE_NAMES } from '@/types/pokemon';
 import { Combobox } from '@/components/ui/combobox';
@@ -22,6 +22,8 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
+  const [varieties, setVarieties] = useState<SearchResult[]>([]);
+  const [isLoadingForm, setIsLoadingForm] = useState(false);
   
   // Customization state
   const [ability, setAbility] = useState('');
@@ -41,11 +43,34 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
         setPokemon(data);
         setAbility('');
         setMoves(['', '', '', '']);
+        
+        if (data.species && data.species.url) {
+          const vars = await fetchPokemonVarieties(data.species.url);
+          setVarieties(vars);
+        } else {
+          setVarieties([]);
+        }
       }
     } catch (error) {
       console.error('Failed to search pokemon:', error);
     } finally {
       setIsSearching(false);
+    }
+  };
+
+  const handleFormChange = async (formName: string) => {
+    if (!formName || formName === pokemon?.name) return;
+    
+    setIsLoadingForm(true);
+    try {
+      const data = await fetchPokemon(formName);
+      setPokemon(data);
+      setAbility('');
+      setMoves(['', '', '', '']);
+    } catch (error) {
+      console.error('Failed to fetch form:', error);
+    } finally {
+      setIsLoadingForm(false);
     }
   };
 
@@ -56,6 +81,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
     setItem('');
     setMoves(['', '', '', '']);
     setEvs({ hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 });
+    setVarieties([]);
   };
 
   if (!pokemon) {
@@ -102,7 +128,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   const displayName = pokemon.enName || pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg relative overflow-hidden flex flex-col h-full">
+    <Card className="bg-white/95 backdrop-blur-sm border-2 border-dashed border-cyan-300 shadow-lg relative flex flex-col h-full">
       <Button 
         variant="ghost" 
         size="icon" 
@@ -116,6 +142,22 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
         <CardTitle className="text-xl font-bold text-center text-slate-800">
           #{formattedId} {displayName}
         </CardTitle>
+        {varieties.length > 1 && (
+          <div className="mt-2">
+            <select
+              className="w-full bg-slate-100 border border-slate-200 text-slate-700 text-xs rounded px-2 py-1.5 focus:outline-none focus:border-cyan-500 cursor-pointer"
+              value={pokemon.name}
+              onChange={(e) => handleFormChange(e.target.value)}
+              disabled={isLoadingForm}
+            >
+              {varieties.map(v => (
+                <option key={v.name} value={v.name}>
+                  {v.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </CardHeader>
 
       <CardContent className="p-4 flex-1 flex flex-col">
@@ -124,7 +166,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
             <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" />
             
             {/* Item Input & Icon */}
-            <div className="absolute -bottom-4 w-full px-1">
+            <div className="absolute -bottom-4 w-full px-1 z-20">
               <div className="relative flex items-center justify-center">
                 {item && (
                   <img 

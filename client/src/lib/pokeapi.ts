@@ -24,6 +24,7 @@ export interface SearchResult {
   name: string;
   zhName: string;
   isDefault: boolean;
+  apiName?: string;
 }
 
 export async function searchPokemon(query: string): Promise<SearchResult[]> {
