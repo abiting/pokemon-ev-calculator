@@ -216,9 +216,7 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
                               .join(' ')
                         }
                       </span>
-                      {ability.isHidden && (
-                        <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">{language === 'zh' ? '隱藏特性' : 'Hidden Ability'}</span>
-                      )}
+
                     </div>
                   ))}
                 </div>
@@ -265,9 +263,7 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
                               .join(' ')
                         }
                       </span>
-                      {ability.isHidden && (
-                        <span className="ml-2 text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full">{language === 'zh' ? '隱藏特性' : 'Hidden Ability'}</span>
-                      )}
+
                     </div>
                   ))
                 )}
