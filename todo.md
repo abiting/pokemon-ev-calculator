@@ -58,3 +58,5 @@
 - [ ] Fix name truncation in TeamSlot
 - [ ] Hide download and clear buttons during screenshot in TeamSlot
 - [ ] Fix text truncation in select fields (moves, items, abilities) in TeamSlot
+- [ ] Fix ability select not displaying selected value in TeamSlot.tsx
+- [ ] Fix item text truncation in TeamSlot.tsx

@@ -269,20 +269,17 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
 
             <div className="space-y-1.5">
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Ability</label>
-              <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-                <select 
-                  className="w-full min-h-[36px] py-1 bg-transparent text-xs text-slate-800 font-medium focus:outline-none cursor-pointer px-2"
-                  value={ability}
-                  onChange={(e) => setAbility(e.target.value)}
-                >
-                  <option value="">Select Ability...</option>
-                  {pokemon.abilities.map((a) => (
-                    <option key={a.ability.name} value={a.ability.name}>
-                      {a.ability.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Combobox
+                options={pokemon.abilities.map(a => ({
+                  value: a.ability.name,
+                  label: a.ability.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+                }))}
+                value={ability}
+                onChange={setAbility}
+                placeholder="Select Ability..."
+                emptyText="No ability found."
+                className="text-xs bg-white border-slate-200 text-slate-800 shadow-sm w-full px-2"
+              />
             </div>
           </div>
         </div>

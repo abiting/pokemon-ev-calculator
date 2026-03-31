@@ -49,15 +49,15 @@ export function Combobox({
           aria-expanded={open}
           className={cn("w-full justify-between font-normal px-3 h-auto min-h-9 py-1.5 whitespace-normal", className)}
         >
-          <div className="flex items-center min-w-0 flex-1 text-left">
+          <div className="flex items-center text-left" style={{ width: 'calc(100% - 16px)' }}>
             {icon && <div className="mr-2 flex-shrink-0 flex items-center justify-center">{icon}</div>}
-            <span className="whitespace-normal break-words line-clamp-2">
+            <span className="whitespace-normal break-words leading-tight">
               {value
                 ? options.find((option) => option.value === value)?.label || value
                 : placeholder}
             </span>
           </div>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 flex-shrink-0" />
+          <ChevronsUpDown className="ml-1 h-4 w-4 shrink-0 opacity-50 flex-shrink-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
