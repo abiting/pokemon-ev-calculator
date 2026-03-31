@@ -60,3 +60,4 @@
 - [ ] Fix text truncation in select fields (moves, items, abilities) in TeamSlot
 - [ ] Fix ability select not displaying selected value in TeamSlot.tsx
 - [ ] Fix item text truncation in TeamSlot.tsx
+- [ ] Revert Combobox text wrapping and optimize spacing for single-line display

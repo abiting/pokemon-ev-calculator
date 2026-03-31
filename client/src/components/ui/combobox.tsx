@@ -47,17 +47,17 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-full justify-between font-normal px-3 h-auto min-h-9 py-1.5 whitespace-normal", className)}
+          className={cn("w-full justify-between font-normal px-2 h-8 py-1", className)}
         >
-          <div className="flex items-center text-left" style={{ width: 'calc(100% - 16px)' }}>
-            {icon && <div className="mr-2 flex-shrink-0 flex items-center justify-center">{icon}</div>}
-            <span className="whitespace-normal break-words leading-tight">
+          <div className="flex items-center text-left overflow-hidden" style={{ width: 'calc(100% - 12px)' }}>
+            {icon && <div className="mr-1.5 flex-shrink-0 flex items-center justify-center">{icon}</div>}
+            <span className="truncate leading-tight">
               {value
                 ? options.find((option) => option.value === value)?.label || value
                 : placeholder}
             </span>
           </div>
-          <ChevronsUpDown className="ml-1 h-4 w-4 shrink-0 opacity-50 flex-shrink-0" />
+          <ChevronsUpDown className="ml-0.5 h-3 w-3 shrink-0 opacity-50 flex-shrink-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
