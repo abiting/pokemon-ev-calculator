@@ -17,9 +17,32 @@ export default function TeamBuilder() {
       // Wait a bit to ensure any pending renders are complete
       await new Promise(resolve => setTimeout(resolve, 500));
       
+      // Freeze widths to prevent layout collapse in screenshot
+      const elementsToFreeze = teamRef.current.querySelectorAll('[role="combobox"], .truncate, .flex-1');
+      const originalStyles: {el: HTMLElement, width: string, maxWidth: string}[] = [];
+      
+      elementsToFreeze.forEach((node) => {
+        const el = node as HTMLElement;
+        const computed = window.getComputedStyle(el);
+        originalStyles.push({
+          el,
+          width: el.style.width,
+          maxWidth: el.style.maxWidth
+        });
+        // Set fixed pixel width based on actual screen rendering
+        el.style.width = computed.width;
+        el.style.maxWidth = computed.width;
+      });
+
       const dataUrl = await domToPng(teamRef.current, {
         backgroundColor: '#0f172a', // slate-900 to match background
         scale: 2, // Higher quality
+      });
+      
+      // Restore styles
+      originalStyles.forEach(({ el, width, maxWidth }) => {
+        el.style.width = width;
+        el.style.maxWidth = maxWidth;
       });
       
       const link = document.createElement('a');
