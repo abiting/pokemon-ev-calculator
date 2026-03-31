@@ -61,3 +61,5 @@
 - [ ] Fix ability select not displaying selected value in TeamSlot.tsx
 - [ ] Fix item text truncation in TeamSlot.tsx
 - [ ] Revert Combobox text wrapping and optimize spacing for single-line display
+- [ ] Fix text truncation in Combobox by reducing font size and padding
+- [ ] Fix overlapping Pokemon name and form selector in TeamSlot

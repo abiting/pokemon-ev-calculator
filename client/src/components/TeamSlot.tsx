@@ -199,9 +199,10 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       
       <CardHeader className="pb-2 pt-4 px-4">
         <div className="flex flex-col gap-2">
-          <div className="flex items-start justify-between pr-8 gap-2">
-            <CardTitle className="text-xl font-bold text-slate-800 leading-tight">
-              #{formattedId} {displayName}
+          <div className="flex items-start justify-between pr-6 gap-2">
+            <CardTitle className="text-lg font-bold text-slate-800 leading-snug break-words">
+              <span className="text-slate-500 text-sm mr-1">#{formattedId}</span>
+              {displayName}
             </CardTitle>
             <div className="flex flex-wrap gap-1 justify-end shrink-0 mt-0.5">
               {pokemon.types.map((t) => (
@@ -234,15 +235,15 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
 
       <CardContent className="p-4 flex-1 flex flex-col gap-4">
         {/* Middle Section: Image and Settings */}
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-3 items-center">
           {/* Left: Image */}
-          <div className="w-40 h-40 sm:w-48 sm:h-48 flex-shrink-0 flex items-center justify-center bg-white/50 rounded-xl border border-purple-100 shadow-inner p-1">
+          <div className="w-32 h-32 sm:w-36 sm:h-36 flex-shrink-0 flex items-center justify-center bg-white/50 rounded-xl border border-purple-100 shadow-inner p-1">
             <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md scale-105" crossOrigin="anonymous" />
           </div>
 
           {/* Right: Item and Ability */}
-          <div className="flex-1 flex flex-col gap-3 min-w-0">
-            <div className="space-y-1.5">
+          <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+            <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Item</label>
               <Combobox
                 options={itemOptions}
@@ -250,12 +251,12 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                 onChange={setItem}
                 placeholder="Select Item..."
                 emptyText="No item found."
-                className="text-xs bg-white border-slate-200 text-slate-800 shadow-sm w-full px-2"
+                className="text-[11px] bg-white border-slate-200 text-slate-800 shadow-sm w-full px-1.5 h-7"
                 icon={item ? (
                   <img 
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.toLowerCase().replace(/\s+/g, '-')}.png`}
                     alt={item}
-                    className="w-5 h-5 drop-shadow-sm"
+                    className="w-4 h-4 drop-shadow-sm"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
                     }}
@@ -267,7 +268,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
               />
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Ability</label>
               <Combobox
                 options={pokemon.abilities.map(a => ({
@@ -278,7 +279,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                 onChange={setAbility}
                 placeholder="Select Ability..."
                 emptyText="No ability found."
-                className="text-xs bg-white border-slate-200 text-slate-800 shadow-sm w-full px-2"
+                className="text-[11px] bg-white border-slate-200 text-slate-800 shadow-sm w-full px-1.5 h-7"
               />
             </div>
           </div>
@@ -301,7 +302,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                     }}
                     placeholder={`Move ${moveIndex + 1}`}
                     emptyText="No move found."
-                    className="w-full min-h-[32px] bg-transparent text-xs text-slate-700 border-none shadow-none justify-between px-1"
+                    className="w-full h-7 bg-transparent text-[11px] text-slate-700 border-none shadow-none justify-between px-1"
                   />
                 </div>
               ))}
