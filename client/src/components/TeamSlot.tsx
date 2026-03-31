@@ -231,7 +231,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       <CardHeader className="pb-2 pt-4 px-4">
         <div className="flex flex-col gap-2">
           <div className="flex items-start justify-between pr-6 gap-2">
-            <CardTitle className="text-lg font-bold text-slate-800 leading-snug whitespace-nowrap truncate">
+            <CardTitle className="text-lg font-bold text-slate-800 leading-snug">
               <span className="text-slate-500 text-sm mr-1">#{formattedId}</span>
               {displayName}
             </CardTitle>

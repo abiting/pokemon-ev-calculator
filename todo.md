@@ -67,3 +67,4 @@
 - [ ] Fix individual TeamSlot screenshot truncation by using correct width/scale logic
 - [ ] Fix premature text truncation in screenshots caused by modern-screenshot miscalculating flex/truncate widths
 - [ ] Fix Pokemon name wrapping issue in screenshots by applying whitespace-nowrap to the title
+- [ ] Fix Pokemon name truncation issue in screenshots by allowing natural word wrapping without breaking words
