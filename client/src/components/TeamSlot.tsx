@@ -250,7 +250,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                 onChange={setItem}
                 placeholder="Select Item..."
                 emptyText="No item found."
-                className="h-9 text-sm bg-white border-slate-200 text-slate-800 shadow-sm w-full px-3"
+                className="text-xs bg-white border-slate-200 text-slate-800 shadow-sm w-full px-2"
                 icon={item ? (
                   <img 
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.toLowerCase().replace(/\s+/g, '-')}.png`}
@@ -271,7 +271,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Ability</label>
               <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
                 <select 
-                  className="w-full h-9 bg-transparent text-sm text-slate-800 font-medium focus:outline-none cursor-pointer px-3"
+                  className="w-full min-h-[36px] py-1 bg-transparent text-xs text-slate-800 font-medium focus:outline-none cursor-pointer px-2"
                   value={ability}
                   onChange={(e) => setAbility(e.target.value)}
                 >
@@ -304,7 +304,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
                     }}
                     placeholder={`Move ${moveIndex + 1}`}
                     emptyText="No move found."
-                    className="w-full h-8 bg-transparent text-sm text-slate-700 border-none shadow-none justify-between px-2"
+                    className="w-full min-h-[32px] bg-transparent text-xs text-slate-700 border-none shadow-none justify-between px-1"
                   />
                 </div>
               ))}

@@ -57,3 +57,4 @@
 - [ ] Remove Copyright © Scrabby from all pages (both English and Chinese)
 - [ ] Fix name truncation in TeamSlot
 - [ ] Hide download and clear buttons during screenshot in TeamSlot
+- [ ] Fix text truncation in select fields (moves, items, abilities) in TeamSlot
