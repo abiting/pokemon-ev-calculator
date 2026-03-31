@@ -52,3 +52,6 @@
 - [ ] Increase the size of the Pokemon image in TeamSlot
 - [ ] Add spacing between the top section and bottom section in TeamSlot
 - [ ] Remove text from the download button, leaving only the icon
+- [ ] Fix the individual download button in TeamSlot
+- [ ] Fix the individual download button in TeamSlot
+- [ ] Remove Copyright © Scrabby from all pages (both English and Chinese)

@@ -451,7 +451,7 @@ export default function Champions() {
         {/* 頁尾 */}
         <footer className="mt-12 text-center text-slate-500 text-sm">
           <p>資料來源：<a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">PokéAPI</a></p>
-          <p className="mt-2">Copyright © <a href="https://scrabby.abiting.cc" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">Scrabby</a></p>
+
         </footer>
       </div>
     </div>

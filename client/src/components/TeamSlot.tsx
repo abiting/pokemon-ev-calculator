@@ -164,8 +164,9 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   const displayName = pokemon.enName || pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
   return (
-    <Card ref={cardRef} className="bg-gradient-to-br from-white/95 to-purple-50/90 backdrop-blur-md border-2 border-purple-200 shadow-xl relative flex flex-col h-full">
-      <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
+    <div ref={cardRef} className="h-full">
+      <Card className="bg-gradient-to-br from-white/95 to-purple-50/90 backdrop-blur-md border-2 border-purple-200 shadow-xl relative flex flex-col h-full">
+        <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
         <Button 
           variant="ghost" 
           size="icon" 
@@ -333,6 +334,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
           </div>
         </div>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }
