@@ -55,6 +55,9 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       const dataUrl = await domToPng(cardRef.current, {
         backgroundColor: '#ffffff', // Solid background for the individual card
         scale: 2, // Higher quality
+        style: {
+          width: '400px', // Force a fixed width to prevent layout squishing in the screenshot
+        }
       });
       
       const link = document.createElement('a');

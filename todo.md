@@ -63,3 +63,4 @@
 - [ ] Revert Combobox text wrapping and optimize spacing for single-line display
 - [ ] Fix text truncation in Combobox by reducing font size and padding
 - [ ] Fix overlapping Pokemon name and form selector in TeamSlot
+- [ ] Fix individual TeamSlot screenshot by using modern-screenshot and applying fixed width
