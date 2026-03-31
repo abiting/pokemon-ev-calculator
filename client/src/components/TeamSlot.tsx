@@ -40,15 +40,17 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   
   const cardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
 
   const handleDownload = async () => {
     if (!cardRef.current || !pokemon) return;
     
     try {
       setIsDownloading(true);
+      setIsCapturing(true);
       
-      // Wait a bit to ensure any pending renders are complete
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Wait a bit to ensure any pending renders are complete and buttons are hidden
+      await new Promise(resolve => setTimeout(resolve, 150));
       
       const dataUrl = await domToPng(cardRef.current, {
         backgroundColor: '#ffffff', // Solid background for the individual card
@@ -63,6 +65,7 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       console.error('Failed to download slot image:', error);
       alert('下載圖片失敗，請稍後再試。');
     } finally {
+      setIsCapturing(false);
       setIsDownloading(false);
     }
   };
@@ -166,9 +169,10 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   return (
     <div ref={cardRef} className="h-full">
       <Card className="bg-gradient-to-br from-white/95 to-purple-50/90 backdrop-blur-md border-2 border-purple-200 shadow-xl relative flex flex-col h-full">
-        <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
-        <Button 
-          variant="ghost" 
+        {!isCapturing && (
+          <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
+          <Button 
+            variant="ghost" 
           size="icon" 
           className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 h-8 w-8"
           onClick={handleDownload}
@@ -189,16 +193,17 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
           title="清空欄位"
         >
           <X className="w-5 h-5" />
-        </Button>
-      </div>
+          </Button>
+        </div>
+        )}
       
       <CardHeader className="pb-2 pt-4 px-4">
         <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between pr-8">
-            <CardTitle className="text-xl font-bold text-slate-800 truncate">
+          <div className="flex items-start justify-between pr-8 gap-2">
+            <CardTitle className="text-xl font-bold text-slate-800 leading-tight">
               #{formattedId} {displayName}
             </CardTitle>
-            <div className="flex flex-wrap gap-1 justify-end shrink-0">
+            <div className="flex flex-wrap gap-1 justify-end shrink-0 mt-0.5">
               {pokemon.types.map((t) => (
                 <span 
                   key={t.type.name} 
