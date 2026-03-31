@@ -49,7 +49,7 @@ export function Combobox({
           aria-expanded={open}
           className={cn("w-full justify-between font-normal px-2 h-8 py-1", className)}
         >
-          <div className="flex items-center text-left overflow-hidden" style={{ width: 'calc(100% - 12px)' }}>
+          <div className="flex items-center text-left overflow-hidden flex-1 min-w-0">
             {icon && <div className="mr-1.5 flex-shrink-0 flex items-center justify-center">{icon}</div>}
             <span className="truncate leading-tight">
               {value

@@ -65,3 +65,4 @@
 - [ ] Fix overlapping Pokemon name and form selector in TeamSlot
 - [ ] Fix individual TeamSlot screenshot by using modern-screenshot and applying fixed width
 - [ ] Fix individual TeamSlot screenshot truncation by using correct width/scale logic
+- [ ] Fix premature text truncation in screenshots caused by modern-screenshot miscalculating flex/truncate widths
