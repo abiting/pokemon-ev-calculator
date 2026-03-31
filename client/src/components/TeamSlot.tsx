@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, X } from 'lucide-react';
+import { Search, X, Download, Loader2 } from 'lucide-react';
+import { domToPng } from 'modern-screenshot';
 import { searchPokemon, fetchPokemon, getHighQualitySprite, fetchPokemonVarieties, type SearchResult } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
 import { TYPE_COLORS } from '@/types/pokemon';
@@ -36,6 +37,35 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   const [item, setItem] = useState('');
   const [moves, setMoves] = useState<string[]>(['', '', '', '']);
   const [evs, setEvs] = useState({ hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 });
+  
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!cardRef.current || !pokemon) return;
+    
+    try {
+      setIsDownloading(true);
+      
+      // Wait a bit to ensure any pending renders are complete
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      const dataUrl = await domToPng(cardRef.current, {
+        backgroundColor: '#ffffff', // Solid background for the individual card
+        scale: 2, // Higher quality
+      });
+      
+      const link = document.createElement('a');
+      link.download = `${pokemon.name}-build.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error('Failed to download slot image:', error);
+      alert('下載圖片失敗，請稍後再試。');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,15 +164,32 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
   const displayName = pokemon.enName || pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
   return (
-    <Card className="bg-gradient-to-br from-white/95 to-purple-50/90 backdrop-blur-md border-2 border-purple-200 shadow-xl relative flex flex-col h-full">
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        className="absolute top-2 right-2 text-slate-400 hover:text-red-500 hover:bg-red-50 z-10"
-        onClick={clearSlot}
-      >
-        <X className="w-5 h-5" />
-      </Button>
+    <Card ref={cardRef} className="bg-gradient-to-br from-white/95 to-purple-50/90 backdrop-blur-md border-2 border-purple-200 shadow-xl relative flex flex-col h-full">
+      <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 h-8 w-8"
+          onClick={handleDownload}
+          disabled={isDownloading}
+          title="下載單隻寶可夢圖片"
+        >
+          {isDownloading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Download className="w-4 h-4" />
+          )}
+        </Button>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="text-slate-400 hover:text-red-500 hover:bg-red-50 h-8 w-8"
+          onClick={clearSlot}
+          title="清空欄位"
+        >
+          <X className="w-5 h-5" />
+        </Button>
+      </div>
       
       <CardHeader className="pb-2 pt-4 px-4">
         <div className="flex flex-col gap-2">
