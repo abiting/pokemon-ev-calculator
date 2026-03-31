@@ -52,11 +52,15 @@ export default function TeamSlot({ slotIndex }: TeamSlotProps) {
       // Wait a bit to ensure any pending renders are complete and buttons are hidden
       await new Promise(resolve => setTimeout(resolve, 150));
       
+      const rect = cardRef.current.getBoundingClientRect();
       const dataUrl = await domToPng(cardRef.current, {
         backgroundColor: '#ffffff', // Solid background for the individual card
         scale: 2, // Higher quality
+        width: rect.width,
+        height: rect.height,
         style: {
-          width: '400px', // Force a fixed width to prevent layout squishing in the screenshot
+          width: `${rect.width}px`,
+          height: `${rect.height}px`,
         }
       });
       
