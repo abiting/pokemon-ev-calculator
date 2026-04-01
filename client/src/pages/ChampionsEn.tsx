@@ -299,7 +299,7 @@ export default function ChampionsEn() {
         {!isLoading && pokemon && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="flex flex-col gap-6">
-              <PokemonCard pokemon={pokemon} showEVYield={false} />
+              <PokemonCard pokemon={pokemon} showEVYield={false} language="en" />
               
               {/* Mini Team Slot (for sharing) */}
               <div className="hidden lg:block">

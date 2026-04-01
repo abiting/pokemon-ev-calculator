@@ -76,3 +76,4 @@
 - [ ] Fix translation errors in ChampionsEn.tsx
 - [ ] Fix translation errors and syntax errors in the detail page of ChampionsEn.tsx
 - [ ] Fix translation errors in PokemonCard.tsx and syntax errors in ChampionsEn.tsx
+- [ ] Pass language="en" to PokemonCard in ChampionsEn.tsx
