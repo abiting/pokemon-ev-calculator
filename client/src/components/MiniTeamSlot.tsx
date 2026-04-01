@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, ExternalLink, Loader2 } from 'lucide-react';
+import { Download, Loader2 } from 'lucide-react';
 import { domToPng } from 'modern-screenshot';
 import type { Pokemon } from '@/types/pokemon';
 import { getHighQualitySprite } from '@/lib/pokeapi';
@@ -114,15 +114,6 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 h-8 w-8"
-              onClick={() => window.open(`https://pokedex.abiting.cc/pokemon/${pokemon.id}`, '_blank')}
-              title={lang === 'zh' ? '在圖鑑中查看' : 'View in Pokédex'}
-            >
-              <ExternalLink className="w-4 h-4" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
               className="text-slate-400 hover:text-green-600 hover:bg-green-50 h-8 w-8"
               onClick={handleDownload}
               disabled={isDownloading}
@@ -137,15 +128,25 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
           </div>
         )}
 
-        <CardContent className="p-4 flex flex-col gap-4">
-          {/* Top Section: Image and Name */}
-          <div className="flex items-center gap-4">
-            <div className="w-20 h-20 flex-shrink-0 flex items-center justify-center bg-white rounded-full border border-slate-100 shadow-inner p-1">
+        <CardContent className="p-4 lg:p-6 flex flex-col gap-4 lg:gap-6">
+          {/* Top Section: Image, Name, and URL */}
+          <div className="flex items-center gap-4 lg:gap-6 relative">
+            <div className="w-20 h-20 lg:w-28 lg:h-28 flex-shrink-0 flex items-center justify-center bg-white rounded-full border border-slate-100 shadow-inner p-1 lg:p-2 lg:ml-4">
               <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-sm" crossOrigin="anonymous" />
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm text-slate-500 font-medium mb-0.5">#{formattedId}</div>
-              <div className="text-xl font-bold text-slate-800 leading-tight">{displayName}</div>
+            <div className="flex-1 min-w-0 lg:ml-2">
+              <div className="text-sm lg:text-lg text-slate-500 font-medium mb-0.5 lg:mb-1">#{formattedId}</div>
+              <div className="text-xl lg:text-3xl font-bold text-slate-800 leading-tight">{displayName}</div>
+            </div>
+            
+            {/* URL for Desktop Only */}
+            <div className="hidden lg:block absolute top-0 right-0 text-right">
+              <div className="text-xs text-slate-400 font-medium tracking-wide uppercase mb-1">
+                {lang === 'zh' ? '資料來源' : 'Data Source'}
+              </div>
+              <div className="text-sm font-mono text-slate-500 bg-slate-100/80 px-3 py-1.5 rounded-md border border-slate-200/50">
+                {lang === 'zh' ? 'scrabby.abiting.cc/pokemon-champions' : 'abitingpokedex.com'}
+              </div>
             </div>
           </div>
 

@@ -71,3 +71,5 @@
 - [ ] Remove the redundant nature effect text (e.g., "特攻 ×1.1，攻擊 ×0.9") below the nature selector in the EV Calculator tool
 - [ ] Remove the redundant nature effect text (e.g., "特攻 ×1.1，攻擊 ×0.9") below the nature selector
 - [ ] Add a simplified TeamSlot component (MiniTeamSlot) to the Champions page (PokemonDetail.tsx) to display and capture the current Pokemon's EV configuration
+- [ ] Update MiniTeamSlot to enlarge image/name, shift them right, add URL, and remove external link icon
+- [x] Keep mobile layout unchanged without QR code
