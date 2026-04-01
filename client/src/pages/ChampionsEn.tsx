@@ -301,11 +301,10 @@ export default function ChampionsEn() {
             <div className="flex flex-col gap-6">
               <PokemonCard pokemon={pokemon} showEVYield={false} language="en" />
               
-              {/* Mini Team Slot (for sharing) */}
-              <div className="hidden lg:block">
-                <h3 className="text-lg font-bold text-slate-800 mb-3 px-1">Share Build</h3>
-                <MiniTeamSlot pokemon={pokemon} sps={sps} lang="en" />
-              </div>
+	              {/* Mini Team Slot (for sharing) */}
+	              <div className="hidden lg:block">
+	                <MiniTeamSlot pokemon={pokemon} sps={sps} lang="en" />
+	              </div>
             </div>
             
             {/* Calculator Section */}

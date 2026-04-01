@@ -300,11 +300,10 @@ export default function Champions() {
             <div className="flex flex-col gap-6">
               <PokemonCard pokemon={pokemon} showEVYield={false} />
               
-              {/* 迷你隊伍卡片 (截圖分享用) */}
-              <div className="hidden lg:block">
-                <h3 className="text-lg font-bold text-slate-800 mb-3 px-1">分享配置</h3>
-                <MiniTeamSlot pokemon={pokemon} sps={sps} lang="zh" />
-              </div>
+	              {/* 迷你隊伍卡片 (截圖分享用) */}
+	              <div className="hidden lg:block">
+	                <MiniTeamSlot pokemon={pokemon} sps={sps} lang="zh" />
+	              </div>
             </div>
             
             {/* 計算器區塊 */}

@@ -80,3 +80,5 @@
 - [ ] Remove "DATA SOURCE" text from MiniTeamSlot
 - [ ] Remove "Share Build" title from Champions and ChampionsEn pages
 - [ ] Change MiniTeamSlot background to a dark gradient
+- [ ] Remove desktop "Share Build" title from ChampionsEn.tsx
+- [ ] Remove desktop "分享配置" title from Champions.tsx
