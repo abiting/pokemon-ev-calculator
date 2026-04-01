@@ -427,11 +427,10 @@ export default function ChampionsEn() {
                       Reset Allocation
                     </Button>
 
-                       {/* Mobile Mini Team Slot */}
-                    <div className="lg:hidden mt-8 pt-6 border-t border-slate-200">
-                      <h3 className="text-lg font-bold text-slate-800 mb-3 px-1 text-center">Share Build</h3>
-                      <MiniTeamSlot pokemon={pokemon} sps={sps} lang="en" />
-                    </div>
+	                       {/* Mobile Mini Team Slot */}
+	                    <div className="lg:hidden mt-8 pt-6 border-t border-slate-200">
+	                      <MiniTeamSlot pokemon={pokemon} sps={sps} lang="en" />
+	                    </div>
 
                     {/* Guide */}
                     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mt-4">

@@ -184,7 +184,7 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
 
   return (
     <div ref={cardRef} className="relative">
-      <Card className="bg-gradient-to-br from-white/95 to-slate-50/90 backdrop-blur-md border-2 border-slate-200 shadow-md overflow-hidden">
+      <Card className="bg-gradient-to-br from-slate-800 to-slate-900 backdrop-blur-md border-2 border-slate-700 shadow-xl overflow-hidden">
         {!isCapturing && (
           <div className="absolute top-2 right-2 flex items-center gap-1 z-10">
             <Button 
@@ -207,33 +207,23 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
         <CardContent className="p-4 lg:p-6 flex flex-col gap-4 lg:gap-6">
           {/* Top Section: Image, Name, and URL */}
           <div className="flex items-center gap-4 lg:gap-6 relative">
-            <div className="w-20 h-20 lg:w-28 lg:h-28 flex-shrink-0 flex items-center justify-center bg-white rounded-full border border-slate-100 shadow-inner p-1 lg:p-2 lg:ml-4">
-              <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-sm" crossOrigin="anonymous" />
+            <div className="w-20 h-20 lg:w-28 lg:h-28 flex-shrink-0 flex items-center justify-center bg-white/10 rounded-full border border-slate-600 shadow-inner p-1 lg:p-2 lg:ml-8">
+              <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" crossOrigin="anonymous" />
             </div>
-            <div className="flex-1 min-w-0 lg:ml-2">
-              <div className="text-sm lg:text-lg text-slate-500 font-medium mb-0.5 lg:mb-1">#{formattedId}</div>
-              <div className="text-xl lg:text-3xl font-bold text-slate-800 leading-tight">{displayName}</div>
-            </div>
-            
-            {/* URL for Desktop Only */}
-            <div className="hidden lg:block absolute top-0 right-0 text-right">
-              <div className="text-xs text-slate-400 font-medium tracking-wide uppercase mb-1">
-                {lang === 'zh' ? '資料來源' : 'Data Source'}
-              </div>
-              <div className="text-sm font-mono text-slate-500 bg-slate-100/80 px-3 py-1.5 rounded-md border border-slate-200/50">
-                {lang === 'zh' ? 'scrabby.abiting.cc/pokemon-champions' : 'abitingpokedex.com'}
-              </div>
+            <div className="flex-1 min-w-0 lg:ml-6 lg:mr-8">
+              <div className="text-sm lg:text-lg text-slate-400 font-medium mb-0.5 lg:mb-1">#{formattedId}</div>
+              <div className="text-xl lg:text-3xl font-bold text-slate-100 leading-tight">{displayName}</div>
             </div>
           </div>
 
           {/* Bottom Section: Stats */}
-          <div className="grid grid-cols-6 gap-1 bg-slate-100/50 p-2 rounded-lg border border-slate-200/50">
+          <div className="grid grid-cols-6 gap-1 bg-slate-800/50 p-2 rounded-lg border border-slate-700/50 mx-0 lg:mx-4">
             {(Object.keys(sps) as Array<keyof SPDistribution>).map((stat) => (
-              <div key={stat} className="flex flex-col items-center justify-center bg-white rounded shadow-sm py-1.5 border border-slate-100">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter mb-1">
+              <div key={stat} className="flex flex-col items-center justify-center bg-slate-800 rounded shadow-sm py-1.5 border border-slate-700">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mb-1">
                   {statLabels[stat]}
                 </span>
-                <span className={`text-sm font-bold ${sps[stat] > 0 ? 'text-blue-600' : 'text-slate-700'}`}>
+                <span className={`text-sm font-bold ${sps[stat] > 0 ? 'text-cyan-400' : 'text-slate-300'}`}>
                   {sps[stat]}
                 </span>
               </div>
