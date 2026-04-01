@@ -196,32 +196,32 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             />
             
             {/* 桌面版特性顯示 */}
-            <div className="hidden md:block w-auto max-w-xs">
-              <h3 className="text-lg font-semibold mb-2">{language === 'zh' ? '特性' : 'Abilities'}</h3>
-              {isLoadingAbilities ? (
-                <p className="text-sm text-gray-500">載入中...</p>
-              ) : (
-                <div className="space-y-2">
-                  {abilities.map((ability, index) => (
-                    <div
-                      key={index}
-                      className="bg-purple-50 px-3 py-2 rounded-lg"
-                    >
-                      <span className="font-medium text-purple-900">
-                        {language === 'zh' 
-                          ? ability.zhName 
-                          : ability.name
-                              .split('-')
-                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                              .join(' ')
-                        }
-                      </span>
-
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+	            <div className="hidden md:block w-auto max-w-xs">
+	              <h3 className="text-lg font-semibold mb-2 text-center">{language === 'zh' ? '特性' : 'Abilities'}</h3>
+	              {isLoadingAbilities ? (
+	                <p className="text-sm text-gray-500 text-center">{language === 'zh' ? '載入中...' : 'Loading...'}</p>
+	              ) : (
+	                <div className="space-y-2">
+	                  {abilities.map((ability, index) => (
+	                    <div
+	                      key={index}
+	                      className="bg-purple-50 px-3 py-2 rounded-lg text-center"
+	                    >
+	                      <span className="font-medium text-purple-900">
+	                        {language === 'zh' 
+	                          ? ability.zhName 
+	                          : ability.name
+	                              .split('-')
+	                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+	                              .join(' ')
+	                        }
+	                      </span>
+	
+	                    </div>
+	                  ))}
+	                </div>
+	              )}
+	            </div>
           </div>
           
           <div className="flex gap-2">
@@ -235,41 +235,41 @@ export default function PokemonCard({ pokemon, showEVYield = true, language = 'z
             ))}
           </div>
 
-          {/* 手機版特性顯示（可摺疊） */}
-          <div className="md:hidden w-full">
-            <button
-              onClick={() => setIsAbilitiesOpen(!isAbilitiesOpen)}
-              className="w-full bg-purple-100 hover:bg-purple-200 transition-colors px-4 py-3 rounded-lg flex items-center justify-between"
-            >
-              <span className="font-semibold text-purple-900">{language === 'zh' ? '特性' : 'Abilities'}</span>
-              {isAbilitiesOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-            </button>
-            {isAbilitiesOpen && (
-              <div className="mt-2 space-y-2">
-                {isLoadingAbilities ? (
-                  <p className="text-sm text-gray-500 text-center py-2">載入中...</p>
-                ) : (
-                  abilities.map((ability, index) => (
-                    <div
-                      key={index}
-                      className="bg-purple-50 px-3 py-2 rounded-lg"
-                    >
-                      <span className="font-medium text-purple-900">
-                        {language === 'zh' 
-                          ? ability.zhName 
-                          : ability.name
-                              .split('-')
-                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                              .join(' ')
-                        }
-                      </span>
-
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
-          </div>
+	          {/* 手機版特性顯示（可摺疊） */}
+	          <div className="md:hidden w-full">
+	            <button
+	              onClick={() => setIsAbilitiesOpen(!isAbilitiesOpen)}
+	              className="w-full bg-purple-100 hover:bg-purple-200 transition-colors px-4 py-3 rounded-lg flex items-center justify-between"
+	            >
+	              <span className="font-semibold text-purple-900">{language === 'zh' ? '特性' : 'Abilities'}</span>
+	              {isAbilitiesOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+	            </button>
+	            {isAbilitiesOpen && (
+	              <div className="mt-2 space-y-2">
+	                {isLoadingAbilities ? (
+	                  <p className="text-sm text-gray-500 text-center py-2">{language === 'zh' ? '載入中...' : 'Loading...'}</p>
+	                ) : (
+	                  abilities.map((ability, index) => (
+	                    <div
+	                      key={index}
+	                      className="bg-purple-50 px-3 py-2 rounded-lg text-center"
+	                    >
+	                      <span className="font-medium text-purple-900">
+	                        {language === 'zh' 
+	                          ? ability.zhName 
+	                          : ability.name
+	                              .split('-')
+	                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+	                              .join(' ')
+	                        }
+	                      </span>
+	
+	                    </div>
+	                  ))
+	                )}
+	              </div>
+	            )}
+	          </div>
 
           {showEVYield && (
             <div className="w-full mt-4">

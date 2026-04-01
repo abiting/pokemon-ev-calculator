@@ -73,3 +73,6 @@
 - [ ] Add a simplified TeamSlot component (MiniTeamSlot) to the Champions page (PokemonDetail.tsx) to display and capture the current Pokemon's EV configuration
 - [ ] Update MiniTeamSlot to enlarge image/name, shift them right, add URL, and remove external link icon
 - [x] Keep mobile layout unchanged without QR code
+- [ ] Fix translation errors in ChampionsEn.tsx
+- [ ] Fix translation errors and syntax errors in the detail page of ChampionsEn.tsx
+- [ ] Fix translation errors in PokemonCard.tsx and syntax errors in ChampionsEn.tsx

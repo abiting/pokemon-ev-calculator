@@ -269,12 +269,12 @@ export default function ChampionsEn() {
                            displayName = "Base Form";
                         }
 		                    
-		                    return (
-		                    <Button
-	                       key={v.pokemon.name}
-	                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
-	                       className="justify-start text-left h-auto py-3"
-	                       onClick={() => {
+			                    return (
+			                    <Button
+			                       key={v.pokemon.name}
+			                       variant={pokemon?.name === v.pokemon.name ? "default" : "outline"}
+			                       className="justify-start text-left h-auto py-3"
+			                       onClick={() => {
 	                          selectVariety(v.pokemon.url);
 	                          setShowVarieties(false);
 	                       }}
@@ -362,64 +362,64 @@ export default function ChampionsEn() {
                           style={{ width: `${Math.min((totalSP / MAX_TOTAL_SP) * 100, 100)}%` }}
                         />
                       </div>
-                      <div className="flex justify-between mt-2 text-sm">
-                        <div className="flex flex-col md:block">
-                          <span className="text-slate-500">Remaining: {Math.max(0, remainingSP)}</span>
-                          <span className="text-slate-500 md:hidden mt-1">Max per Stat: {MAX_SINGLE_SP}</span>
-                        </div>
-                        <span className="text-slate-500 hidden md:inline">Max per Stat: {MAX_SINGLE_SP}</span>
-                      </div>
-                    </div>
-
-                    {/* Stat Sliders */}
-                    <div className="space-y-6">
-                      {(Object.keys(sps) as Array<keyof SPDistribution>).map((stat) => (
-                        <div key={stat} className="space-y-2">
-                          <div className="flex justify-between items-center">
-                            <label className="font-medium text-sm w-16 md:w-24">{STAT_LABELS[stat as StatName]}</label>
-                            <div className="flex-1 mx-2 md:mx-4 flex items-center gap-2">
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                className="h-8 w-8 shrink-0"
-                                onClick={() => handleSPChange(stat, Math.max(0, sps[stat] - 1))}
-                                disabled={sps[stat] <= 0}
-                              >
-                                <Minus className="h-4 w-4" />
-                              </Button>
-                              <Slider
-                                value={[sps[stat]]}
-                                max={MAX_SINGLE_SP}
-                                step={1}
-                                onValueChange={(vals) => handleSPChange(stat, vals[0])}
-                                className="py-2 flex-1"
-                              />
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                className="h-8 w-8 shrink-0"
-                                onClick={() => handleSPChange(stat, Math.min(MAX_SINGLE_SP, sps[stat] + 1))}
-                                disabled={sps[stat] >= MAX_SINGLE_SP || (remainingSP <= 0 && sps[stat] < MAX_SINGLE_SP)}
-                              >
-                                <Plus className="h-4 w-4" />
-                              </Button>
-                            </div>
-                            <div className="w-8 md:w-12 text-right font-mono text-sm">
-                              {sps[stat]}
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-end items-center bg-slate-50 px-3 py-1.5 rounded text-sm">
-                            <div className="flex items-center gap-2">
-                              <span className="text-slate-500 text-xs">Stat:</span>
-                              <span className="font-bold text-slate-800 text-base">
-                                {calculateChampionStat(stat)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+	                      <div className="flex justify-between mt-2 text-sm">
+	                        <div className="flex flex-col md:block">
+	                          <span className="text-slate-500">Remaining: {Math.max(0, remainingSP)}</span>
+	                          <span className="text-slate-500 md:hidden mt-1">Max per Stat: {MAX_SINGLE_SP}</span>
+	                        </div>
+	                        <span className="text-slate-500 hidden md:inline">Max per Stat: {MAX_SINGLE_SP}</span>
+	                      </div>
+	                    </div>
+	
+	                    {/* Stat Sliders */}
+	                    <div className="space-y-6">
+	                      {(Object.keys(sps) as Array<keyof SPDistribution>).map((stat) => (
+	                        <div key={stat} className="space-y-2">
+	                          <div className="flex justify-between items-center">
+	                            <label className="font-medium text-sm w-16 md:w-24">{STAT_LABELS[stat as StatName]}</label>
+	                            <div className="flex-1 mx-2 md:mx-4 flex items-center gap-2">
+	                              <Button
+	                                variant="outline"
+	                                size="icon"
+	                                className="h-8 w-8 shrink-0"
+	                                onClick={() => handleSPChange(stat, Math.max(0, sps[stat] - 1))}
+	                                disabled={sps[stat] <= 0}
+	                              >
+	                                <Minus className="h-4 w-4" />
+	                              </Button>
+	                              <Slider
+	                                value={[sps[stat]]}
+	                                max={MAX_SINGLE_SP}
+	                                step={1}
+	                                onValueChange={(vals) => handleSPChange(stat, vals[0])}
+	                                className="py-2 flex-1"
+	                              />
+	                              <Button
+	                                variant="outline"
+	                                size="icon"
+	                                className="h-8 w-8 shrink-0"
+	                                onClick={() => handleSPChange(stat, Math.min(MAX_SINGLE_SP, sps[stat] + 1))}
+	                                disabled={sps[stat] >= MAX_SINGLE_SP || (remainingSP <= 0 && sps[stat] < MAX_SINGLE_SP)}
+	                              >
+	                                <Plus className="h-4 w-4" />
+	                              </Button>
+	                            </div>
+	                            <div className="w-8 md:w-12 text-right font-mono text-sm">
+	                              {sps[stat]}
+	                            </div>
+	                          </div>
+	                          
+	                          <div className="flex justify-end items-center bg-slate-50 px-3 py-1.5 rounded text-sm">
+	                            <div className="flex items-center gap-2">
+	                              <span className="text-slate-500 text-xs">Stat:</span>
+	                              <span className="font-bold text-slate-800 text-base">
+	                                {calculateChampionStat(stat)}
+	                              </span>
+	                            </div>
+	                          </div>
+	                        </div>
+	                      ))}
+	                    </div>
 
                     {/* Reset Button */}
                     <Button onClick={handleReset} variant="outline" className="w-full mt-4">
