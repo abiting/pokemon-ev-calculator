@@ -165,11 +165,6 @@ export default function EVCalculator({ pokemon }: EVCalculatorProps) {
                 ))}
               </SelectContent>
             </Select>
-            {selectedNature.increased && selectedNature.decreased && (
-              <p className="text-xs text-gray-600">
-                {STAT_NAMES[selectedNature.increased]} ×1.1，{STAT_NAMES[selectedNature.decreased]} ×0.9
-              </p>
-            )}
           </div>
 
           {/* 總計資訊 */}

@@ -68,3 +68,5 @@
 - [ ] Fix premature text truncation in screenshots caused by modern-screenshot miscalculating flex/truncate widths
 - [ ] Fix Pokemon name wrapping issue in screenshots by applying whitespace-nowrap to the title
 - [ ] Fix Pokemon name truncation issue in screenshots by allowing natural word wrapping without breaking words
+- [ ] Remove the redundant nature effect text (e.g., "特攻 ×1.1，攻擊 ×0.9") below the nature selector in the EV Calculator tool
+- [ ] Remove the redundant nature effect text (e.g., "特攻 ×1.1，攻擊 ×0.9") below the nature selector
