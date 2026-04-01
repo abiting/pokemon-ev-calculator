@@ -94,8 +94,84 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
 
   const spriteUrl = getHighQualitySprite(pokemon);
   const displayName = lang === 'zh' 
-    ? (pokemon.zhName || pokemon.name)
-    : (pokemon.enName || pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '));
+    ? (() => {
+        const enName = pokemon.enName || pokemon.name;
+        if (pokemon.name === 'darmanitan-galar-zen') return '達摩狒狒（伽勒爾達摩模式）';
+        if (pokemon.name === 'darmanitan-galar-standard') return '達摩狒狒（伽勒爾的樣子）';
+        if (pokemon.name === 'darmanitan-zen') return '達摩狒狒（達摩模式）';
+        if (pokemon.name === 'darmanitan-standard') return '達摩狒狒';
+        if (pokemon.name.includes('zygarde-10')) return '基格爾德（10%形態）';
+        if (pokemon.name === 'zygarde-50' || pokemon.name === 'zygarde') return '基格爾德（50%形態）';
+        if (pokemon.name === 'zygarde-complete') return '基格爾德（完全體形態）';
+        if (pokemon.name === 'minior-red' || pokemon.name === 'minior-red-core') return '小隕星（紅色核心）';
+        if (pokemon.name === 'minior-red-meteor') return '小隕星（流星的樣子）';
+        if (enName.includes('Darmanitan') || enName.includes('darmanitan') || pokemon.id === 555) {
+          const types = pokemon.types.map(t => t.type.name);
+          const hasIce = types.includes('ice');
+          const hasFire = types.includes('fire');
+          const hasPsychic = types.includes('psychic');
+          if (hasIce && hasFire) return '達摩狒狒（伽勒爾達摩模式）';
+          if (hasIce) return '達摩狒狒（伽勒爾的樣子）';
+          if (hasFire && hasPsychic) return '達摩狒狒（達摩模式）';
+          if (hasFire) return '達摩狒狒';
+        }
+        return pokemon.zhName || pokemon.name;
+      })()
+    : (() => {
+        const lowerName = (pokemon.enName || pokemon.name).toLowerCase();
+        if (lowerName === 'wo-chien' || lowerName === 'wo chien') return 'Wo-Chien';
+        if (lowerName === 'chien-pao' || lowerName === 'chien pao') return 'Chien-Pao';
+        if (lowerName === 'ting-lu' || lowerName === 'ting lu') return 'Ting-Lu';
+        if (lowerName === 'chi-yu' || lowerName === 'chi yu') return 'Chi-Yu';
+        let name = pokemon.enName;
+        if (!name) {
+           name = pokemon.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+        if (pokemon.name === 'darmanitan-galar-zen') return 'Darmanitan (Galarian Zen)';
+        if (pokemon.name === 'darmanitan-galar-standard') return 'Darmanitan (Galarian)';
+        if (pokemon.name === 'darmanitan-zen') return 'Darmanitan (Zen)';
+        if (pokemon.name === 'darmanitan-standard') return 'Darmanitan';
+        if (pokemon.name.includes('zygarde-10')) return 'Zygarde (10% Forme)';
+        if (pokemon.name === 'zygarde-50' || pokemon.name === 'zygarde') return 'Zygarde (50% Forme)';
+        if (pokemon.name === 'zygarde-complete') return 'Zygarde (Complete Forme)';
+        if (pokemon.name === 'minior-red' || pokemon.name === 'minior-red-core') return 'Minior (Red Core)';
+        if (pokemon.name === 'minior-red-meteor') return 'Minior (Meteor)';
+        if (name.includes('Darmanitan') || pokemon.id === 555) {
+          const types = pokemon.types.map(t => t.type.name);
+          const hasIce = types.includes('ice');
+          const hasFire = types.includes('fire');
+          const hasPsychic = types.includes('psychic');
+          if (hasIce && hasFire) return 'Darmanitan (Galarian Zen)';
+          if (hasIce) return 'Darmanitan (Galarian)';
+          if (hasFire && hasPsychic) return 'Darmanitan (Zen)';
+          if (hasFire) return 'Darmanitan';
+        }
+        if (name === 'Mr Mime' || name === 'Mr-mime') return 'Mr. Mime';
+        if (name === 'Mr Rime' || name === 'Mr-rime') return 'Mr. Rime';
+        if (name === 'Mime Jr' || name === 'Mime-jr') return 'Mime Jr.';
+        if (name === 'Type Null' || name === 'Type-null') return 'Type: Null';
+        if (name === 'Tapu Koko' || name === 'Tapu-koko') return 'Tapu Koko';
+        if (name === 'Tapu Lele' || name === 'Tapu-lele') return 'Tapu Lele';
+        if (name === 'Tapu Bulu' || name === 'Tapu-bulu') return 'Tapu Bulu';
+        if (name === 'Tapu Fini' || name === 'Tapu-fini') return 'Tapu Fini';
+        if (name === 'Great Tusk' || name === 'Great-tusk') return 'Great Tusk';
+        if (name === 'Scream Tail' || name === 'Scream-tail') return 'Scream Tail';
+        if (name === 'Brute Bonnet' || name === 'Brute-bonnet') return 'Brute Bonnet';
+        if (name === 'Flutter Mane' || name === 'Flutter-mane') return 'Flutter Mane';
+        if (name === 'Slither Wing' || name === 'Slither-wing') return 'Slither Wing';
+        if (name === 'Sandy Shocks' || name === 'Sandy-shocks') return 'Sandy Shocks';
+        if (name === 'Iron Treads' || name === 'Iron-treads') return 'Iron Treads';
+        if (name === 'Iron Bundle' || name === 'Iron-bundle') return 'Iron Bundle';
+        if (name === 'Iron Hands' || name === 'Iron-hands') return 'Iron Hands';
+        if (name === 'Iron Jugulis' || name === 'Iron-jugulis') return 'Iron Jugulis';
+        if (name === 'Iron Moth' || name === 'Iron-moth') return 'Iron Moth';
+        if (name === 'Iron Thorns' || name === 'Iron-thorns') return 'Iron Thorns';
+        if (name === 'Roaring Moon' || name === 'Roaring-moon') return 'Roaring Moon';
+        if (name === 'Iron Valiant' || name === 'Iron-valiant') return 'Iron Valiant';
+        if (name === 'Walking Wake' || name === 'Walking-wake') return 'Walking Wake';
+        if (name === 'Iron Leaves' || name === 'Iron-leaves') return 'Iron Leaves';
+        return name;
+      })();
 
   const formattedId = (() => {
     if (pokemon.id > 10000 && pokemon.species && pokemon.species.url) {
