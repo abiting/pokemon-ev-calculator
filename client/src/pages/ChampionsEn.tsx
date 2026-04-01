@@ -9,6 +9,7 @@ import { Minus, Plus, RotateCcw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import PokemonCard from '@/components/PokemonCard';
+import MiniTeamSlot from '@/components/MiniTeamSlot';
 import PokemonSearch from '@/components/PokemonSearch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -294,11 +295,17 @@ export default function ChampionsEn() {
           </div>
         )}
 
-        {/* Content */}
+             {/* Content Section */}
         {!isLoading && pokemon && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div>
-              <PokemonCard pokemon={pokemon} showEVYield={false} language="en" />
+            <div className="flex flex-col gap-6">
+              <PokemonCard pokemon={pokemon} showEVYield={false} />
+              
+              {/* Mini Team Slot (for sharing) */}
+              <div className="hidden lg:block">
+                <h3 className="text-lg font-bold text-slate-800 mb-3 px-1">Share Build</h3>
+                <MiniTeamSlot pokemon={pokemon} sps={sps} lang="en" />
+              </div>
             </div>
             
             {/* Calculator Section */}
@@ -420,7 +427,13 @@ export default function ChampionsEn() {
                       Reset Allocation
                     </Button>
 
-                    {/* Instructions */}
+                       {/* Mobile Mini Team Slot */}
+                    <div className="lg:hidden mt-8 pt-6 border-t border-slate-200">
+                      <h3 className="text-lg font-bold text-slate-800 mb-3 px-1 text-center">Share Build</h3>
+                      <MiniTeamSlot pokemon={pokemon} sps={sps} lang="en" />
+                    </div>
+
+                    {/* Guide */}
                     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mt-4">
                       <p className="font-semibold mb-1 text-yellow-800">💡 SP Calculation Guide</p>
                       <ul className="space-y-1 text-yellow-800/80">

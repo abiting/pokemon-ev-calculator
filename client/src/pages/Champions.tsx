@@ -11,6 +11,7 @@ import { AlertCircle, Minus, Plus, RotateCcw, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import PokemonCard from '@/components/PokemonCard';
+import MiniTeamSlot from '@/components/MiniTeamSlot';
 import PokemonSearch from '@/components/PokemonSearch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -296,8 +297,14 @@ export default function Champions() {
         {/* 內容區 */}
         {!isLoading && pokemon && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div>
+            <div className="flex flex-col gap-6">
               <PokemonCard pokemon={pokemon} showEVYield={false} />
+              
+              {/* 迷你隊伍卡片 (截圖分享用) */}
+              <div className="hidden lg:block">
+                <h3 className="text-lg font-bold text-slate-800 mb-3 px-1">分享配置</h3>
+                <MiniTeamSlot pokemon={pokemon} sps={sps} lang="zh" />
+              </div>
             </div>
             
             {/* 計算器區塊 */}
@@ -413,6 +420,12 @@ export default function Champions() {
                       <RotateCcw className="w-4 h-4 mr-2" />
                       重置分配
                     </Button>
+
+                    {/* 手機版迷你隊伍卡片 */}
+                    <div className="lg:hidden mt-8 pt-6 border-t border-slate-200">
+                      <h3 className="text-lg font-bold text-slate-800 mb-3 px-1 text-center">分享配置</h3>
+                      <MiniTeamSlot pokemon={pokemon} sps={sps} lang="zh" />
+                    </div>
 
                     {/* 說明 */}
                     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mt-4">
