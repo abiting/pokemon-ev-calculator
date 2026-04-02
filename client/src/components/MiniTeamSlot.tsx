@@ -207,7 +207,7 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
         <CardContent className="p-4 lg:p-6 flex flex-col gap-4 lg:gap-6">
           {/* Top Section: Image, Name, and URL */}
           <div className="flex items-center gap-4 lg:gap-6 relative">
-            <div className="w-20 h-20 lg:w-28 lg:h-28 flex-shrink-0 flex items-center justify-center bg-white/10 rounded-full border border-slate-600 shadow-inner p-1 lg:p-2 lg:ml-8">
+            <div className="w-20 h-20 lg:w-28 lg:h-28 flex-shrink-0 flex items-center justify-center bg-white/10 rounded-2xl border-2 border-amber-400/80 shadow-inner p-1 lg:p-2 lg:ml-8">
               <img src={spriteUrl} alt={pokemon.name} className="w-full h-full object-contain drop-shadow-md" crossOrigin="anonymous" />
             </div>
             <div className="flex-1 min-w-0 lg:ml-6 lg:mr-8">
