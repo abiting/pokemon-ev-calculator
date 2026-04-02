@@ -212,7 +212,7 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
             </div>
             <div className="flex-1 min-w-0 lg:ml-6 lg:mr-8">
               <div className="text-sm lg:text-lg text-slate-400 font-medium mb-0.5 lg:mb-1">#{formattedId}</div>
-              <div className="text-xl lg:text-3xl font-bold text-slate-100 leading-tight">{displayName}</div>
+              <div className={`font-bold text-slate-100 leading-tight ${displayName.length > 15 ? 'text-lg lg:text-3xl' : 'text-xl lg:text-3xl'}`}>{displayName}</div>
             </div>
           </div>
 
