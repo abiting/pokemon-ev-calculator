@@ -82,3 +82,5 @@
 - [ ] Change MiniTeamSlot background to a dark gradient
 - [ ] Remove desktop "Share Build" title from ChampionsEn.tsx
 - [ ] Remove desktop "分享配置" title from Champions.tsx
+- [ ] Add website URI "abitingpokedex.com" below the stats table in MiniTeamSlot
+- [ ] Add website URI "abitingpokedex.com" in golden color below the stats table in MiniTeamSlot

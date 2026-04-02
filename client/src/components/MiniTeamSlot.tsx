@@ -229,6 +229,11 @@ export default function MiniTeamSlot({ pokemon, sps, lang = 'zh' }: MiniTeamSlot
               </div>
             ))}
           </div>
+          
+          {/* Website URI */}
+          <div className="text-center text-amber-400/80 text-xs font-medium tracking-wider mt-[-8px] lg:mt-[-12px]">
+            abitingpokedex.com
+          </div>
         </CardContent>
       </Card>
     </div>
