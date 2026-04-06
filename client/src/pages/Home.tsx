@@ -263,9 +263,6 @@ export default function Home() {
                     speed: 0
                   }} 
                 />
-                <p className="text-sm text-slate-500 mt-2 text-center">
-                  * 這裡顯示的是基礎能力值，若要自訂能力值請前往「隊伍建立器」
-                </p>
               </div>
             </div>
             <div>
