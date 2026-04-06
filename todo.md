@@ -93,3 +93,4 @@
 - [ ] Correct README.md to reflect EV system on Home page and 66 SP system on Champions pages
 - [ ] Read App.tsx to confirm the four main pages
 - [ ] Rewrite README.md with accurate page descriptions
+- [ ] Rewrite README.md to correctly describe the four pages: Home (EV calculator), Champions (SP calculator, CN), Champions-en (SP calculator, EN), and Team Builder.
