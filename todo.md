@@ -89,3 +89,4 @@
 - [ ] Add MiniTeamSlot component to the main Pokemon EV Calculator page
 - [ ] Remove the hint text below MiniTeamSlot in Home.tsx
 - [ ] Write a comprehensive README.md for the Pokemon EV Calculator project
+- [ ] Expand README.md with detailed descriptions of the four main pages and project architecture
