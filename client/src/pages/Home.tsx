@@ -1,6 +1,7 @@
 import EVCalculator from '@/components/EVCalculator';
 import PokemonCard from '@/components/PokemonCard';
 import PokemonSearch from '@/components/PokemonSearch';
+import MiniTeamSlot from '@/components/MiniTeamSlot';
 import { APP_TITLE } from '@/const';
 import { fetchPokemon, formatPokemonName } from '@/lib/pokeapi';
 import type { Pokemon } from '@/types/pokemon';
@@ -247,8 +248,25 @@ export default function Home() {
         {/* 內容區 */}
         {!isLoading && pokemon && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div>
+            <div className="space-y-6">
               <PokemonCard pokemon={pokemon} />
+              <div className="mt-6">
+                <h3 className="text-xl font-bold text-slate-800 mb-4 drop-shadow-sm">隊伍卡片預覽</h3>
+                <MiniTeamSlot 
+                  pokemon={pokemon} 
+                  sps={{
+                    hp: 0,
+                    attack: 0,
+                    defense: 0,
+                    'special-attack': 0,
+                    'special-defense': 0,
+                    speed: 0
+                  }} 
+                />
+                <p className="text-sm text-slate-500 mt-2 text-center">
+                  * 這裡顯示的是基礎能力值，若要自訂能力值請前往「隊伍建立器」
+                </p>
+              </div>
             </div>
             <div>
               <EVCalculator pokemon={pokemon} />

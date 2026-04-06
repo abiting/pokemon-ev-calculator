@@ -86,3 +86,4 @@
 - [ ] Add website URI "abitingpokedex.com" in golden color below the stats table in MiniTeamSlot
 - [ ] Fix text truncation for long Pokemon names on mobile in MiniTeamSlot
 - [ ] Fix text truncation for long Pokemon names on mobile in MiniTeamSlot by adjusting font size instead of wrapping
+- [ ] Add MiniTeamSlot component to the main Pokemon EV Calculator page
