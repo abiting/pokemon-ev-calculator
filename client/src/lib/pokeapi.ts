@@ -1696,8 +1696,31 @@ export function getHighQualitySprite(pokemon: Pokemon): string {
 
 export async function fetchAbilityDetails(abilityUrl: string): Promise<{ name: string; zhName: string }> {
   try {
+    // 檢查是否為自訂特性（從 URL 中提取特性名稱）
+    const abilityNameMatch = abilityUrl.match(/\/ability\/([^\/]+)\/?$/);
+    const abilityName = abilityNameMatch ? abilityNameMatch[1] : '';
+
+    // 如果是自訂特性，直接從本地翻譯表讀取，不發送 API 請求
+    if (abilityName && ABILITY_TRANSLATIONS[abilityName]) {
+      // 判斷是否為官方 API 不存在的自訂特性
+      const customAbilities = ['mega-sol', 'dragonize', 'stalwart', 'piercing-drill', 'unseen-fist', 'fairy-aura', 'spicy-spray'];
+      if (customAbilities.includes(abilityName)) {
+        return {
+          name: abilityName,
+          zhName: ABILITY_TRANSLATIONS[abilityName]
+        };
+      }
+    }
+
     const response = await fetch(abilityUrl);
     if (!response.ok) {
+      // 如果 API 請求失敗，但本地有翻譯，則回傳本地翻譯
+      if (abilityName && ABILITY_TRANSLATIONS[abilityName]) {
+        return {
+          name: abilityName,
+          zhName: ABILITY_TRANSLATIONS[abilityName]
+        };
+      }
       throw new Error('無法獲取特性資料');
     }
     const data = await response.json();

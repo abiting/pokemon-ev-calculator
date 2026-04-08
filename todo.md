@@ -95,3 +95,10 @@
 - [ ] Rewrite README.md with accurate page descriptions
 - [ ] Rewrite README.md to correctly describe the four pages: Home (EV calculator), Champions (SP calculator, CN), Champions-en (SP calculator, EN), and Team Builder.
 - [x] Update Mega Evolution abilities for specific Pokemon in both Chinese and English.
+- [ ] Fix the missing Spicy Spray ability for Mega Scovillain.
+- [ ] Fix the missing Spicy Spray ability for Mega Scovillain and update its translation to 辣椒噴發.
+- [ ] Fix the missing Spicy Spray ability for Mega Scovillain, update its translation to 辣椒噴發, and update Dragonize translation to 龍皮膚.
+- [x] Fix missing custom abilities for Mega Evolutions by bypassing API calls for them, and update translations for Spicy Spray and Dragonize.
+- [ ] Fix language display in search results for English version.
+- [ ] Fix language display in search results for Glimmora in English version.
+- [x] Fix missing custom abilities for Mega Evolutions by bypassing API calls for them, and update translations for Spicy Spray and Dragonize.
