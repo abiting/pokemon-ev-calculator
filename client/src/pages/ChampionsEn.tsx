@@ -41,6 +41,7 @@ interface SPDistribution {
 interface SearchCandidate {
   name: string;
   id: number;
+  enName?: string;
 }
 
 export default function ChampionsEn() {
@@ -212,7 +213,7 @@ export default function ChampionsEn() {
                   onClick={() => selectCandidate(candidate.name)}
                 >
                   {candidate.id > 0 && <span className="font-bold mr-2">#{candidate.id}</span>}
-                  {candidate.id === 0 ? `Search directly for "${candidate.name}"` : (candidate.name === 'nidoran-f' ? 'Nidoran (Female)' : candidate.name === 'nidoran-m' ? 'Nidoran (Male)' : candidate.name)}
+                  {candidate.id === 0 ? `Search directly for "${candidate.name}"` : (candidate.enName || (candidate.name === 'nidoran-f' ? 'Nidoran (Female)' : candidate.name === 'nidoran-m' ? 'Nidoran (Male)' : candidate.name))}
                 </Button>
               ))}
             </div>

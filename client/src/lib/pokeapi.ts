@@ -1,6 +1,7 @@
 import type { Pokemon } from '@/types/pokemon';
 import { ABILITY_TRANSLATIONS } from './ability-translations';
 import pokemonZhMapping from '@/data/zh-tw-mapping-full.json';
+import pokemonEnMapping from '@/data/en-mapping-full.json';
 
 // 建立反向查找對應表（ID → 繁體中文名稱）
 const idToZhMapping: Record<number, string> = {};
@@ -1076,10 +1077,18 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
       } else if (matchingNames.length > 1) {
         // 多個匹配結果，拋出錯誤並提示
         // 這裡改為拋出特殊錯誤，攜帶候選列表，讓 UI 處理
-        const candidates = matchingNames.map(name => ({
-          name,
-          id: (pokemonZhMapping as Record<string, number>)[name]
-        }));
+        const candidates = matchingNames.map(name => {
+          const id = (pokemonZhMapping as Record<string, number>)[name];
+          // 嘗試從 formatPokemonName 獲取英文名稱
+          // 因為我們沒有完整的英文對照表，我們可以用一個簡單的映射或直接回傳 ID 讓 UI 處理
+          // 在這裡我們可以使用 pokemonEnMapping 來獲取英文名稱，如果有的話
+          const enName = (pokemonEnMapping as Record<string, string>)[id.toString()] || name;
+          return {
+            name,
+            id,
+            enName
+          };
+        });
         throw { isAmbiguous: true, candidates };
       }
     }

@@ -102,3 +102,5 @@
 - [ ] Fix language display in search results for English version.
 - [ ] Fix language display in search results for Glimmora in English version.
 - [x] Fix missing custom abilities for Mega Evolutions by bypassing API calls for them, and update translations for Spicy Spray and Dragonize.
+- [ ] Fix language display in search results for English version so it always shows English names even when searching with Chinese.
+- [x] Fix language display in search results for English version so it always shows English names even when searching with Chinese, by creating an English mapping.
