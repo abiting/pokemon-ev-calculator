@@ -1610,7 +1610,46 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 	    }
 	  }
 	
-	  // 特別處理 Darmanitan (使用 ID 強制修正) - 移至最後以避免被覆蓋
+	  // 覆寫特定 Mega 寶可夢的特性
+  const megaAbilitiesOverride: Record<string, string> = {
+    'clefable-mega': 'magic-bounce',
+    'victreebel-mega': 'innards-out',
+    'starmie-mega': 'huge-power',
+    'dragonite-mega': 'multiscale',
+    'meganium-mega': 'mega-sol',
+    'feraligatr-mega': 'dragonize',
+    'skarmory-mega': 'stalwart',
+    'chimecho-mega': 'levitate',
+    'froslass-mega': 'snow-warning',
+    'emboar-mega': 'mold-breaker',
+    'excadrill-mega': 'piercing-drill',
+    'chandelure-mega': 'infiltrator',
+    'golurk-mega': 'unseen-fist',
+    'chesnaught-mega': 'bulletproof',
+    'delphox-mega': 'levitate',
+    'greninja-mega': 'protean',
+    'floette-mega': 'fairy-aura',
+    'meowstic-mega': 'trace',
+    'hawlucha-mega': 'no-guard',
+    'crabominable-mega': 'iron-fist',
+    'drampa-mega': 'berserk',
+    'scovillain-mega': 'spicy-spray',
+    'glimmora-mega': 'adaptability'
+  };
+
+  if (megaAbilitiesOverride[englishName]) {
+    const newAbilityName = megaAbilitiesOverride[englishName];
+    data.abilities = [{
+      ability: {
+        name: newAbilityName,
+        url: `https://pokeapi.co/api/v2/ability/${newAbilityName}/`
+      },
+      is_hidden: false,
+      slot: 1
+    }];
+  }
+
+  // 特別處理 Darmanitan (使用 ID 強制修正) - 移至最後以避免被覆蓋
   if (data.id === 555) {
      data.enName = 'Darmanitan (Standard)';
      data.zhName = '達摩狒狒';

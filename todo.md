@@ -94,3 +94,4 @@
 - [ ] Read App.tsx to confirm the four main pages
 - [ ] Rewrite README.md with accurate page descriptions
 - [ ] Rewrite README.md to correctly describe the four pages: Home (EV calculator), Champions (SP calculator, CN), Champions-en (SP calculator, EN), and Team Builder.
+- [x] Update Mega Evolution abilities for specific Pokemon in both Chinese and English.
