@@ -104,3 +104,8 @@
 - [x] Fix missing custom abilities for Mega Evolutions by bypassing API calls for them, and update translations for Spicy Spray and Dragonize.
 - [ ] Fix language display in search results for English version so it always shows English names even when searching with Chinese.
 - [x] Fix language display in search results for English version so it always shows English names even when searching with Chinese, by creating an English mapping.
+- [x] Extract and compile a table of the newly added Mega Pokemon names and their abilities in both Chinese and English.
+- [x] Update translation for Mega Meganium's ability from 超級日照 to 超級日光
+- [x] Update translation for Mega Victreebel's ability from 飛出內臟 to 飛出的內在物
+- [x] Verify translation updates for Mega Meganium and Mega Victreebel across the codebase
+- [ ] Save a checkpoint for the project after translation updates

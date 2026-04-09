@@ -306,7 +306,7 @@ export const ABILITY_TRANSLATIONS: Record<string, string> = {
   'poison-puppeteer': '毒傀儡',
   'as-one-glastrier': '人馬一體',
   'as-one-spectrier': '人馬一體',
-  'mega-sol': '超級日照',
+  'mega-sol': '超級日光',
   'dragonize': '龍皮膚',
   'piercing-drill': '貫穿鑽',
   'spicy-spray': '辣椒噴發',
