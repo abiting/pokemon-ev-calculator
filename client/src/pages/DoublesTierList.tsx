@@ -58,9 +58,6 @@ export default function DoublesTierList() {
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
             VGC Doubles Usage Ranking
           </h1>
-          <p className="text-slate-600">
-            Top 27 Most Used Pokémon in Double Battles
-          </p>
         </div>
 
         {/* Grid Layout */}
