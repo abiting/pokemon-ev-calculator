@@ -127,5 +127,6 @@
 - [x] Add specific usage rate percentages to DoublesTierList.tsx based on the provided image
 - [x] Fix Floette form IDs in pokeapi.ts to correctly map to Eternal Flower and Mega Floette, ensuring correct stats and images
 - [x] Update cache key in pokeapi.ts to force refresh and verify Mega Floette ID
+- [x] Fix Floette form IDs in pokeapi.ts (replace 10051 with 10061, add Mega Floette) and update cache key
 - [ ] Fix the layout of DoublesTierList.tsx to be responsive and iframe-friendly
 - [ ] Fix the layout of the DoublesTierList page so it displays correctly when embedded in an iframe
