@@ -8,12 +8,12 @@ const TOP_POKEMON = [
   { rank: 2, name: 'sneasler' },
   { rank: 3, name: 'garchomp' },
   { rank: 4, name: 'kingambit' },
-  { rank: 5, name: 'pelipper' },
+  { rank: 5, name: 'poltchageist' },
   { rank: 6, name: 'charizard' },
   { rank: 7, name: 'whimsicott' },
   { rank: 8, name: 'basculegion-male' }, // Assuming male form is default
   { rank: 9, name: 'archaludon' },
-  { rank: 10, name: 'porygon2' },
+  { rank: 10, name: 'pelipper' },
   { rank: 11, name: 'rotom-wash' },
   { rank: 12, name: 'gardevoir' },
   { rank: 13, name: 'maushold-family-of-four' }, // Assuming family of four is default
@@ -23,11 +23,11 @@ const TOP_POKEMON = [
   { rank: 17, name: 'gengar' },
   { rank: 18, name: 'dragonite' },
   { rank: 19, name: 'arcanine-hisui' },
-  { rank: 20, name: 'arboliva' },
+  { rank: 20, name: 'floette' },
   { rank: 21, name: 'hydreigon' },
   { rank: 22, name: 'primarina' },
   { rank: 23, name: 'farigiraf' },
-  { rank: 24, name: 'rillaboom' },
+  { rank: 24, name: 'kommo-o' },
   { rank: 25, name: 'gastrodon' }, // Assuming default form
   { rank: 26, name: 'sylveon' },
   { rank: 27, name: 'torkoal' },

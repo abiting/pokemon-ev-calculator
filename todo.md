@@ -111,7 +111,7 @@
 - [ ] Save a checkpoint for the project after translation updates
 - [ ] Investigate if it's possible to fetch official battle data (usage rates for singles and doubles) for Pokemon Champions
 - [ ] Create a new English page (DoublesTierList.tsx) to display the top 27 most used Pokemon in Double Battles
-- [x] Extract the list of 27 Pokemon from the provided image (Corrected #2 to Sneasler, #16 to Froslass)
+- [x] Extract the l- [x] Extract the list of 27 Pokemon from the provided image (Corrected #2 to Sneasler, #5 to Poltchageist, #10 to Pelipper, #16 to Froslass, #20 to Floette, #24 to Kommo-o))
 - [x] Display the Pokemon as a grid of thumbnails with rankings (1-27)
 - [x] Do not display Pokemon names or usage percentages
 - [x] Add routing and navigation for the new Doubles Tier List page
