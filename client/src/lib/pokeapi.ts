@@ -1356,7 +1356,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
          speciesData.varieties = [
             { is_default: true, pokemon: { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' } },
             { is_default: false, pokemon: { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' } },
-            { is_default: false, pokemon: { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/10061' } }
+            { is_default: false, pokemon: { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/99999' } }
          ];
       }
 
