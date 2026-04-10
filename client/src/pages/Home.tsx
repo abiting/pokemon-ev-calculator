@@ -190,6 +190,8 @@ export default function Home() {
                            }
                            
                            // Final fix for special names in variety list
+                           if (v.pokemon.name === 'floette-eternal') displayName = '花葉蒂（永恆之花）';
+                           if (v.pokemon.name === 'floette-mega') displayName = '超級花葉蒂';
                            if (displayName === 'Mr Mime' || displayName === 'Mr-mime') displayName = 'Mr. Mime';
                            if (displayName === 'Mr Rime' || displayName === 'Mr-rime') displayName = 'Mr. Rime';
                            if (displayName === 'Mime Jr' || displayName === 'Mime-jr') displayName = 'Mime Jr.';

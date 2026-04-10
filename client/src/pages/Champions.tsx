@@ -234,7 +234,11 @@ export default function Champions() {
 	                           const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop() || '0');
 	                           
                            // Force fix for Darmanitan Galar Zen
-                           if (v.pokemon.name === 'darmanitan-galar-zen') {
+                           if (v.pokemon.name === 'floette-eternal') {
+                              displayName = '花葉蒂（永恆之花）';
+                           } else if (v.pokemon.name === 'floette-mega') {
+                              displayName = '超級花葉蒂';
+                           } else if (v.pokemon.name === 'darmanitan-galar-zen') {
                               displayName = '達摩狒狒（伽勒爾達摩模式）';
                            } else if (v.pokemon.name.includes('zygarde-10')) {
                               displayName = '基格爾德（10%形態）';

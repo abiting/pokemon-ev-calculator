@@ -1298,6 +1298,15 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
          ];
       }
 
+      // Manual injection for Floette
+      if (speciesData.name === 'floette') {
+         speciesData.varieties = [
+            { is_default: true, pokemon: { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' } },
+            { is_default: false, pokemon: { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' } },
+            { is_default: false, pokemon: { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/10061' } }
+         ];
+      }
+
       data.varieties = speciesData.varieties
         .filter((v: any) => {
           const name = v.pokemon.name;
@@ -1391,6 +1400,8 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           if (name.startsWith('oricorio-')) return true;
           if (name.startsWith('wormadam-')) return true;
           if (name.startsWith('rotom-') && name !== 'rotom') return true; // Rotom forms change types/stats
+          if (name === 'floette-eternal') return true; // Floette Eternal Flower has different stats
+          if (name === 'floette-mega') return true; // Mega Floette
 
           return false;
         })

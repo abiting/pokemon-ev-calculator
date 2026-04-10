@@ -120,6 +120,6 @@
 - [ ] Update Floette to Eternal Flower Floette in the DoublesTierList page
 - [x] Add the Chinese and English translations for Floette (Eternal Flower) to the translation data
 - [x] Investigate why the previous fix didn't work and correct the logic in pokeapi.ts or other relevant files to show Floette, Floette Eternal Flower, and Mega Floette
-- [ ] Investigate and fix the root cause of Floette (Eternal Flower) not appearing in the calculator (it's still not showing up)
+- [ ] Investigate and fix the root cause of Floette (Eternal Flower) not appearing in any calculator page
 - [ ] Fix the layout of DoublesTierList.tsx to be responsive and iframe-friendly
 - [ ] Fix the layout of the DoublesTierList page so it displays correctly when embedded in an iframe
