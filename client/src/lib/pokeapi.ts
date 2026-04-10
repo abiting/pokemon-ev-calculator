@@ -1379,7 +1379,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           if (name.startsWith('wormadam-')) return true;
           if (name.startsWith('rotom-') && name !== 'rotom') return true; // Rotom forms change types/stats
           if (name === 'floette-eternal') return true; // Floette Eternal Flower has different stats
-          if (name === 'floette-mega') return true; // Mega Floette
+          // if (name === 'floette-mega') return true; // Mega Floette (already handled by name.includes('-mega'))
 
           return false;
         })
