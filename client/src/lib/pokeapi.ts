@@ -12,7 +12,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v34_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v35_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -159,12 +159,14 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
   }
 
   // 3. 構建結果列表
-  const results: SearchResult[] = matchingNames.map(name => ({
-    id: (pokemonZhMapping as Record<string, number>)[name],
-    name: name, // 這裡暫時用中文名當 name，後續 fetchPokemon 會處理
-    zhName: name,
-    isDefault: true
-  }));
+  const results: SearchResult[] = matchingNames
+    .map(name => ({
+      id: (pokemonZhMapping as Record<string, number>)[name],
+      name: name, // 這裡暫時用中文名當 name，後續 fetchPokemon 會處理
+      zhName: name,
+      isDefault: true
+    }))
+    .filter(result => result.id < 10000); // 過濾掉所有內部 ID (如 10051, 10061 等)
 
   return results;
 }
