@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Champions from "./pages/Champions";
 import ChampionsEn from "./pages/ChampionsEn";
 import TeamBuilder from "./pages/TeamBuilder";
+import DoublesTierList from "./pages/DoublesTierList";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path={"/champions"} component={Champions} />
       <Route path={"/champions-en"} component={ChampionsEn} />
       <Route path={"/team-builder"} component={TeamBuilder} />
+      <Route path={"/doubles-tier-list"} component={DoublesTierList} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

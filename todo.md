@@ -109,3 +109,9 @@
 - [x] Update translation for Mega Victreebel's ability from 飛出內臟 to 飛出的內在物
 - [x] Verify translation updates for Mega Meganium and Mega Victreebel across the codebase
 - [ ] Save a checkpoint for the project after translation updates
+- [ ] Investigate if it's possible to fetch official battle data (usage rates for singles and doubles) for Pokemon Champions
+- [ ] Create a new English page (DoublesTierList.tsx) to display the top 27 most used Pokemon in Double Battles
+- [x] Extract the list of 27 Pokemon from the provided image (Corrected #2 to Sneasler, #16 to Froslass)
+- [x] Display the Pokemon as a grid of thumbnails with rankings (1-27)
+- [x] Do not display Pokemon names or usage percentages
+- [x] Add routing and navigation for the new Doubles Tier List page
