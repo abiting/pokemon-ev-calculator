@@ -128,6 +128,6 @@
 - [x] Fix Floette form IDs in pokeapi.ts to correctly map to Eternal Flower and Mega Floette, ensuring correct stats and images
 - [x] Update cache key in pokeapi.ts to force refresh and verify Mega Floette ID
 - [x] Fix Floette form IDs in pokeapi.ts (replace 10051 with 10061, add Mega Floette) and update cache key
-- [ ] Fix the Mega Floette ID mixup by finding the correct ID or hardcoding its stats and image completely, ensuring it doesn't conflict with Mega Latias (10062)
+- [ ] Find the exact original implementation of Mega Floette in git history and restore the multi-form selection logic so search directly navigates to the Pokemon page and shows the form selection dialog
 - [ ] Fix the layout of DoublesTierList.tsx to be responsive and iframe-friendly
 - [ ] Fix the layout of the DoublesTierList page so it displays correctly when embedded in an iframe

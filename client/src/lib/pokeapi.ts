@@ -12,7 +12,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v36_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v37_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -186,7 +186,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
        const floetteForms = [
           { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' },
           { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' },
-
+          { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/10061' } // Assuming mega uses same base stats or needs custom handling
        ];
        
        return floetteForms.map(form => {
@@ -197,6 +197,9 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
           if (form.name === 'floette-eternal') {
              enName = 'Floette (Eternal Flower)';
              zhName = '花葉蒂（永恆之花）';
+          } else if (form.name === 'floette-mega') {
+             enName = 'Mega Floette';
+             zhName = '超級花葉蒂';
           }
           
           return {
@@ -470,7 +473,6 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   if (englishName === 'chi-yu') {
     return { zhName: '古玉魚', enName: 'Chi-Yu' };
   }
-
   // Hardcoded fix for Floette forms
   if (englishName.includes('floette')) {
     if (englishName === 'floette-eternal') {
@@ -480,7 +482,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
       return { zhName: '超級花葉蒂', enName: 'Mega Floette' };
     }
   }
-
+  
   // Hardcoded fix for Ogerpon forms
   if (englishName.includes('ogerpon')) {
     if (englishName === 'ogerpon') {
