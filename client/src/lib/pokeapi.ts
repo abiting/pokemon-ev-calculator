@@ -848,6 +848,12 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     else if (style === 'pau') zhName = `${baseZhName}（呼拉呼拉風格）`;
     else if (style === 'sensu') zhName = `${baseZhName}（輕盈輕盈風格）`;
     else zhName = `${baseZhName}（${styleCapitalized}風格）`;
+  } else if (englishName.includes('floette-eternal')) {
+    zhName = `花葉蒂（永恆之花）`;
+    enName = `Floette (Eternal Flower)`;
+  } else if (englishName.includes('floette-mega')) {
+    zhName = `超級花葉蒂`;
+    enName = `Mega Floette`;
   } else if (englishName.startsWith('squawkabilly-')) {
     // 怒鸚哥 (Squawkabilly) 羽色處理
     const plumage = englishName.replace('squawkabilly-', '');
