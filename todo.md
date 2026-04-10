@@ -124,5 +124,6 @@
 - [x] Fix Floette forms not appearing in English calculator pages (HomeEn.tsx, ChampionsEn.tsx)
 - [x] Add "Usage Rate" title to DoublesTierList.tsx
 - [x] Fix the issue where the "Usage Rate" title is not displaying on the Doubles Tier List page
+- [x] Add specific usage rate percentages to DoublesTierList.tsx based on the provided image
 - [ ] Fix the layout of DoublesTierList.tsx to be responsive and iframe-friendly
 - [ ] Fix the layout of the DoublesTierList page so it displays correctly when embedded in an iframe

@@ -4,33 +4,33 @@ import { Card, CardContent } from '@/components/ui/card';
 // List of top 27 Pokemon in Double Battles based on user provided image
 // Using their PokeAPI names to fetch sprites
 const TOP_POKEMON = [
-  { rank: 1, name: 'incineroar' },
-  { rank: 2, name: 'sneasler' },
-  { rank: 3, name: 'garchomp' },
-  { rank: 4, name: 'kingambit' },
-  { rank: 5, name: 'poltchageist' },
-  { rank: 6, name: 'charizard' },
-  { rank: 7, name: 'whimsicott' },
-  { rank: 8, name: 'basculegion-male' }, // Assuming male form is default
-  { rank: 9, name: 'archaludon' },
-  { rank: 10, name: 'pelipper' },
-  { rank: 11, name: 'rotom-wash' },
-  { rank: 12, name: 'gardevoir' },
-  { rank: 13, name: 'maushold-family-of-four' }, // Assuming family of four is default
-  { rank: 14, name: 'tyranitar' },
-  { rank: 15, name: 'excadrill' },
-  { rank: 16, name: 'froslass' },
-  { rank: 17, name: 'gengar' },
-  { rank: 18, name: 'dragonite' },
-  { rank: 19, name: 'arcanine-hisui' },
-  { rank: 20, name: 'floette-eternal' },
-  { rank: 21, name: 'hydreigon' },
-  { rank: 22, name: 'primarina' },
-  { rank: 23, name: 'farigiraf' },
-  { rank: 24, name: 'kommoo' },
-  { rank: 25, name: 'meganium' },
-  { rank: 26, name: 'sylveon' },
-  { rank: 27, name: 'torkoal' },
+  { rank: 1, name: 'incineroar', usage: '67.6%' },
+  { rank: 2, name: 'sneasler', usage: '42.6%' },
+  { rank: 3, name: 'garchomp', usage: '39.7%' },
+  { rank: 4, name: 'kingambit', usage: '32.4%' },
+  { rank: 5, name: 'poltchageist', usage: '32.4%' },
+  { rank: 6, name: 'charizard', usage: '26.5%' },
+  { rank: 7, name: 'whimsicott', usage: '26.5%' },
+  { rank: 8, name: 'basculegion-male', usage: '25%' }, // Assuming male form is default
+  { rank: 9, name: 'archaludon', usage: '23.5%' },
+  { rank: 10, name: 'pelipper', usage: '22.1%' },
+  { rank: 11, name: 'rotom-wash', usage: '17.6%' },
+  { rank: 12, name: 'gardevoir', usage: '16.2%' },
+  { rank: 13, name: 'maushold-family-of-four', usage: '13.2%' }, // Assuming family of four is default
+  { rank: 14, name: 'tyranitar', usage: '13.2%' },
+  { rank: 15, name: 'excadrill', usage: '10.3%' },
+  { rank: 16, name: 'froslass', usage: '10.3%' },
+  { rank: 17, name: 'gengar', usage: '10.3%' },
+  { rank: 18, name: 'dragonite', usage: '8.8%' },
+  { rank: 19, name: 'arcanine-hisui', usage: '7.4%' },
+  { rank: 20, name: 'floette-eternal', usage: '7.4%' },
+  { rank: 21, name: 'hydreigon', usage: '7.4%' },
+  { rank: 22, name: 'primarina', usage: '7.4%' },
+  { rank: 23, name: 'farigiraf', usage: '5.9%' },
+  { rank: 24, name: 'kommoo', usage: '5.9%' },
+  { rank: 25, name: 'meganium', usage: '5.9%' },
+  { rank: 26, name: 'sylveon', usage: '5.9%' },
+  { rank: 27, name: 'torkoal', usage: '5.9%' },
 ];
 
 export default function DoublesTierList() {
@@ -68,7 +68,7 @@ export default function DoublesTierList() {
                 </div>
                 
                 {/* Pokemon Sprite */}
-                <div className="w-full h-full flex items-center justify-center mt-2">
+                <div className="w-full h-full flex items-center justify-center mt-2 mb-4">
                   <img 
                     src={getSpriteUrl(pokemon.name)} 
                     alt={`Rank ${pokemon.rank} Pokemon`}
@@ -81,6 +81,11 @@ export default function DoublesTierList() {
                       }
                     }}
                   />
+                </div>
+                
+                {/* Usage Rate */}
+                <div className="absolute bottom-1 w-full text-center">
+                  <span className="text-xs font-bold text-slate-700">{pokemon.usage}</span>
                 </div>
               </CardContent>
             </Card>
