@@ -103,6 +103,11 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
       // Gen 3
       'deoxys': 'deoxys-normal',
 
+      // Gen 6
+      'floette': 'floette',
+      'floette eternal': 'floette-eternal',
+      'floette-eternal': 'floette-eternal',
+      
       // Gen 9 DLC
       'gouging fire': 'gouging-fire',
       'raging bolt': 'raging-bolt',
@@ -271,6 +276,14 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          }
       }
 
+      // 特別處理 Floette 的變體名稱
+      if (v.pokemon.name.includes('floette')) {
+         if (v.pokemon.name === 'floette-eternal') {
+            formatted.enName = 'Floette (Eternal Flower)';
+            formatted.zhName = '花葉蒂（永恆之花）';
+         }
+      }
+
       // 特別處理 Ogerpon 的變體名稱
       if (v.pokemon.name.includes('ogerpon')) {
          if (v.pokemon.name === 'ogerpon') {
@@ -347,6 +360,14 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          } else if (v.pokemon.name.includes('ultra')) {
             formatted.enName = 'Ultra Necrozma';
             formatted.zhName = '究極奈克洛茲瑪';
+         }
+      }
+
+      // 特別處理 Floette 的變體名稱
+      if (v.pokemon.name.includes('floette')) {
+         if (v.pokemon.name === 'floette-eternal') {
+            formatted.enName = 'Floette (Eternal Flower)';
+            formatted.zhName = '花葉蒂（永恆之花）';
          }
       }
 

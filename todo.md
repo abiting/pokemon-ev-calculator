@@ -118,4 +118,5 @@
 - [x] Remove the subtitle "Top 27 Most Used Pokémon in Double Battles" from the DoublesTierList page
 - [ ] Remove the title "VGC Doubles Usage Ranking" from the DoublesTierList page
 - [ ] Update Floette to Eternal Flower Floette in the DoublesTierList page
-- [ ] Add the Chinese and English translations for Floette (Eternal Flower) to the translation data
+- [x] Add the Chinese and English translations for Floette (Eternal Flower) to the translation data
+- [ ] Investigate and fix the issue preventing Floette (Eternal Flower) from appearing in the calculator
