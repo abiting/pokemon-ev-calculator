@@ -472,6 +472,16 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
     return { zhName: '古玉魚', enName: 'Chi-Yu' };
   }
 
+  // Hardcoded fix for Floette forms
+  if (englishName.includes('floette')) {
+    if (englishName === 'floette-eternal') {
+      return { zhName: '花葉蒂（永恆之花）', enName: 'Floette (Eternal Flower)' };
+    }
+    if (englishName === 'floette-mega') {
+      return { zhName: '超級花葉蒂', enName: 'Mega Floette' };
+    }
+  }
+
   // Hardcoded fix for Ogerpon forms
   if (englishName.includes('ogerpon')) {
     if (englishName === 'ogerpon') {

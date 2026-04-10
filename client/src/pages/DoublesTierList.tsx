@@ -51,12 +51,12 @@ export default function DoublesTierList() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-slate-50">
-      <div className="container max-w-6xl mx-auto">
+    <div className="w-full h-full min-h-screen p-2 sm:p-4 bg-slate-50">
+      <div className="w-full max-w-6xl mx-auto">
         {/* Header removed as requested */}
 
         {/* Grid Layout */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-2 sm:gap-4">
           {TOP_POKEMON.map((pokemon) => (
             <Card key={pokemon.rank} className="overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow border-slate-200">
               <CardContent className="p-3 flex flex-col items-center justify-center relative aspect-square">
