@@ -28,7 +28,7 @@ const TOP_POKEMON = [
   { rank: 22, name: 'primarina' },
   { rank: 23, name: 'farigiraf' },
   { rank: 24, name: 'kommo-o' },
-  { rank: 25, name: 'gastrodon' }, // Assuming default form
+  { rank: 25, name: 'meganium' },
   { rank: 26, name: 'sylveon' },
   { rank: 27, name: 'torkoal' },
 ];
