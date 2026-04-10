@@ -131,3 +131,9 @@
 - [ ] Fix the syntax error in pokeapi.ts, assign a unique virtual ID (e.g., 99999) to Mega Floette, and hardcode its stats, types, and image so it doesn't duplicate Eternal Flower
 - [ ] Fix the layout of DoublesTierList.tsx to be responsive and iframe-friendly
 - [ ] Fix the layout of the DoublesTierList page so it displays correctly when embedded in an iframe
+
+- [ ] Update Mega Floette data with correct stats, ability, and image based on user's screenshots.
+
+- [ ] Remove hardcoded Mega Floette data and fetch it directly from the API.
+
+- [ ] Remove all hardcoded Mega Floette data and restore the original API fetching logic.

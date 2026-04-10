@@ -181,36 +181,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
     const zhHantName = data.names.find((n: any) => n.language.name === 'zh-Hant');
     const baseZhName = zhHantName ? zhHantName.name : data.name;
 
-    // Hardcoded injection for Floette forms
-    if (data.name === 'floette') {
-       const floetteForms = [
-          { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' },
-          { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' },
-          { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/99999' } // Virtual ID for Mega Floette
-       ];
-       
-       return floetteForms.map(form => {
-          const id = parseInt(form.url.split('/').filter(Boolean).pop() || '0');
-          let enName = 'Floette';
-          let zhName = '花葉蒂';
-          
-          if (form.name === 'floette-eternal') {
-             enName = 'Floette (Eternal Flower)';
-             zhName = '花葉蒂（永恆之花）';
-          } else if (form.name === 'floette-mega') {
-             enName = 'Mega Floette';
-             zhName = '超級花葉蒂';
-          }
-          
-          return {
-             id,
-             name: enName,
-             zhName: zhName,
-             isDefault: form.name === 'floette',
-             apiName: form.name
-          };
-       });
-    }
+
 
     // Hardcoded injection for Ogerpon forms if they are missing or incomplete
     if (data.name === 'ogerpon') {
@@ -1165,7 +1136,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     if (pokemonId) {
       searchTerm = pokemonId;
     }
-    } // End of else block for non-numeric string
+  }
   } else if (typeof nameOrId === 'number' && nameOrId > 10000) {
     // 直接支援 ID > 10000 的特殊形態（如 Mega 進化）
     searchTerm = nameOrId;
@@ -1188,57 +1159,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     console.warn('快取讀取失敗:', error);
   }
 
-  // Intercept virtual ID for Mega Floette
-  if (searchTerm === 99999 || searchTerm === '99999') {
-    const megaFloetteData: Pokemon = {
-      id: 99999,
-      name: 'floette-mega',
-      apiName: 'floette-mega',
-      zhName: '超級花葉蒂',
-      enName: 'Mega Floette',
-      types: [
-        { slot: 1, type: { name: 'fairy', url: 'https://pokeapi.co/api/v2/type/18/' } },
-        { slot: 2, type: { name: 'psychic', url: 'https://pokeapi.co/api/v2/type/14/' } }
-      ],
-      stats: [
-        { base_stat: 74, effort: 0, stat: { name: 'hp', url: 'https://pokeapi.co/api/v2/stat/1/' } },
-        { base_stat: 65, effort: 0, stat: { name: 'attack', url: 'https://pokeapi.co/api/v2/stat/2/' } },
-        { base_stat: 67, effort: 0, stat: { name: 'defense', url: 'https://pokeapi.co/api/v2/stat/3/' } },
-        { base_stat: 125, effort: 0, stat: { name: 'special-attack', url: 'https://pokeapi.co/api/v2/stat/4/' } },
-        { base_stat: 128, effort: 0, stat: { name: 'special-defense', url: 'https://pokeapi.co/api/v2/stat/5/' } },
-        { base_stat: 93, effort: 0, stat: { name: 'speed', url: 'https://pokeapi.co/api/v2/stat/6/' } }
-      ],
-      abilities: [
-        { ability: { name: 'flower-veil', url: 'https://pokeapi.co/api/v2/ability/166/' }, is_hidden: false, slot: 1 },
-        { ability: { name: 'symbiosis', url: 'https://pokeapi.co/api/v2/ability/171/' }, is_hidden: true, slot: 3 }
-      ],
-      sprites: {
-        front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/670.png',
-        other: {
-          'official-artwork': {
-            front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/670.png'
-          }
-        }
-      },
-      species: {
-        name: 'floette',
-        url: 'https://pokeapi.co/api/v2/pokemon-species/670/'
-      },
-      moves: [] // Moves will be inherited from base form if needed, or left empty
-    };
-    
-    // Cache the result
-    try {
-      localStorage.setItem(cacheKey, JSON.stringify({
-        data: megaFloetteData,
-        timestamp: Date.now()
-      }));
-    } catch (error) {
-      console.warn('快取寫入失敗:', error);
-    }
-    
-    return megaFloetteData;
-  }
+
 
   // 從 API 獲取資料
   const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${searchTerm.toString().toLowerCase()}`);
@@ -1351,14 +1272,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
          ];
       }
 
-      // Manual injection for Floette
-      if (speciesData.name === 'floette') {
-         speciesData.varieties = [
-            { is_default: true, pokemon: { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' } },
-            { is_default: false, pokemon: { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' } },
-            { is_default: false, pokemon: { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/99999' } }
-         ];
-      }
+
 
       data.varieties = speciesData.varieties
         .filter((v: any) => {
