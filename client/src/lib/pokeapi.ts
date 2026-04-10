@@ -249,6 +249,14 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
        });
     }
 
+    // Hardcoded injection for Mega Floette
+    if (data.name === 'floette') {
+       data.varieties.push({
+          is_default: false,
+          pokemon: { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/99999' }
+       });
+    }
+
     const varieties = await Promise.all(data.varieties.map(async (v: any) => {
       const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
       // 這裡我們需要一個簡單的方式來獲取變體的中文名，
@@ -1162,13 +1170,57 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
 
 
   // 從 API 獲取資料
-  const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${searchTerm.toString().toLowerCase()}`);
+  let data: any;
   
-  if (!response.ok) {
-    throw new Error('找不到該寶可夢，請檢查名稱或編號是否正確');
-  }
+  if (searchTerm === 99999) {
+    // Hardcoded Mega Floette data
+    data = {
+      id: 99999,
+      name: 'floette-mega',
+      base_experience: 0,
+      height: 2,
+      is_default: false,
+      order: -1,
+      weight: 9,
+      abilities: [
+        {
+          ability: { name: 'fairy-aura', url: 'https://pokeapi.co/api/v2/ability/187/' },
+          is_hidden: false,
+          slot: 1
+        }
+      ],
+      forms: [{ name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon-form/99999/' }],
+      species: { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon-species/670/' },
+      sprites: {
+        other: {
+          'official-artwork': {
+            front_default: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/3AKM6djKdV2hZEUFRUEZjw/300px-670Floette-Mega.png_c5f5c868.webp'
+          }
+        }
+      },
+      stats: [
+        { base_stat: 74, effort: 0, stat: { name: 'hp', url: 'https://pokeapi.co/api/v2/stat/1/' } },
+        { base_stat: 85, effort: 0, stat: { name: 'attack', url: 'https://pokeapi.co/api/v2/stat/2/' } },
+        { base_stat: 87, effort: 0, stat: { name: 'defense', url: 'https://pokeapi.co/api/v2/stat/3/' } },
+        { base_stat: 155, effort: 0, stat: { name: 'special-attack', url: 'https://pokeapi.co/api/v2/stat/4/' } },
+        { base_stat: 148, effort: 0, stat: { name: 'special-defense', url: 'https://pokeapi.co/api/v2/stat/5/' } },
+        { base_stat: 102, effort: 0, stat: { name: 'speed', url: 'https://pokeapi.co/api/v2/stat/6/' } }
+      ],
+      types: [
+        { slot: 1, type: { name: 'fairy', url: 'https://pokeapi.co/api/v2/type/18/' } },
+        { slot: 2, type: { name: 'psychic', url: 'https://pokeapi.co/api/v2/type/14/' } }
+      ],
+      moves: []
+    };
+  } else {
+    const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${searchTerm.toString().toLowerCase()}`);
+    
+    if (!response.ok) {
+      throw new Error('找不到該寶可夢，請檢查名稱或編號是否正確');
+    }
 
-  const data: any = await response.json();
+    data = await response.json();
+  }
   
   // 繼承基礎形態的招式 (Mega 和 Gmax 形態通常沒有完整的招式表)
   if (data.name.includes('-mega') || data.name.includes('-gmax')) {
@@ -1270,6 +1322,14 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
             { is_default: false, pokemon: { name: 'terapagos-terastal', url: 'https://pokeapi.co/api/v2/pokemon/10276' } },
             { is_default: false, pokemon: { name: 'terapagos-stellar', url: 'https://pokeapi.co/api/v2/pokemon/10277' } }
          ];
+      }
+
+      // Manual injection for Mega Floette
+      if (speciesData.name === 'floette') {
+         speciesData.varieties.push({
+            is_default: false,
+            pokemon: { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/99999' }
+         });
       }
 
 

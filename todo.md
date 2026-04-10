@@ -137,3 +137,5 @@
 - [ ] Remove hardcoded Mega Floette data and fetch it directly from the API.
 
 - [ ] Remove all hardcoded Mega Floette data and restore the original API fetching logic.
+
+- [ ] Re-add Mega Floette data with correct stats, ability, and image.
