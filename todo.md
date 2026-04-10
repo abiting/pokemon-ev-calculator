@@ -145,3 +145,5 @@
 - [ ] Check if Mega Floette exists in the API and use it if available.
 
 - [ ] Remove the duplicate hardcoded Mega Floette from the form selection dialog.
+
+- [ ] Investigate and fix the duplicate Mega Floette issue and the 4 errors shown in the UI.

@@ -249,13 +249,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
        });
     }
 
-    // Hardcoded injection for Mega Floette
-    if (data.name === 'floette') {
-       data.varieties.push({
-          is_default: false,
-          pokemon: { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/99999' }
-       });
-    }
+
 
     const varieties = await Promise.all(data.varieties.map(async (v: any) => {
       const id = parseInt(v.pokemon.url.split('/').filter(Boolean).pop());
@@ -1144,7 +1138,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     if (pokemonId) {
       searchTerm = pokemonId;
     }
-  }
+    }
   } else if (typeof nameOrId === 'number' && nameOrId > 10000) {
     // 直接支援 ID > 10000 的特殊形態（如 Mega 進化）
     searchTerm = nameOrId;
