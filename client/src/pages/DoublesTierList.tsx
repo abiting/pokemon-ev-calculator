@@ -53,7 +53,9 @@ export default function DoublesTierList() {
   return (
     <div className="w-full h-full min-h-screen p-2 sm:p-4 bg-slate-50">
       <div className="w-full max-w-6xl mx-auto">
-        {/* Header removed as requested */}
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Usage Rate</h2>
+        </div>
 
         {/* Grid Layout */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-2 sm:gap-4">
