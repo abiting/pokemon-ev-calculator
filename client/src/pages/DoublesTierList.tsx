@@ -23,7 +23,7 @@ const TOP_POKEMON = [
   { rank: 17, name: 'gengar' },
   { rank: 18, name: 'dragonite' },
   { rank: 19, name: 'arcanine-hisui' },
-  { rank: 20, name: 'floette' },
+  { rank: 20, name: 'floette-eternal' },
   { rank: 21, name: 'hydreigon' },
   { rank: 22, name: 'primarina' },
   { rank: 23, name: 'farigiraf' },
@@ -53,12 +53,7 @@ export default function DoublesTierList() {
   return (
     <div className="min-h-screen py-8 px-4 bg-slate-50">
       <div className="container max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
-            VGC Doubles Usage Ranking
-          </h1>
-        </div>
+        {/* Header removed as requested */}
 
         {/* Grid Layout */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-4">

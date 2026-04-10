@@ -115,4 +115,7 @@
 - [x] Display the Pokemon as a grid of thumbnails with rankings (1-27)
 - [x] Do not display Pokemon names or usage percentages
 - [x] Add routing and navigation for the new Doubles Tier List page
-- [ ] Remove the subtitle "Top 27 Most Used Pokémon in Double Battles" from the DoublesTierList page
+- [x] Remove the subtitle "Top 27 Most Used Pokémon in Double Battles" from the DoublesTierList page
+- [ ] Remove the title "VGC Doubles Usage Ranking" from the DoublesTierList page
+- [ ] Update Floette to Eternal Flower Floette in the DoublesTierList page
+- [ ] Add the Chinese and English translations for Floette (Eternal Flower) to the translation data
