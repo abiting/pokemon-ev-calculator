@@ -179,6 +179,33 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
     const zhHantName = data.names.find((n: any) => n.language.name === 'zh-Hant');
     const baseZhName = zhHantName ? zhHantName.name : data.name;
 
+    // Hardcoded injection for Floette forms
+    if (data.name === 'floette') {
+       const floetteForms = [
+          { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' },
+          { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' }
+       ];
+       
+       return floetteForms.map(form => {
+          const id = parseInt(form.url.split('/').filter(Boolean).pop() || '0');
+          let enName = 'Floette';
+          let zhName = '花葉蒂';
+          
+          if (form.name === 'floette-eternal') {
+             enName = 'Floette (Eternal Flower)';
+             zhName = '花葉蒂（永恆之花）';
+          }
+          
+          return {
+             id,
+             name: enName,
+             zhName: zhName,
+             isDefault: form.name === 'floette',
+             apiName: form.name
+          };
+       });
+    }
+
     // Hardcoded injection for Ogerpon forms if they are missing or incomplete
     if (data.name === 'ogerpon') {
        const ogerponForms = [
