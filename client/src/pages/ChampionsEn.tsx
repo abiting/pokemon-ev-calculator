@@ -235,7 +235,11 @@ export default function ChampionsEn() {
                            // Get base English name (capitalize and remove hyphens)
                            const baseEnName = pokemon.enName?.split(' (')[0].replace('Mega ', '').replace('Gigantamax ', '').replace('Gmax ', '') || pokemon.name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
                            
-                           if (v.pokemon.name === 'darmanitan-galar-zen') {
+                           if (v.pokemon.name === 'floette-eternal') {
+                              displayName = 'Floette (Eternal Flower)';
+                           } else if (v.pokemon.name === 'floette-mega') {
+                              displayName = 'Mega Floette';
+                           } else if (v.pokemon.name === 'darmanitan-galar-zen') {
                               displayName = 'Darmanitan (Galarian Zen)';
                            } else if (v.pokemon.name.includes('zygarde-10')) {
                               displayName = 'Zygarde (10% Forme)';
