@@ -148,6 +148,8 @@ export async function searchPokemon(query: string): Promise<SearchResult[]> {
        }];
     }
 
+
+
     // 如果中文搜尋沒有結果，允許使用者直接搜尋英文
     // 回傳一個特殊的結果，讓 UI 知道這是一個直接搜尋的建議
     return [{
@@ -180,6 +182,8 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
     // 獲取基礎中文名稱
     const zhHantName = data.names.find((n: any) => n.language.name === 'zh-Hant');
     const baseZhName = zhHantName ? zhHantName.name : data.name;
+
+
 
 
 
@@ -287,6 +291,9 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          if (v.pokemon.name === 'floette-eternal') {
             formatted.enName = 'Floette (Eternal Flower)';
             formatted.zhName = '花葉蒂（永恆之花）';
+         } else if (v.pokemon.name === 'floette-mega') {
+            formatted.enName = 'Mega Floette';
+            formatted.zhName = '超級花葉蒂';
          }
       }
 
@@ -374,6 +381,9 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
          if (v.pokemon.name === 'floette-eternal') {
             formatted.enName = 'Floette (Eternal Flower)';
             formatted.zhName = '花葉蒂（永恆之花）';
+         } else if (v.pokemon.name === 'floette-mega') {
+            formatted.enName = 'Mega Floette';
+            formatted.zhName = '超級花葉蒂';
          }
       }
 
@@ -446,15 +456,7 @@ export function formatPokemonName(englishName: string, baseZhName: string, speci
   if (englishName === 'chi-yu') {
     return { zhName: '古玉魚', enName: 'Chi-Yu' };
   }
-  // Hardcoded fix for Floette forms
-  if (englishName.includes('floette')) {
-    if (englishName === 'floette-eternal') {
-      return { zhName: '花葉蒂（永恆之花）', enName: 'Floette (Eternal Flower)' };
-    }
-    if (englishName === 'floette-mega') {
-      return { zhName: '超級花葉蒂', enName: 'Mega Floette' };
-    }
-  }
+
   
   // Hardcoded fix for Ogerpon forms
   if (englishName.includes('ogerpon')) {
@@ -1048,6 +1050,7 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     else if (lowerName === 'thundurus') searchTerm = 'thundurus-incarnate';
     else if (lowerName === 'landorus') searchTerm = 'landorus-incarnate';
     else if (lowerName === 'keldeo') searchTerm = 'keldeo-ordinary';
+    else if (lowerName === 'mega floette' || lowerName === 'floette-mega' || lowerName === '超級花葉蒂' || lowerName === 'mega 花葉蒂') searchTerm = 'floette-mega';
     else if (lowerName === 'meloetta') searchTerm = 'meloetta-aria';
     else if (lowerName === 'meowstic') searchTerm = 'meowstic-male';
     else if (lowerName === 'aegislash') searchTerm = 'aegislash-shield';
@@ -1084,60 +1087,59 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     if (!isNaN(numericId) && numericId.toString() === nameOrId) {
        searchTerm = numericId;
     } else {
+      // Normalize function to handle full-width/half-width and case sensitivity
+      const normalize = (str: string) => {
+        return str
+          .replace(/[\uff01-\uff5e]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
+          .replace(/Ⅱ/g, '2') // Handle Roman Numeral II
+          .replace(/II/g, '2') // Handle ASCII II
+          .replace(/２/g, '2') // Handle Full-width 2 explicitly if not covered by range
+          .toLowerCase();
+      };
 
-    // Normalize function to handle full-width/half-width and case sensitivity
-    const normalize = (str: string) => {
-      return str
-        .replace(/[\uff01-\uff5e]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
-        .replace(/Ⅱ/g, '2') // Handle Roman Numeral II
-        .replace(/II/g, '2') // Handle ASCII II
-        .replace(/２/g, '2') // Handle Full-width 2 explicitly if not covered by range
-        .toLowerCase();
-    };
+      // 先嘗試完全匹配
+      let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
 
-    // 先嘗試完全匹配
-    let pokemonId = (pokemonZhMapping as Record<string, number>)[nameOrId];
-
-    // 如果沒有完全匹配，嘗試標準化匹配
-    if (!pokemonId) {
-      const normalizedInput = normalize(nameOrId);
-      const match = Object.keys(pokemonZhMapping as Record<string, number>).find(key => normalize(key) === normalizedInput);
-      if (match) {
-        pokemonId = (pokemonZhMapping as Record<string, number>)[match];
+      // 如果沒有完全匹配，嘗試標準化匹配
+      if (!pokemonId) {
+        const normalizedInput = normalize(nameOrId);
+        const match = Object.keys(pokemonZhMapping as Record<string, number>).find(key => normalize(key) === normalizedInput);
+        if (match) {
+          pokemonId = (pokemonZhMapping as Record<string, number>)[match];
+        }
       }
-    }
-    
-    // 如果還是沒有匹配，嘗試模糊搜尋（使用標準化後的字串）
-    if (!pokemonId) {
-      const normalizedInput = normalize(nameOrId);
-      const matchingNames = Object.keys(pokemonZhMapping as Record<string, number>)
-        .filter(name => normalize(name).includes(normalizedInput));
       
-      if (matchingNames.length === 1) {
-        // 只有一個匹配結果，直接使用
-        pokemonId = (pokemonZhMapping as Record<string, number>)[matchingNames[0]];
-      } else if (matchingNames.length > 1) {
-        // 多個匹配結果，拋出錯誤並提示
-        // 這裡改為拋出特殊錯誤，攜帶候選列表，讓 UI 處理
-        const candidates = matchingNames.map(name => {
-          const id = (pokemonZhMapping as Record<string, number>)[name];
-          // 嘗試從 formatPokemonName 獲取英文名稱
-          // 因為我們沒有完整的英文對照表，我們可以用一個簡單的映射或直接回傳 ID 讓 UI 處理
-          // 在這裡我們可以使用 pokemonEnMapping 來獲取英文名稱，如果有的話
-          const enName = (pokemonEnMapping as Record<string, string>)[id.toString()] || name;
-          return {
-            name,
-            id,
-            enName
-          };
-        });
-        throw { isAmbiguous: true, candidates };
+      // 如果還是沒有匹配，嘗試模糊搜尋（使用標準化後的字串）
+      if (!pokemonId) {
+        const normalizedInput = normalize(nameOrId);
+        const matchingNames = Object.keys(pokemonZhMapping as Record<string, number>)
+          .filter(name => normalize(name).includes(normalizedInput));
+        
+        if (matchingNames.length === 1) {
+          // 只有一個匹配結果，直接使用
+          pokemonId = (pokemonZhMapping as Record<string, number>)[matchingNames[0]];
+        } else if (matchingNames.length > 1) {
+          // 多個匹配結果，拋出錯誤並提示
+          // 這裡改為拋出特殊錯誤，攜帶候選列表，讓 UI 處理
+          const candidates = matchingNames.map(name => {
+            const id = (pokemonZhMapping as Record<string, number>)[name];
+            // 嘗試從 formatPokemonName 獲取英文名稱
+            // 因為我們沒有完整的英文對照表，我們可以用一個簡單的映射或直接回傳 ID 讓 UI 處理
+            // 在這裡我們可以使用 pokemonEnMapping 來獲取英文名稱，如果有的話
+            const enName = (pokemonEnMapping as Record<string, string>)[id.toString()] || name;
+            return {
+              name,
+              id,
+              enName
+            };
+          });
+          throw { isAmbiguous: true, candidates };
+        }
       }
-    }
-    
-    if (pokemonId) {
-      searchTerm = pokemonId;
-    }
+      
+      if (pokemonId) {
+        searchTerm = pokemonId;
+      }
     }
   } else if (typeof nameOrId === 'number' && nameOrId > 10000) {
     // 直接支援 ID > 10000 的特殊形態（如 Mega 進化）
@@ -1166,12 +1168,13 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
   // 從 API 獲取資料
   let data: any;
   
-  const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${searchTerm.toString().toLowerCase()}`);
+  const searchStr = searchTerm.toString().toLowerCase();
+  
+  const response = await fetch(`${POKEAPI_BASE_URL}/pokemon/${searchStr}`);
   
   if (!response.ok) {
     throw new Error('找不到該寶可夢，請檢查名稱或編號是否正確');
   }
-
   data = await response.json();
   
   // 繼承基礎形態的招式 (Mega 和 Gmax 形態通常沒有完整的招式表)
@@ -1319,6 +1322,8 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           if (name.includes('-mega')) return true;
           // 2. 極巨化 (Gmax)
           if (name.includes('-gmax')) return true;
+          // 2.5. 永恆之花 (Eternal Flower)
+          if (name === 'floette-eternal') return true;
           // 3. 地區形態 (Alola, Galar, Hisui, Paldea)
           if (name.includes('-alola') || name.includes('-galar') || name.includes('-hisui') || name.includes('-paldea')) return true;
           // 4. 原始回歸 (Primal)
@@ -1409,6 +1414,15 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
             }
           };
         });
+
+      // 去重複處理，確保同一個 name 不會出現兩次
+      const uniqueVarieties = new Map();
+      data.varieties.forEach((v: any) => {
+        if (!uniqueVarieties.has(v.pokemon.name)) {
+          uniqueVarieties.set(v.pokemon.name, v);
+        }
+      });
+      data.varieties = Array.from(uniqueVarieties.values());
     }
   } catch (e) {
     console.warn('Failed to fetch species data', e);
@@ -1656,20 +1670,20 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
           data.name = englishName;
         }
       }
-	    } catch (error) {
-	      console.warn('無法獲取繁體中文名稱:', error);
-	      data.zhName = englishName;
-	      data.name = englishName;
-	    }
-	  }
-	
-	  // 統一格式化英文名稱 (確保所有寶可夢都經過標準化處理)
-	  if (!data.enName || !data.enName.includes('(')) {
-	    const formatted = formatPokemonName(englishName, data.zhName || englishName, data.species.name);
-	    if (formatted.enName && formatted.enName !== englishName) {
-	      data.enName = formatted.enName;
-	    }
-	  }
+    } catch (error) {
+      console.warn('無法獲取繁體中文名稱:', error);
+      data.zhName = englishName;
+      data.name = englishName;
+    }
+  }
+
+  // 統一格式化英文名稱 (確保所有寶可夢都經過標準化處理)
+  if (!data.enName || !data.enName.includes('(')) {
+    const formatted = formatPokemonName(englishName, data.zhName || englishName, data.species.name);
+    if (formatted.enName && formatted.enName !== englishName) {
+      data.enName = formatted.enName;
+    }
+  }
 	
 	  // 覆寫特定 Mega 寶可夢的特性
   const megaAbilitiesOverride: Record<string, string> = {

@@ -147,3 +147,49 @@
 - [ ] Remove the duplicate hardcoded Mega Floette from the form selection dialog.
 
 - [ ] Investigate and fix the duplicate Mega Floette issue and the 4 errors shown in the UI.
+
+- [ ] Fix duplicate Mega Floette in varieties logic in pokeapi.ts
+- [ ] Ensure 10296 maps correctly to Mega Floette
+
+- [ ] Ensure searching for "花葉蒂" shows exactly three options: 花葉蒂, 花葉蒂（永恆之花）, and 超級花葉蒂
+
+- [ ] Verify API data for 10296
+- [ ] Remove hardcoded Mega Floette logic and correctly map 10296 to Mega Floette using the API
+
+- [ ] Investigate why searching for "花葉蒂" doesn't show Mega Floette
+- [ ] Investigate why searching for "10296" shows duplicate Mega Floette
+- [ ] Fix the varieties logic in pokeapi.ts to ensure exactly three options for Floette
+
+- [ ] Remove hardcoded Floette logic in fetchPokemonVarieties in pokeapi.ts
+
+- [ ] Investigate why searching for "10296" shows duplicate Mega Floette
+- [ ] Fix the varieties logic in pokeapi.ts to remove duplicates
+
+- [ ] Investigate PokeAPI response for Floette varieties
+- [ ] Fix the varieties logic in pokeapi.ts to correctly include Mega Floette without duplicates
+
+- [ ] Analyze the varieties logic in both fetchPokemonVarieties and fetchPokemon
+- [ ] Fix the varieties logic in pokeapi.ts to correctly include Mega Floette without duplicates in both functions
+
+- [ ] Remove hardcoded Mega Floette injection in fetchPokemon in pokeapi.ts
+
+- [ ] Locate the exact code causing the duplicate Mega Floette in varieties
+- [ ] Remove the duplicate logic while preserving the original API Mega Floette
+
+- [ ] Locate where the varieties array is constructed and returned
+- [ ] Add a deduplication step to the varieties array to fix React key warning
+
+- [ ] Locate where the varieties array is constructed in fetchPokemon
+- [ ] Add a deduplication step to the varieties array to fix React key warning
+
+- [ ] Analyze the varieties logic in both fetchPokemonVarieties and fetchPokemon
+- [ ] Fix the varieties logic in pokeapi.ts to correctly include Mega Floette without duplicates in both functions
+
+- [ ] Compare PokeAPI data and code logic for Malamar and Floette
+- [ ] Apply the successful pattern to Floette
+
+- [ ] Locate and fix the syntax error in pokeapi.ts
+- [ ] Verify the dev server is running and the fix is applied
+
+- [ ] Analyze the varieties logic in both fetchPokemonVarieties and fetchPokemon
+- [ ] Fix the varieties logic in pokeapi.ts to correctly include Mega Floette without duplicates in both functions
