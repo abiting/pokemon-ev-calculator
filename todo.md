@@ -139,3 +139,9 @@
 - [ ] Remove all hardcoded Mega Floette data and restore the original API fetching logic.
 
 - [ ] Re-add Mega Floette data with correct stats, ability, and image.
+
+- [ ] Fix the issue where Mega Floette is not appearing in the form selection dialog.
+
+- [ ] Check if Mega Floette exists in the API and use it if available.
+
+- [ ] Remove the duplicate hardcoded Mega Floette from the form selection dialog.
