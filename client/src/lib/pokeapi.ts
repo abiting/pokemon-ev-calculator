@@ -183,7 +183,8 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
     if (data.name === 'floette') {
        const floetteForms = [
           { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' },
-          { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' }
+          { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' },
+          { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/10061' } // Assuming mega uses same base stats or needs custom handling
        ];
        
        return floetteForms.map(form => {
@@ -194,6 +195,9 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
           if (form.name === 'floette-eternal') {
              enName = 'Floette (Eternal Flower)';
              zhName = '花葉蒂（永恆之花）';
+          } else if (form.name === 'floette-mega') {
+             enName = 'Mega Floette';
+             zhName = '超級花葉蒂';
           }
           
           return {

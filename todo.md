@@ -119,4 +119,4 @@
 - [ ] Remove the title "VGC Doubles Usage Ranking" from the DoublesTierList page
 - [ ] Update Floette to Eternal Flower Floette in the DoublesTierList page
 - [x] Add the Chinese and English translations for Floette (Eternal Flower) to the translation data
-- [ ] Investigate and fix the fetchPokemonVarieties function in pokeapi.ts to correctly handle and return all three forms of Floette (Floette, Floette Eternal Flower, Mega Floette)
+- [ ] Investigate why the previous fix didn't work and correct the logic in pokeapi.ts or other relevant files to show Floette, Floette Eternal Flower, and Mega Floette
