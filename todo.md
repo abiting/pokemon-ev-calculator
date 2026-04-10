@@ -125,5 +125,6 @@
 - [x] Add "Usage Rate" title to DoublesTierList.tsx
 - [x] Fix the issue where the "Usage Rate" title is not displaying on the Doubles Tier List page
 - [x] Add specific usage rate percentages to DoublesTierList.tsx based on the provided image
+- [ ] Fix Floette form IDs in pokeapi.ts to correctly map to Eternal Flower and Mega Floette, ensuring correct stats and images
 - [ ] Fix the layout of DoublesTierList.tsx to be responsive and iframe-friendly
 - [ ] Fix the layout of the DoublesTierList page so it displays correctly when embedded in an iframe
