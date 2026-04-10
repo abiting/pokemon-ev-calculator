@@ -8,7 +8,7 @@ const TOP_POKEMON = [
   { rank: 2, name: 'sneasler', usage: '42.6%' },
   { rank: 3, name: 'garchomp', usage: '39.7%' },
   { rank: 4, name: 'kingambit', usage: '32.4%' },
-  { rank: 5, name: 'poltchageist', usage: '32.4%' },
+  { rank: 5, name: 'sinistcha', usage: '32.4%' },
   { rank: 6, name: 'charizard', usage: '26.5%' },
   { rank: 7, name: 'whimsicott', usage: '26.5%' },
   { rank: 8, name: 'basculegion-male', usage: '25%' }, // Assuming male form is default
