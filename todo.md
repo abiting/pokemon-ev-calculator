@@ -128,6 +128,6 @@
 - [x] Fix Floette form IDs in pokeapi.ts to correctly map to Eternal Flower and Mega Floette, ensuring correct stats and images
 - [x] Update cache key in pokeapi.ts to force refresh and verify Mega Floette ID
 - [x] Fix Floette form IDs in pokeapi.ts (replace 10051 with 10061, add Mega Floette) and update cache key
-- [ ] Fix Floette form IDs so it doesn't show Mega Gardevoir (ID 282), hardcode Mega Floette image and stats, and hide internal IDs from search results
+- [ ] Find the exact original implementation of Mega Floette in the git history and restore it completely, fixing the ID mixup
 - [ ] Fix the layout of DoublesTierList.tsx to be responsive and iframe-friendly
 - [ ] Fix the layout of the DoublesTierList page so it displays correctly when embedded in an iframe

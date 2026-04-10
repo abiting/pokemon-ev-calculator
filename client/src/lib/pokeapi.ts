@@ -12,7 +12,7 @@ Object.entries(pokemonZhMapping as Record<string, number>).forEach(([name, id]) 
 });
 
 const POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const CACHE_KEY_PREFIX = 'pokemon_cache_v35_';
+const CACHE_KEY_PREFIX = 'pokemon_cache_v36_';
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 小時
 
 interface CacheData {
@@ -186,7 +186,7 @@ export async function fetchPokemonVarieties(speciesUrl: string): Promise<SearchR
        const floetteForms = [
           { name: 'floette', url: 'https://pokeapi.co/api/v2/pokemon/670' },
           { name: 'floette-eternal', url: 'https://pokeapi.co/api/v2/pokemon/10061' },
-          { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/10061' } // Assuming mega uses same base stats or needs custom handling
+          { name: 'floette-mega', url: 'https://pokeapi.co/api/v2/pokemon/10062' }
        ];
        
        return floetteForms.map(form => {
