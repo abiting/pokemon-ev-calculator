@@ -197,3 +197,5 @@
 - [ ] Add the Gen 9 move "Upper Hand" (快手還擊) to the database and translation mapping
 
 - [ ] Remove the duplicate "Upper Hand" move from moves.json
+
+- [ ] Update the Doubles Tier List with the new 61 Pokemon rankings
