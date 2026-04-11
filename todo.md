@@ -195,3 +195,5 @@
 - [ ] Fix the varieties logic in pokeapi.ts to correctly include Mega Floette without duplicates in both functions
 
 - [ ] Add the Gen 9 move "Upper Hand" (快手還擊) to the database and translation mapping
+
+- [ ] Remove the duplicate "Upper Hand" move from moves.json
