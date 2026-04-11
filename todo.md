@@ -199,3 +199,5 @@
 - [ ] Remove the duplicate "Upper Hand" move from moves.json
 
 - [ ] Update the Doubles Tier List with the new 61 Pokemon rankings
+
+- [ ] Correct the 9 misidentified Pokemon in the Doubles Tier List (14, 30, 32, 36, 51, 52, 56, 60, 61)
