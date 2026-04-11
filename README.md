@@ -97,4 +97,4 @@ pnpm run build
 
 - 本專案的寶可夢資料來源為 [PokéAPI](https://pokeapi.co/)。
 - 圖片匯出功能依賴於 DOM 渲染，為確保截圖品質，已針對不同裝置的螢幕比例與字體縮放進行了深度最佳化。
-- 寶可夢中文譯名參考自 [https://pokedex.abiting.cc](https://pokedex.abiting.cc) 與神奇寶貝百科。
+- 寶可夢中文譯名參考自神奇寶貝百科。
