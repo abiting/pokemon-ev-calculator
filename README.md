@@ -2,9 +2,18 @@
 
 這是一個專為寶可夢對戰玩家設計的網頁應用程式，提供多種能力值計算與隊伍建立工具。專案採用 React 19、Tailwind CSS 4 與 Vite 建構，並整合了 PokéAPI 以獲取最新的寶可夢資料。
 
+## 📁 專案檔案結構概述
+
+本專案的主要檔案結構如下：
+
+- `client/src/pages/`：包含所有主要頁面組件（如 `Home.tsx`, `Champions.tsx`, `ChampionsEn.tsx`, `TeamBuilder.tsx`, `DoublesTierList.tsx`）。
+- `client/src/components/`：包含可重複使用的 UI 組件（如 `EVCalculator.tsx`, `TeamSlot.tsx`, `MiniTeamSlot.tsx`, `PokemonCard.tsx`）。
+- `client/src/lib/`：包含與外部 API 互動的邏輯（如 `pokeapi.ts`）。
+- `client/src/data/`：包含本地靜態資料與翻譯對照表（如 `zh-tw-mapping-full.json`）。
+
 ## 🌟 核心功能與頁面架構
 
-本專案包含四個主要頁面，分別針對不同的遊戲系統與使用情境設計：
+本專案包含五個主要頁面，分別針對不同的遊戲系統與使用情境設計：
 
 ### 1. 舊世代能力值計算器 (Home - `/`)
 - **系統**：傳統的**努力值（EV）系統**。
@@ -35,6 +44,12 @@
   - 允許玩家建立完整的 6 隻寶可夢隊伍。
   - 每隻寶可夢皆可獨立設定：道具、特性、性格、努力值（EV）以及最多 4 個招式。
   - 提供高質感的隊伍卡片（TeamSlot）展示，支援單隻寶可夢截圖或整支隊伍一鍵匯出為圖片。
+
+### 5. 雙打對戰使用率排行榜 (Doubles Tier List - `/doubles-tier-list`)
+- **功能**：
+  - 顯示當前雙打對戰環境中，使用率最高的寶可夢排行榜。
+  - 包含寶可夢的排名、名稱、屬性與使用率百分比。
+  - 支援中英文名稱顯示，並正確對應最新的寶可夢資料（如：斯魔茶 Sinistcha）。
 
 ---
 
@@ -82,3 +97,4 @@ pnpm run build
 
 - 本專案的寶可夢資料來源為 [PokéAPI](https://pokeapi.co/)。
 - 圖片匯出功能依賴於 DOM 渲染，為確保截圖品質，已針對不同裝置的螢幕比例與字體縮放進行了深度最佳化。
+- 寶可夢中文譯名參考自 [https://pokedex.abiting.cc](https://pokedex.abiting.cc) 與神奇寶貝百科。
