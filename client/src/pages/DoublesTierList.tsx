@@ -67,8 +67,7 @@ const TOP_POKEMON = [
   { rank: 61, name: 'gallade', usage: '1.5%' },
   { rank: 62, name: 'rotom-frost', usage: '1.5%' },
   { rank: 63, name: 'scovillain', usage: '1.5%' },
-  { rank: 64, name: 'basculegion-female', usage: '1.5%' },
-  { rank: 65, name: 'mamoswine', usage: '1.5%' },
+  { rank: 64, name: 'mamoswine', usage: '1.5%' },
 ];
 
 export default function DoublesTierList() {
