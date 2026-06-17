@@ -1709,7 +1709,8 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     'crabominable-mega': 'iron-fist',
     'drampa-mega': 'berserk',
     'scovillain-mega': 'spicy-spray',
-    'glimmora-mega': 'adaptability'
+    'glimmora-mega': 'adaptability',
+    'staraptor-mega': 'contrary'
   };
 
   if (megaAbilitiesOverride[englishName]) {
