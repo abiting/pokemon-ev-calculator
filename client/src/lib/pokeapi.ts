@@ -1710,7 +1710,9 @@ export async function fetchPokemon(nameOrId: string | number): Promise<Pokemon> 
     'drampa-mega': 'berserk',
     'scovillain-mega': 'spicy-spray',
     'glimmora-mega': 'adaptability',
-    'staraptor-mega': 'contrary'
+    'staraptor-mega': 'contrary',
+    'raichu-mega-x': 'electric-maker',
+    'raichu-mega-y': 'no-guard'
   };
 
   if (megaAbilitiesOverride[englishName]) {
@@ -1779,7 +1781,7 @@ export async function fetchAbilityDetails(abilityUrl: string): Promise<{ name: s
     // 如果是自訂特性，直接從本地翻譯表讀取，不發送 API 請求
     if (abilityName && ABILITY_TRANSLATIONS[abilityName]) {
       // 判斷是否為官方 API 不存在的自訂特性
-      const customAbilities = ['mega-sol', 'dragonize', 'stalwart', 'piercing-drill', 'unseen-fist', 'fairy-aura', 'spicy-spray'];
+      const customAbilities = ['mega-sol', 'dragonize', 'stalwart', 'piercing-drill', 'unseen-fist', 'fairy-aura', 'spicy-spray', 'electric-maker'];
       if (customAbilities.includes(abilityName)) {
         return {
           name: abilityName,

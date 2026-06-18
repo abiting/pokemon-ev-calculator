@@ -310,4 +310,5 @@ export const ABILITY_TRANSLATIONS: Record<string, string> = {
   'dragonize': '龍皮膚',
   'piercing-drill': '貫穿鑽',
   'spicy-spray': '辣椒噴發',
+  'electric-maker': '電氣製造者',
 };
