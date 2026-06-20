@@ -102,7 +102,7 @@ export default function DoublesTierList() {
                     (e.target as HTMLImageElement).src = `https://play.pokemonshowdown.com/sprites/gen5/${pokemon.name.split('-')[0]}.png`;
                   }}
                 />
-                <div className="text-xs text-slate-600 font-semibold mt-1">{pokemon.usage}</div>
+
               </CardContent>
             </Card>
           ))}
