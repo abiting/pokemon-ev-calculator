@@ -46,7 +46,7 @@ const TOP_POKEMON = [
   { rank: 40, name: 'dragapult', usage: '3.0%' },       // 多龍巴魯託
   { rank: 41, name: 'annihilape', usage: '2.8%' },      // 棄世猴
   { rank: 42, name: 'venusaur', usage: '2.6%' },        // 妙蛙花
-  { rank: 43, name: 'ursaluna', usage: '2.4%' },        // 大狃拉
+  { rank: 43, name: 'sneasler', usage: '2.4%' },        // 大狃拉
   { rank: 44, name: 'umbreon', usage: '2.4%' },         // 月亮伊布
   { rank: 45, name: 'lucario', usage: '2.4%' },         // 路卡利歐
   { rank: 46, name: 'floette-eternal', usage: '2.4%' }, // 花葉蒂（永恆之花）
