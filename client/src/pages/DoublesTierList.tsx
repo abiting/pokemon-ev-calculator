@@ -64,7 +64,7 @@ const TOP_POKEMON = [
   { rank: 58, name: 'froslass', usage: '1.5%' },        // 雪妖女
   { rank: 59, name: 'espathra', usage: '1.5%' },        // 超能艷鴕
   { rank: 60, name: 'ditto', usage: '1.5%' },           // 百變怪
-  { rank: 61, name: 'zoroark', usage: '1.5%' },         // 索羅亞克
+  { rank: 61, name: 'zoroark-hisui', usage: '1.5%' },    // 索羅亞克（洗翠）
   { rank: 62, name: 'eelektross', usage: '1.5%' },      // 麻麻鰻魚王
   { rank: 63, name: 'gardevoir', usage: '1.5%' },       // 沙奈朵
   { rank: 64, name: 'toxapex', usage: '1.5%' },         // 超壞星
