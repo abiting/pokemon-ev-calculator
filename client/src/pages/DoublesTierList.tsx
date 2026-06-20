@@ -25,7 +25,7 @@ const TOP_POKEMON = [
   { rank: 19, name: 'dragonite', usage: '9.6%' },       // 快龍
   { rank: 20, name: 'ninetales-alola', usage: '9.5%' }, // 阿羅拉九尾
   { rank: 21, name: 'glimmora', usage: '9.5%' },        // 晶光花
-  { rank: 22, name: 'kleavor', usage: '9.1%' },          // 仆斬將軍
+  { rank: 22, name: 'kingambit', usage: '9.1%' },        // 仆斬將軍
   { rank: 23, name: 'hydreigon', usage: '6.8%' },       // 三首惡龍
   { rank: 24, name: 'mawile', usage: '6.5%' },          // 大嘴娃
   { rank: 25, name: 'rotom-wash', usage: '6.4%' },      // 洛托姆（水）
