@@ -52,14 +52,14 @@ const TOP_POKEMON = [
   { rank: 46, name: 'floette-eternal', usage: '2.4%' }, // 花葉蒂（永恆之花）
   { rank: 47, name: 'whimsicott', usage: '2.4%' },      // 風妖精
   { rank: 48, name: 'blastoise', usage: '2.3%' },       // 水箭龜
-  { rank: 49, name: 'electrode-hisui', usage: '2.2%' }, // 電肚蛙（洗翠）
+  { rank: 49, name: 'bellibolt', usage: '2.2%' },            // 電肚蛙
   { rank: 50, name: 'mamoswine', usage: '2.0%' },       // 象牙豬
   { rank: 51, name: 'rotom-heat', usage: '2.0%' },      // 洛托姆（火）
   { rank: 52, name: 'sylveon', usage: '1.7%' },         // 仙子伊布
   { rank: 53, name: 'araquanid', usage: '1.7%' },       // 滴蛛霸
-  { rank: 54, name: 'marill', usage: '1.7%' },          // 瑪力露麗
+  { rank: 54, name: 'azumarill', usage: '1.7%' },        // 瑪力露麗
   { rank: 55, name: 'tyranitar', usage: '1.7%' },       // 班基拉斯
-  { rank: 56, name: 'clefairy', usage: '1.7%' },        // 皮可西
+  { rank: 56, name: 'clefable', usage: '1.7%' },         // 皮可西
   { rank: 57, name: 'excadrill', usage: '1.6%' },       // 龍頭地鼠
   { rank: 58, name: 'froslass', usage: '1.5%' },        // 雪妖女
   { rank: 59, name: 'espathra', usage: '1.5%' },        // 超能艷鴕
